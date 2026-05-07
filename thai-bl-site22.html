@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泰國BL劇文化版圖 — 從地下到全球</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Noto+Sans+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sunset-deep:#8B2A1A;--sunset-mid:#C94B25;--sunset-gold:#E8863A;
+  --sunset-peach:#F2B07A;--sunset-glow:#FAD9B5;
+  --ocean-deep:#1A3A4A;--ocean-mid:#2C6E7A;--ocean-teal:#4BA8A0;--ocean-light:#A8D8D4;
+  --phuket-sand:#F5EDD8;--night-ink:#0D1A24;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--night-ink);color:var(--phuket-sand);overflow-x:hidden;}
+
+/* ══════════════════════════════════════
+   INTRO OVERLAY — 相機膠捲堆疊
+══════════════════════════════════════ */
+#intro-overlay{
+  position:fixed;inset:0;z-index:9999;
+  overflow:hidden;cursor:pointer;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%,rgba(139,42,26,.3) 0%,transparent 68%),
+    radial-gradient(ellipse 40% 30% at 72% 62%,rgba(201,75,37,.14) 0%,transparent 58%),
+    linear-gradient(160deg,#0D1A24 0%,#09100A 52%,#0D1A24 100%);
+  transition:opacity .95s cubic-bezier(.22,1,.36,1);
+}
+#intro-overlay.fade-out{opacity:0;pointer-events:none;}
+
+/* Atmospheric background grain */
+#intro-overlay::before{
+  content:'';position:absolute;inset:-80px;
+  width:calc(100% + 160px);height:calc(100% + 160px);
+  z-index:0;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:bgGrain .17s steps(1) infinite;
+}
+@keyframes bgGrain{
+  0%{transform:translate(0,0);}12%{transform:translate(-2%,-1%);}
+  25%{transform:translate(1%,2%);}37%{transform:translate(-1%,1%);}
+  50%{transform:translate(2%,-1%);}62%{transform:translate(-2%,2%);}
+  75%{transform:translate(1%,-2%);}87%{transform:translate(-1%,1%);}
+}
+/* Bottom warm line */
+#intro-overlay::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;z-index:1;
+  background:linear-gradient(to right,transparent 4%,rgba(232,134,58,.2) 28%,rgba(232,134,58,.25) 50%,rgba(232,134,58,.2) 72%,transparent 96%);
+}
+
+/* ── FILM STRIP LAYOUT ── */
+.fs-wrap{position:absolute;inset:0;z-index:2;}
+
+/* Each film strip — full-width horizontal band */
+.fs{
+  position:absolute;
+  left:-50px;right:-50px;   /* overflow so rotation doesn't show edge gaps */
+  height:200px;             /* 28px spr + 144px img + 28px spr */
+  display:flex;flex-direction:column;
+  opacity:0;
+  filter:drop-shadow(0 14px 40px rgba(0,0,0,.75)) drop-shadow(0 4px 10px rgba(0,0,0,.55));
+}
+/* Slide from left */
+.fs.from-l{animation:fsL .68s cubic-bezier(.18,1.12,.36,1) var(--delay,0s) both;}
+/* Slide from right */
+.fs.from-r{animation:fsR .68s cubic-bezier(.18,1.12,.36,1) var(--delay,0s) both;}
+@keyframes fsL{
+  0%  {opacity:0;transform:rotate(var(--rot,0deg)) translateX(-108vw);}
+  18% {opacity:1;}
+  100%{opacity:1;transform:rotate(var(--rot,0deg)) translateX(0);}
+}
+@keyframes fsR{
+  0%  {opacity:0;transform:rotate(var(--rot,0deg)) translateX(108vw);}
+  18% {opacity:1;}
+  100%{opacity:1;transform:rotate(var(--rot,0deg)) translateX(0);}
+}
+
+/* Sprocket rows — CSS repeating background trick */
+.fs-spr{
+  flex-shrink:0;height:28px;
+  background-color:#141414;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='28'%3E%3Crect x='9' y='7' width='20' height='14' rx='3' ry='3' fill='%23000' opacity='.82'/%3E%3C/svg%3E");
+  background-repeat:repeat-x;
+  background-size:38px 28px;
+}
+.fs-spr.t{border-bottom:2px solid #202020;}
+.fs-spr.b{border-top:2px solid #202020;}
+
+/* Image row */
+.fs-imgs{
+  flex:1;display:flex;
+  background:#0b0b0b;
+  overflow:hidden;
+  border-top:1px solid #1c1c1c;
+  border-bottom:1px solid #1c1c1c;
+}
+
+/* Individual frame */
+.fs-fr{
+  flex-shrink:0;width:136px;height:100%;
+  border-right:3.5px solid #141414;
+  overflow:hidden;position:relative;
+}
+.fs-fr:first-child{border-left:3.5px solid #141414;}
+.fs-fr img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  filter:contrast(1.1) saturate(.8) brightness(.77);
+  transition:filter .3s;
+}
+/* Subtle per-frame grain */
+.fs-fr::after{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='148'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='148' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Hover: lift brightnes on entire strip */
+.fs:hover .fs-fr img{filter:contrast(1.12) saturate(.92) brightness(.88);}
+
+/* ── TITLE REVEAL ── */
+.intro-reveal{
+  position:absolute;inset:0;z-index:20;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(165deg,rgba(0,0,0,.78) 0%,rgba(9,7,4,.88) 100%);
+  backdrop-filter:blur(7px);
+  opacity:0;pointer-events:none;
+  transition:opacity .75s ease;
+}
+.intro-reveal.show{opacity:1;pointer-events:auto;}
+
+.ir-eye{font-family:'Courier New',monospace;font-size:.66rem;letter-spacing:.48em;text-transform:uppercase;color:var(--ocean-light);margin-bottom:1.5rem;opacity:0;transform:translateY(16px);transition:opacity .55s ease .12s,transform .55s ease .12s;}
+.intro-reveal.show .ir-eye{opacity:1;transform:translateY(0);}
+.ir-line{width:52px;height:1px;background:linear-gradient(to right,transparent,var(--sunset-gold),transparent);margin:0 auto 1.6rem;opacity:0;transition:opacity .4s ease .22s;}
+.intro-reveal.show .ir-line{opacity:1;}
+.ir-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,8vw,5.8rem);font-weight:700;color:var(--sunset-glow);line-height:.98;text-align:center;text-shadow:0 0 90px rgba(232,134,58,.32),0 3px 40px rgba(0,0,0,.9);opacity:0;transform:scale(.9) translateY(22px);transition:opacity .72s cubic-bezier(.22,1,.36,1) .3s,transform .72s cubic-bezier(.22,1,.36,1) .3s;}
+.intro-reveal.show .ir-title{opacity:1;transform:scale(1) translateY(0);}
+.ir-title em{color:var(--sunset-peach);font-style:italic;}
+.ir-sub{font-size:clamp(.9rem,2.3vw,1.2rem);color:rgba(245,237,216,.62);letter-spacing:.1em;margin-top:1.1rem;text-align:center;opacity:0;transform:translateY(12px);transition:opacity .5s ease .52s,transform .5s ease .52s;}
+.intro-reveal.show .ir-sub{opacity:1;transform:translateY(0);}
+.ir-thai{font-size:.78rem;color:var(--ocean-light);letter-spacing:.08em;margin-top:.45rem;opacity:0;transition:opacity .45s ease .7s;}
+.intro-reveal.show .ir-thai{opacity:1;}
+.ir-cta{margin-top:3rem;font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(245,237,216,.28);opacity:0;transition:opacity .4s ease .92s;}
+.intro-reveal.show .ir-cta{opacity:1;animation:irPulse 2.4s ease-in-out infinite 1.1s;}
+@keyframes irPulse{0%,100%{opacity:.22;}55%{opacity:.65;}}
+
+/* Skip */
+.intro-skip-btn{position:absolute;top:1.4rem;right:1.6rem;z-index:25;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.38);font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:6px 16px;border-radius:3px;cursor:pointer;transition:all .22s;}
+.intro-skip-btn:hover{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35);}
+
+/* Strip counter dots — bottom row */
+.fs-dots{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:.7rem;pointer-events:none;}
+.fs-dot{width:5px;height:5px;border-radius:50%;background:rgba(232,134,58,.18);transition:background .35s,transform .35s;}
+.fs-dot.lit{background:var(--sunset-gold);transform:scale(1.5);}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(13,26,36,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,134,58,.18);transition:padding .3s;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sunset-peach);font-style:italic;}
+.nav-tabs{display:flex;list-style:none;}
+.nav-tab{padding:.65rem 1.4rem;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,237,216,.5);cursor:pointer;border-bottom:2px solid transparent;transition:all .25s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Noto Sans TC',sans-serif;white-space:nowrap;}
+.nav-tab:hover{color:rgba(245,237,216,.8);}
+.nav-tab.active{color:var(--sunset-gold);border-bottom-color:var(--sunset-gold);}
+@media(max-width:640px){nav{padding:.8rem 1rem;}.nav-tab{padding:.5rem .7rem;font-size:.62rem;}}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;padding-top:62px;}
+.page.active{display:block;}
+
+/* ── HERO ── */
+.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,.65)),url('BANNER/Banner.jpg') center/cover no-repeat;}
+.hero-sky{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 40% at 50% 70%,rgba(232,134,58,.3) 0%,transparent 70%),radial-gradient(ellipse 30% 20% at 70% 78%,rgba(201,75,37,.35) 0%,transparent 60%);}
+.waves{position:absolute;bottom:0;left:0;right:0;height:110px;overflow:hidden;}
+.wave{position:absolute;bottom:0;width:200%;border-radius:50% 50% 0 0;opacity:.15;}
+.wave1{height:75px;background:var(--ocean-teal);animation:waveMove 8s ease-in-out infinite;}
+.wave2{height:55px;background:var(--ocean-light);animation:waveMove 11s ease-in-out infinite reverse;}
+.wave3{height:40px;background:var(--ocean-mid);animation:waveMove 14s ease-in-out infinite;opacity:.08;}
+@keyframes waveMove{0%,100%{transform:translateX(-25%);}50%{transform:translateX(0);}}
+.stars{position:absolute;inset:0;pointer-events:none;}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s);}
+@keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.9;}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem;max-width:860px;}
+.hero-eyebrow{font-size:.72rem;letter-spacing:.32em;color:var(--ocean-light);text-transform:uppercase;margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s ease .4s forwards;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5rem);font-weight:700;color:var(--sunset-glow);line-height:1.08;text-shadow:0 4px 20px rgba(0,0,0,.8);opacity:0;animation:fadeUp 1s ease .7s forwards;margin-bottom:.6rem;}
+.hero-title em{font-style:italic;color:var(--sunset-peach);}
+.hero-sub{font-size:clamp(.82rem,2vw,1.05rem);color:var(--sunset-peach);letter-spacing:.14em;margin-bottom:.3rem;opacity:0;animation:fadeUp 1s ease .9s forwards;}
+.hero-thai{font-size:.82rem;color:var(--ocean-light);letter-spacing:.1em;margin-bottom:2.5rem;opacity:0;animation:fadeUp 1s ease 1s forwards;}
+.hero-desc{font-size:.98rem;line-height:1.85;color:rgba(245,237,216,.72);max-width:580px;margin:0 auto;opacity:0;animation:fadeUp 1s ease 1.1s forwards;}
+.scroll-cue{position:absolute;bottom:130px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;cursor:pointer;opacity:0;animation:fadeUp 1s ease 1.5s forwards;}
+.scroll-cue span{font-size:.62rem;letter-spacing:.28em;color:var(--sunset-peach);text-transform:uppercase;}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--sunset-peach),transparent);animation:scrollPulse 2s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:.3;height:28px;}50%{opacity:1;height:44px;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── STAT BAR ── */
+.stat-bar{background:rgba(232,134,58,.08);border-top:1px solid rgba(232,134,58,.15);border-bottom:1px solid rgba(232,134,58,.15);padding:2rem;}
+.stat-bar-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center;}
+@media(max-width:600px){.stat-bar-inner{grid-template-columns:repeat(2,1fr);}}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--sunset-gold);line-height:1;}
+.stat-label{font-size:.72rem;letter-spacing:.1em;color:rgba(245,237,216,.5);margin-top:.35rem;text-transform:uppercase;}
+
+/* ── SECTION BASE ── */
+.section-eyebrow{font-size:.68rem;letter-spacing:.35em;text-transform:uppercase;color:var(--sunset-gold);margin-bottom:1rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;color:var(--sunset-glow);margin-bottom:1.5rem;}
+.divider{width:56px;height:2px;background:linear-gradient(to right,var(--sunset-gold),transparent);margin-bottom:2.5rem;}
+.section-wrap{max-width:1100px;margin:0 auto;padding:5.5rem 2rem;}
+.full-bleed{background:linear-gradient(135deg,#0D1A24,#121E2C);padding:5.5rem 0;}
+
+/* ── GALLERY STRIP ── */
+.gallery-strip{display:grid;grid-template-columns:repeat(3,1fr);}
+.g-cell{position:relative;height:260px;overflow:hidden;}
+.g-cell img{width:100%;height:100%;object-fit:cover;filter:brightness(.6) saturate(1.1);transition:filter .4s,transform .6s;}
+.g-cell:hover img{filter:brightness(.8) saturate(1.3);transform:scale(1.05);}
+.g-cell-label{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.2rem;background:linear-gradient(transparent,rgba(13,26,36,.9));z-index:2;}
+.g-cell-label h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sunset-peach);margin-bottom:.15rem;}
+.g-cell-label p{font-size:.7rem;color:rgba(245,237,216,.52);line-height:1.5;}
+@media(max-width:600px){.gallery-strip{grid-template-columns:1fr;}.g-cell{height:200px;}}
+
+/* ══ TIMELINE — two-sided ══ */
+.timeline{position:relative;margin-top:3rem;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--sunset-gold) 5%,var(--sunset-gold) 95%,transparent);transform:translateX(-50%);}
+.tl-item{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:3.5rem;position:relative;align-items:start;}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--sunset-gold);border:2px solid var(--night-ink);margin:1.4rem auto 0;z-index:2;box-shadow:0 0 12px rgba(232,134,58,.5);flex-shrink:0;}
+/* LEFT SIDE = card or video; RIGHT SIDE = video or card */
+.tl-left{padding-right:1.5rem;display:flex;justify-content:flex-end;}
+.tl-right{padding-left:1.5rem;display:flex;justify-content:flex-start;}
+.tl-center{display:flex;justify-content:center;}
+.tl-card{width:100%;max-width:440px;background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.14);border-radius:12px;overflow:hidden;transition:transform .3s,border-color .3s;}
+.tl-card:hover{transform:translateY(-4px);border-color:rgba(232,134,58,.38);}
+.tl-img{width:100%;height:145px;object-fit:cover;filter:brightness(.7) saturate(1.1);display:block;}
+.tl-body{padding:1.2rem 1.5rem;}
+.tl-year{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--sunset-gold);margin-bottom:.2rem;line-height:1;}
+.tl-title{font-size:.88rem;font-weight:500;color:var(--sunset-peach);margin-bottom:.5rem;letter-spacing:.04em;}
+.tl-text{font-size:.8rem;line-height:1.78;color:rgba(245,237,216,.62);}
+/* Video card — same visual weight as tl-card */
+.tl-video{width:100%;max-width:440px;border-radius:12px;overflow:hidden;border:1px solid rgba(75,168,160,.2);background:rgba(10,20,30,.6);display:flex;flex-direction:column;}
+.tl-video-thumb{position:relative;height:145px;overflow:hidden;cursor:pointer;flex-shrink:0;}
+.tl-video-thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(1.1);transition:filter .3s;}
+.tl-video-thumb:hover img{filter:brightness(.68);}
+/* overlay tag+title ON the image */
+.tl-video-overlay{position:absolute;bottom:0;left:0;right:0;padding:.7rem 1rem;background:linear-gradient(transparent,rgba(10,20,30,.92));pointer-events:none;}
+.tl-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);width:42px;height:42px;border-radius:50%;background:rgba(232,134,58,.88);display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;pointer-events:none;transition:transform .2s;}
+.tl-video-thumb:hover .tl-play-btn{transform:translate(-50%,-60%) scale(1.08);}
+.tl-video-tag{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ocean-light);margin-bottom:.2rem;}
+.tl-video-title{font-size:.78rem;font-weight:500;color:var(--phuket-sand);line-height:1.35;}
+/* compact footer — just the link */
+.tl-video-info{padding:.85rem 1.2rem 1rem;flex:1;display:flex;align-items:flex-end;}
+.tl-video-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--sunset-gold);text-decoration:none;border:1px solid rgba(232,134,58,.3);border-radius:20px;padding:4px 14px;transition:all .2s;}
+.tl-video-link:hover{background:rgba(232,134,58,.15);border-color:var(--sunset-gold);}
+/* stretch both sides to same height */
+.tl-item{align-items:stretch;}
+.tl-left,.tl-right{align-items:stretch;}
+.tl-card{display:flex;flex-direction:column;}
+.tl-body{flex:1;}
+@media(max-width:680px){
+  .timeline::before{left:20px;}
+  .tl-item{grid-template-columns:1fr;gap:.5rem;align-items:start;}
+  .tl-center{display:none;}
+  .tl-left,.tl-right{padding:0;justify-content:flex-start;}
+  .tl-card,.tl-video{max-width:100%;margin-left:40px;}
+}
+
+/* ══ BUSINESS — carousel on left ══ */
+.biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.biz-carousel-wrap{position:relative;overflow:hidden;min-height:480px;}
+.biz-carousel-track{display:flex;height:100%;transition:transform .6s cubic-bezier(.22,1,.36,1);}
+.biz-slide{flex-shrink:0;width:100%;position:relative;}
+.biz-slide img{width:100%;height:100%;min-height:480px;object-fit:cover;filter:brightness(.5) saturate(1.2);display:block;}
+.biz-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 40%,var(--night-ink) 100%);}
+.biz-carr-btn{position:absolute;bottom:1.2rem;z-index:5;background:rgba(13,26,36,.7);border:1px solid rgba(232,134,58,.3);color:var(--sunset-peach);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:all .2s;}
+.biz-carr-btn:hover{background:rgba(232,134,58,.3);}
+.biz-carr-prev{left:1rem;}
+.biz-carr-next{left:3.5rem;}
+.biz-text{background:var(--night-ink);padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;}
+@media(max-width:768px){.biz-grid{grid-template-columns:1fr;}.biz-carousel-wrap{min-height:260px;}.biz-slide img{min-height:260px;}.biz-text{padding:2.5rem 1.8rem;}}
+.biz-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.14);border-radius:12px;padding:1.5rem;margin-bottom:1.2rem;}
+.biz-card:last-child{margin-bottom:0;}
+.biz-card-head{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem;}
+.biz-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--sunset-mid),var(--sunset-gold));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.biz-card-title{font-size:.9rem;font-weight:500;color:var(--sunset-peach);}
+.biz-card p{font-size:.8rem;line-height:1.78;color:rgba(245,237,216,.6);}
+.biz-highlight{background:linear-gradient(135deg,rgba(139,42,26,.22),rgba(201,75,37,.1));border:1px solid rgba(232,134,58,.28);border-radius:10px;padding:1.2rem 1.5rem;margin-top:1.5rem;text-align:center;}
+.biz-highlight .num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--sunset-gold);}
+.biz-highlight .label{font-size:.72rem;letter-spacing:.1em;color:rgba(245,237,216,.5);text-transform:uppercase;margin-top:.2rem;}
+
+/* ── CULTURE ── */
+.culture-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.5rem;}
+@media(max-width:800px){.culture-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.culture-grid{grid-template-columns:1fr;}}
+.culture-card{background:rgba(255,255,255,.03);border:1px solid rgba(75,168,160,.14);border-radius:14px;overflow:hidden;transition:transform .3s,border-color .3s;}
+.culture-card:hover{transform:translateY(-4px);border-color:rgba(75,168,160,.32);}
+.culture-card img{width:100%;height:120px;object-fit:cover;filter:brightness(.6) saturate(1.1);}
+.culture-card-body{padding:1.2rem 1.4rem 1.5rem;}
+.culture-icon{font-size:1.3rem;margin-bottom:.65rem;display:block;}
+.culture-card h3{font-family:'Noto Serif TC',serif;font-size:.9rem;color:var(--ocean-light);margin-bottom:.6rem;}
+.culture-card p{font-size:.77rem;line-height:1.8;color:rgba(245,237,216,.5);}
+
+/* ══ PAGE 2: ITSAY ══ */
+/* 尋找原本的 .itsay-hero-wrap 並替換成這段 */
+.itsay-hero-overlay {
+  position: relative; 
+  height: 450px; /* 增加一點高度讓視覺更開闊 */
+  overflow: hidden; 
+  display: flex; 
+  align-items: flex-end;
+  background: var(--night-ink);
+}
+
+/* 確保內容區塊不會被蓋住 */
+.section-wrap {
+  position: relative;
+  z-index: 10;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5.5rem 2rem;
+  background: var(--night-ink);
+}
+.itsay-hero-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,rgba(13,26,36,.9) 80%,#0D1A24 100%);}
+.itsay-hero-text{position:relative;z-index:2;padding:2.5rem 4rem 2rem;max-width:1100px;width:100%;margin:0 auto;}
+.itsay-hero-text h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);color:var(--sunset-glow);}
+.itsay-hero-text p{font-size:.84rem;color:rgba(245,237,216,.5);letter-spacing:.1em;margin-top:.35rem;}
+@media(max-width:640px){.itsay-hero-text{padding:2rem 1.5rem;}}
+/* Photo carousel for ITSAY hero */
+.itsay-hero-carousel{position:absolute;inset:0;}
+.itsay-hc-track{display:flex;height:100%;transition:transform .8s cubic-bezier(.22,1,.36,1);}
+.itsay-hc-slide{flex-shrink:0;width:100%;height:100%;}
+.itsay-hc-slide img{width:100%;height:100%;object-fit:cover;filter:brightness(.4) saturate(1.3);}
+.itsay-hc-dots{position:absolute;top:1.2rem;right:2rem;display:flex;gap:.5rem;z-index:5;}
+.itsay-hc-dot{width:5px;height:5px;border-radius:50%;background:rgba(245,237,216,.3);cursor:pointer;transition:all .3s;}
+.itsay-hc-dot.active{background:var(--sunset-gold);width:14px;border-radius:3px;}
+
+.itsay-quote{font-family:'Noto Serif TC',serif;font-size:clamp(1.05rem,2.5vw,1.55rem);font-weight:300;font-style:italic;color:var(--sunset-peach);line-height:1.8;text-align:center;padding:2.5rem 2rem;border-top:1px solid rgba(232,134,58,.2);border-bottom:1px solid rgba(232,134,58,.2);margin:0 0 3.5rem;position:relative;}
+.itsay-quote::before{content:'❝';font-size:4rem;position:absolute;top:.2rem;left:1.5rem;color:rgba(232,134,58,.1);font-family:serif;}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid rgba(232,134,58,.18);margin-bottom:3rem;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:.85rem 1.5rem;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,237,216,.38);cursor:pointer;border-bottom:2px solid transparent;transition:all .25s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Noto Sans TC',sans-serif;}
+.tab:hover{color:rgba(245,237,216,.7);}
+.tab.active{color:var(--sunset-gold);border-bottom-color:var(--sunset-gold);}
+.tab-panel{display:none;animation:fadeIn .4s ease;}
+.tab-panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+@media(max-width:700px){.panel-grid{grid-template-columns:1fr;gap:2rem;}}
+.panel-text{font-size:.9rem;line-height:1.95;color:rgba(245,237,216,.72);}
+.panel-text p{margin-bottom:1.2rem;}
+.panel-text p:last-child{margin-bottom:0;}
+.panel-hl{background:linear-gradient(135deg,rgba(139,42,26,.18),rgba(201,75,37,.08));border:1px solid rgba(232,134,58,.22);border-radius:12px;padding:1.8rem;}
+.panel-hl h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--sunset-peach);margin-bottom:1.1rem;}
+.panel-photo{border-radius:10px;overflow:hidden;margin-top:1.5rem;}
+.panel-photo img{width:100%;display:block;object-fit:cover;filter:brightness(.78) saturate(1.1);border-radius:10px;}
+.panel-photo-cap{font-size:.6rem;letter-spacing:.12em;color:rgba(245,237,216,.32);text-transform:uppercase;margin-top:.4rem;text-align:center;}
+
+/* Inline carousel (generic) */
+.ic-wrap{position:relative;overflow:hidden;border-radius:12px;}
+.ic-track{display:flex;transition:transform .5s cubic-bezier(.22,1,.36,1);}
+.ic-slide{flex-shrink:0;width:100%;}
+.ic-slide img{width:100%;object-fit:cover;filter:brightness(.72) saturate(1.1);display:block;border-radius:12px;}
+.ic-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:5;background:rgba(13,26,36,.65);border:1px solid rgba(232,134,58,.25);color:var(--sunset-peach);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:all .2s;}
+.ic-btn:hover{background:rgba(232,134,58,.25);}
+.ic-prev{left:.7rem;} .ic-next{right:.7rem;}
+.ic-cap{font-size:.6rem;letter-spacing:.12em;color:rgba(245,237,216,.3);text-transform:uppercase;margin-top:.4rem;text-align:center;}
+
+.detail-item{display:flex;gap:1rem;margin-bottom:1.1rem;align-items:flex-start;}
+.detail-item:last-child{margin-bottom:0;}
+.detail-icon{width:30px;height:30px;border-radius:50%;background:rgba(232,134,58,.14);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.detail-label{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sunset-gold);margin-bottom:.15rem;}
+.detail-value{font-size:.82rem;color:rgba(245,237,216,.68);line-height:1.5;}
+.symbols{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1rem;}
+.sym-tag{font-size:.7rem;padding:3px 11px;border-radius:20px;background:rgba(75,168,160,.14);border:1px solid rgba(75,168,160,.28);color:var(--ocean-light);letter-spacing:.04em;}
+.color-script{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem;}
+@media(max-width:500px){.color-script{grid-template-columns:1fr;}}
+.cs-item{border-radius:10px;overflow:hidden;}
+.cs-swatch{height:60px;display:flex;align-items:flex-end;padding:.5rem .8rem;}
+.cs-swatch span{font-size:.65rem;letter-spacing:.06em;font-weight:500;}
+.cs-desc{padding:.6rem .8rem;background:rgba(255,255,255,.04);font-size:.75rem;line-height:1.6;color:rgba(245,237,216,.55);}
+.ep-list{list-style:none;}
+.ep-item{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid rgba(232,134,58,.1);align-items:flex-start;}
+.ep-item:last-child{border-bottom:none;}
+.ep-num{font-family:'Playfair Display',serif;font-size:1.4rem;color:rgba(232,134,58,.38);width:36px;flex-shrink:0;line-height:1;margin-top:.1rem;}
+.ep-title{font-size:.85rem;font-weight:500;color:var(--sunset-peach);margin-bottom:.2rem;}
+.ep-desc{font-size:.77rem;color:rgba(245,237,216,.52);line-height:1.6;}
+
+/* ══ SEASON COMPARE tab ══ */
+.season-compare-header{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;align-items:center;margin-bottom:3rem;}
+.season-badge{text-align:center;padding:1.2rem 2rem;border-radius:12px;flex:1;}
+.s1-badge{background:linear-gradient(135deg,rgba(232,134,58,.15),rgba(201,75,37,.1));border:1px solid rgba(232,134,58,.3);}
+.s2-badge{background:linear-gradient(135deg,rgba(26,58,74,.3),rgba(44,110,122,.15));border:1px solid rgba(75,168,160,.3);}
+.vs-circle{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(232,134,58,.2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;color:var(--sunset-gold);font-style:italic;flex-shrink:0;}
+.season-badge h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.3rem;}
+.s1-badge h3{color:var(--sunset-peach);}
+.s2-badge h3{color:var(--ocean-light);}
+.season-badge p{font-size:.74rem;color:rgba(245,237,216,.5);line-height:1.5;}
+@media(max-width:600px){.season-compare-header{grid-template-columns:1fr;}.vs-circle{margin:0 auto;}}
+
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;margin-bottom:2.5rem;}
+.compare-table th,.compare-table td{padding:.9rem 1.1rem;font-size:.8rem;line-height:1.6;border-bottom:1px solid rgba(232,134,58,.1);}
+.compare-table th{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sunset-gold);font-weight:500;background:rgba(232,134,58,.05);}
+.compare-table th:first-child{border-radius:8px 0 0 0;}
+.compare-table th:last-child{border-radius:0 8px 0 0;}
+.compare-table tr:last-child td{border-bottom:none;}
+.col-dim{color:var(--ocean-light);font-weight:500;font-size:.75rem;}
+.col-s1{color:rgba(245,237,216,.75);}
+.col-s2{color:rgba(168,216,212,.75);}
+.compare-table tr:hover td{background:rgba(255,255,255,.02);}
+
+.char-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;}
+@media(max-width:600px){.char-cards{grid-template-columns:1fr;}}
+.char-card{border-radius:12px;overflow:hidden;border:1px solid rgba(232,134,58,.15);}
+.char-card-img{height:140px;overflow:hidden;position:relative;}
+.char-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(1.1);}
+.char-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(13,26,36,.9) 100%);}
+.char-name{position:absolute;bottom:.8rem;left:1rem;font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--sunset-glow);z-index:2;}
+.char-body{padding:1.2rem;background:rgba(255,255,255,.04);}
+.char-arc{margin-bottom:.8rem;}
+.char-arc-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem;}
+.s1-label{color:var(--sunset-gold);}
+.s2-label{color:var(--ocean-light);}
+.char-arc-text{font-size:.8rem;line-height:1.7;color:rgba(245,237,216,.65);}
+
+.dir-compare{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;}
+@media(max-width:600px){.dir-compare{grid-template-columns:1fr;}}
+.dir-card{background:rgba(255,255,255,.04);border-radius:12px;padding:1.5rem;border:1px solid rgba(255,255,255,.07);}
+.dir-card h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.3rem;}
+.dir-card .dir-name{font-size:.72rem;letter-spacing:.08em;color:rgba(245,237,216,.45);margin-bottom:1rem;}
+.dir-item{font-size:.8rem;line-height:1.75;color:rgba(245,237,216,.65);padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.dir-item:last-child{border-bottom:none;}
+.dir-item strong{color:var(--sunset-peach);font-weight:500;}
+
+/* ══ PAGE 3: RECS ══ */
+.carousel-wrap{position:relative;overflow:hidden;}
+.carousel-track{display:flex;transition:transform .6s cubic-bezier(.22,1,.36,1);}
+.carousel-slide{flex-shrink:0;width:100%;position:relative;height:520px;}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;filter:brightness(.45) saturate(1.15);}
+.carousel-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,26,36,.85) 75%,#0D1A24 100%);}
+.carousel-caption{position:absolute;bottom:0;left:0;right:0;padding:2.5rem 4rem;z-index:2;max-width:720px;}
+.carousel-caption .badge{display:inline-block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(232,134,58,.25);border:1px solid rgba(232,134,58,.4);color:var(--sunset-peach);padding:3px 10px;border-radius:20px;margin-bottom:.8rem;}
+.carousel-caption h3{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.5vw,2.5rem);color:var(--sunset-glow);margin-bottom:.5rem;line-height:1.15;}
+.carousel-caption p{font-size:.88rem;line-height:1.75;color:rgba(245,237,216,.68);max-width:540px;}
+.carousel-caption .en{font-size:.78rem;color:var(--sunset-gold);margin-top:.4rem;font-style:italic;}
+@media(max-width:640px){.carousel-caption{padding:1.5rem;}.carousel-slide{height:400px;}}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:5;background:rgba(13,26,36,.7);border:1px solid rgba(232,134,58,.3);color:var(--sunset-peach);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;transition:all .2s;backdrop-filter:blur(8px);}
+.carousel-btn:hover{background:rgba(232,134,58,.3);}
+.carousel-prev{left:1.2rem;} .carousel-next{right:1.2rem;}
+.carousel-dots{position:absolute;bottom:1.4rem;right:4rem;display:flex;gap:.5rem;z-index:5;}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:rgba(245,237,216,.3);transition:all .3s;cursor:pointer;}
+.carousel-dot.active{background:var(--sunset-gold);width:18px;border-radius:3px;}
+
+.drama-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.3rem;margin-top:2rem;}
+.drama-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.12);border-radius:14px;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.drama-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 0 1px rgba(232,134,58,.28);}
+.drama-card-img-wrap{position:relative;height:150px;}
+.drama-card-img-wrap img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(1.1);display:block;transition:filter .4s;}
+.drama-card:hover .drama-card-img-wrap img{filter:brightness(.82) saturate(1.2);}
+.drama-card-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(13,26,36,.88) 100%);}
+.drama-card-year{position:absolute;bottom:.7rem;left:1rem;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:rgba(255,255,255,.88);z-index:1;line-height:1;}
+.drama-card-badge{position:absolute;top:.7rem;right:.7rem;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(13,26,36,.75);backdrop-filter:blur(6px);color:var(--sunset-peach);padding:2px 8px;border-radius:20px;z-index:1;border:1px solid rgba(232,134,58,.28);}
+.drama-card-body{padding:1rem 1.3rem 1.3rem;}
+.drama-card-name{font-family:'Noto Serif TC',serif;font-size:.95rem;font-weight:600;color:var(--phuket-sand);margin-bottom:.18rem;}
+.drama-card-en{font-size:.7rem;color:var(--sunset-gold);margin-bottom:.6rem;font-style:italic;}
+.drama-card-desc{font-size:.77rem;line-height:1.7;color:rgba(245,237,216,.55);}
+
+/* ══ CAST TOGGLE ══ */
+.cast-toggle{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1.3rem .75rem;cursor:pointer;font-size:.7rem;letter-spacing:.1em;color:var(--sunset-gold);border-top:1px solid rgba(232,134,58,.1);user-select:none;transition:background .2s;text-transform:uppercase;}
+.cast-toggle:hover{background:rgba(232,134,58,.06);}
+.cast-arrow{transition:transform .35s cubic-bezier(.22,1,.36,1);display:inline-block;}
+.cast-arrow.open{transform:rotate(180deg);}
+.cast-panel{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.22,1,.36,1);}
+.cast-panel.open{max-height:500px;}
+.cast-list{padding:.75rem 1.3rem 1.1rem;border-top:1px solid rgba(255,255,255,.05);background:rgba(0,0,0,.15);}
+.cast-member{display:flex;align-items:flex-start;gap:.8rem;padding:.42rem 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.cast-member:last-child{border-bottom:none;padding-bottom:0;}
+.cast-role{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sunset-gold);min-width:56px;padding-top:.12rem;flex-shrink:0;}
+.cast-info{flex:1;}
+.cast-name{font-size:.8rem;color:var(--phuket-sand);font-weight:500;line-height:1.3;}
+.cast-name-th{font-size:.65rem;color:rgba(245,237,216,.4);display:block;margin-top:.08rem;}
+.cast-note{font-size:.68rem;color:rgba(245,237,216,.45);margin-top:.12rem;line-height:1.5;}
+
+.rec-split{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-top:2.5rem;}
+@media(max-width:700px){.rec-split{grid-template-columns:1fr;gap:2rem;}}
+.rec-text p{font-size:.88rem;line-height:1.92;color:rgba(245,237,216,.7);margin-bottom:1.1rem;}
+.rec-text p:last-child{margin-bottom:0;}
+.rec-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.2rem;}
+.rec-tag{font-size:.68rem;padding:3px 10px;border-radius:20px;background:rgba(139,42,26,.2);border:1px solid rgba(201,75,37,.3);color:var(--sunset-peach);letter-spacing:.04em;}
+
+/* ══ ACTOR PROFILES ══ */
+.actor-section{background:linear-gradient(180deg,#0D1A24,#0A1018);padding:5.5rem 0;}
+.actor-section .inner{max-width:1100px;margin:0 auto;padding:0 2rem;}
+.actor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem;margin-top:3rem;}
+@media(max-width:700px){.actor-grid{grid-template-columns:1fr;gap:2rem;}}
+.actor-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.15);border-radius:16px;overflow:hidden;transition:transform .3s,border-color .3s;}
+.actor-card:hover{transform:translateY(-5px);border-color:rgba(232,134,58,.35);}
+.actor-card-header{position:relative;height:220px;overflow:hidden;}
+.actor-card-header img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:brightness(.6) saturate(1.1);transition:filter .4s;}
+.actor-card:hover .actor-card-header img{filter:brightness(.75) saturate(1.2);}
+.actor-card-header::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,26,36,.95) 100%);}
+.actor-header-text{position:absolute;bottom:0;left:0;right:0;padding:1.2rem 1.5rem;z-index:2;}
+.actor-name-th{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--sunset-glow);line-height:1;}
+.actor-name-en{font-size:.78rem;color:var(--sunset-peach);margin-top:.2rem;letter-spacing:.06em;}
+.actor-role{display:inline-block;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(232,134,58,.2);border:1px solid rgba(232,134,58,.35);color:var(--sunset-gold);padding:2px 8px;border-radius:20px;margin-top:.4rem;}
+.actor-body{padding:1.5rem;}
+.actor-bio{font-size:.82rem;line-height:1.85;color:rgba(245,237,216,.65);margin-bottom:1.3rem;}
+.actor-facts{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.3rem;}
+.actor-fact{background:rgba(255,255,255,.04);border-radius:8px;padding:.7rem .9rem;}
+.actor-fact-label{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sunset-gold);margin-bottom:.2rem;}
+.actor-fact-value{font-size:.8rem;color:rgba(245,237,216,.72);}
+.actor-socials{display:flex;gap:.7rem;flex-wrap:wrap;}
+.actor-social-btn{display:inline-flex;align-items:center;gap:.45rem;font-size:.74rem;text-decoration:none;border-radius:22px;padding:6px 14px;border:1px solid;transition:all .2s;}
+.btn-ig{color:#E1306C;border-color:rgba(225,48,108,.3);background:rgba(225,48,108,.08);}
+.btn-ig:hover{background:rgba(225,48,108,.2);border-color:#E1306C;}
+.btn-tw{color:#1DA1F2;border-color:rgba(29,161,242,.3);background:rgba(29,161,242,.08);}
+.btn-tw:hover{background:rgba(29,161,242,.2);border-color:#1DA1F2;}
+.btn-yt{color:#FF0000;border-color:rgba(255,0,0,.3);background:rgba(255,0,0,.08);}
+.btn-yt:hover{background:rgba(255,0,0,.2);border-color:#FF0000;}
+/* Billkin color highlight */
+.actor-card.billkin{border-color:rgba(232,134,58,.25);}
+.actor-card.billkin .actor-role{background:rgba(232,134,58,.2);border-color:rgba(232,134,58,.4);}
+/* PP color highlight */
+.actor-card.pp-card{border-color:rgba(75,168,160,.25);}
+.actor-card.pp-card .actor-role{background:rgba(75,168,160,.15);border-color:rgba(75,168,160,.4);color:var(--ocean-light);}
+
+/* ── FOOTER ── */
+footer{background:#070D13;border-top:1px solid rgba(232,134,58,.1);padding:2.5rem 2rem;text-align:center;}
+.footer-title{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--sunset-peach);margin-bottom:.4rem;}
+.footer-sub{font-size:.7rem;color:rgba(245,237,216,.25);letter-spacing:.15em;}
+.footer-div{width:36px;height:1px;background:rgba(232,134,58,.25);margin:1.2rem auto;}
+.footer-note{font-size:.68rem;color:rgba(245,237,216,.18);line-height:1.8;max-width:460px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<!-- INTRO OVERLAY — film strip stack -->
+<div id="intro-overlay" onclick="dismissIntro()">
+  <div class="fs-wrap" id="fsWrap">
+
+    <div class="fs from-l" style="top:calc(50% - 320px);--rot:-3.0deg;--delay:0s;">
+      <div class="fs-spr t"></div>
+      <div class="fs-imgs"><div class="fs-fr"><img src="meandthee.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="sotus.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="2gether.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="KinnPorsche The Series.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Promised You the Moon.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="Never Let Me Go.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Theory of Love.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="Bad_Buddy_the_Series.png"
+        " loading="eager" alt=""></div></div>
+      <div class="fs-spr b"></div>
+    </div>
+    <div class="fs from-r" style="top:calc(50% - 232px);--rot:2.5deg;--delay:0.62s;">
+      <div class="fs-spr t"></div>
+      <div class="fs-imgs"><div class="fs-fr"><img src="Bad_Buddy_the_Series.png" loading="eager" alt=""></div><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="Theory of Love.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Never Let Me Go.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Promised You the Moon.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="KinnPorsche The Series.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="2gether.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="sotus.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="meandthee.jpg" loading="eager" alt=""></div></div>
+      <div class="fs-spr b"></div>
+    </div>
+    <div class="fs from-l" style="top:calc(50% - 144px);--rot:-1.8deg;--delay:1.24s;">
+      <div class="fs-spr t"></div>
+      <div class="fs-imgs"><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="c15ca598-3e30-42a7-b722-6c3a79932c08.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Fish_Upon_The_Sky.png" loading="eager" alt=""></div><div class="fs-fr"><img src="KinnPorsche The Series.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="a_100738056_m_601_zh-TW_m1_260_360.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="5.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="meandthee.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="2gether.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div></div>
+      <div class="fs-spr b"></div>p
+    </div>
+    <div class="fs from-r" style="top:calc(50% - 56px);--rot:3.0deg;--delay:1.86s;">
+      <div class="fs-spr t"></div>
+      <div class="fs-imgs"><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Never Let Me Go.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="KinnPorsche The Series.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Theory of Love.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="5.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="2gether.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="meandthee.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="I Promised You the Moon.webp" loading="eager" alt=""></div></div>
+      <div class="fs-spr b"></div>
+    </div>
+    <div class="fs from-l" style="top:calc(50% + 32px);--rot:-2.5deg;--delay:2.48s;">
+      <div class="fs-spr t"></div>
+      <div class="fs-imgs"><div class="fs-fr"><img src="Never Let Me Go.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="Theory of Love.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Bad_Buddy_the_Series.png" loading="eager" alt=""></div><div class="fs-fr"><img src="I Told Sunset About You.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Fish_Upon_The_Sky.png" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="c15ca598-3e30-42a7-b722-6c3a79932c08.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="sotus.jpg" loading="eager" alt=""></div><div class="fs-fr"><img src="Heart That Skips a Beat.webp" loading="eager" alt=""></div><div class="fs-fr"><img src="I Feel You Linger in the Air.jpg" loading="eager" alt=""></div></div>
+      <div class="fs-spr b"></div>
+    </div>
+  </div>
+
+  <div class="fs-dots"><div class="fs-dot" id="fsdot0"></div><div class="fs-dot" id="fsdot1"></div><div class="fs-dot" id="fsdot2"></div><div class="fs-dot" id="fsdot3"></div><div class="fs-dot" id="fsdot4"></div><div class="fs-dot" id="fsdot5"></div></div>
+
+  <!-- Title reveal -->
+  <div class="intro-reveal" id="introReveal">
+    <div class="ir-eye">Thai Boys Love · Cultural Revolution</div>
+    <div class="ir-line"></div>
+    <div class="ir-title">泰國BL劇<br><em>文化版圖</em></div>
+    <div class="ir-sub">從地下到全球——一場關於愛的運動</div>
+    <div class="ir-thai">จาก underground สู่ soft power ระดับโลก</div>
+    <div class="ir-cta">· 點擊任意處開始探索 ·</div>
+  </div>
+
+  <button class="intro-skip-btn" onclick="event.stopPropagation();dismissIntro()">SKIP →</button>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">แปลรักฉัน · Thai BL</div>
+  <ul class="nav-tabs">
+    <li><button class="nav-tab active" onclick="showPage('home')">首頁</button></li>
+    <li><button class="nav-tab" onclick="showPage('itsay')">🎬 深度專題</button></li>
+    <li><button class="nav-tab" onclick="showPage('recs')">🌟 近期推薦</button></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════ PAGE 1: HOME ══════════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-sky"></div>
+    <div class="stars" id="stars"></div>
+    <div class="waves"><div class="wave wave1"></div><div class="wave wave2"></div><div class="wave wave3"></div></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Thai Boys Love · 文化版圖與商業戰略</p>
+      <h1 class="hero-title">泰國BL劇<br><em>如何征服世界</em></h1>
+      <p class="hero-sub">從地下文化到全球軟實力</p>
+      <p class="hero-thai">จาก underground สู่ soft power ระดับโลก</p>
+      <p class="hero-desc">如何在十年間顛覆亞洲娛樂版圖——從學校社團到Netflix，從粉絲字幕組到年產值47億台幣的偶像帝國。</p>
+    </div>
+    <div class="scroll-cue" onclick="document.getElementById('stats').scrollIntoView({behavior:'smooth'})">
+      <span>向下探索</span><div class="scroll-line"></div>
+    </div>
+  </div>
+
+  <div class="stat-bar" id="stats">
+    <div class="stat-bar-inner">
+      <div><div class="stat-num">47億</div><div class="stat-label">年產值（台幣）</div></div>
+      <div><div class="stat-num">17年</div><div class="stat-label">從先驅到全球</div></div>
+      <div><div class="stat-num">8.7</div><div class="stat-label">ITSAY IMDb評分</div></div>
+      <div><div class="stat-num">59,000+</div><div class="stat-label">普吉島朝聖旅客</div></div>
+    </div>
+  </div>
+
+  <div class="gallery-strip">
+    <div class="g-cell"><img src="BANNER/j.webp" alt="普吉夕陽"><div class="g-cell-label"><h4>普吉島夕陽</h4><p>《以你的心》最核心的視覺意象</p></div></div>
+    <div class="g-cell"><img src="BANNER/Watch I Promised You the Moon _ Episode 5 Online _ Vimeo On Demand on Vimeo - Google Chrome 2021_6_26 下午 05_41_33.png" alt="曼谷街景"><div class="g-cell-label"><h4>曼谷都市</h4><p>BL劇最重要的製作中心</p></div></div>
+    <div class="g-cell"><img src="BANNER/Artboard-1-copy-3.png" alt="扶桑花"><div class="g-cell-label"><h4>扶桑花語</h4><p>微妙的愛，接近不了卻無法離開</p></div></div>
+  </div>
+
+  <!-- TIMELINE with video cards -->
+  <div class="full-bleed" id="history">
+    <div class="section-wrap" style="padding-top:5rem;padding-bottom:5rem;">
+      <p class="section-eyebrow">歷史脈絡 · Evolution</p>
+      <h2 class="section-title">從邊緣到主流<br>泰BL劇的十七年</h2>
+      <div class="divider"></div>
+      <p style="font-size:.88rem;line-height:1.85;color:rgba(245,237,216,.62);max-width:580px;">從一部打破悲劇標籤的電影，到席捲亞洲的文化現象——每個轉折點左側為影片資源，右側為作品解析。</p>
+
+      <div class="timeline">
+
+        <!-- 2007 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-video">
+              <a class="tl-video-thumb" href="https://www.youtube.com/watch?v=Ge-n_I8rkNY" target="_blank" rel="noopener">
+                <img src="index_photo/91497_2337.jpg" alt="愛在暹羅">
+                <div class="tl-play-btn">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">🎵 主題曲 OST</div>
+                  <div class="tl-video-title">愛在暹羅 — Still Beautiful</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://www.youtube.com/results?search_query=Love+of+Siam+Still+Beautiful+OST" target="_blank" rel="noopener">▶ 前往 YouTube 欣賞</a>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot"></div></div>
+          <div class="tl-right">
+            <div class="tl-card">
+              <img class="tl-img" src="index_photo/1659219246046.webp" alt="2007">
+              <div class="tl-body">
+                <div class="tl-year">2007</div>
+                <div class="tl-title">《愛在暹羅》— 情感啟蒙</div>
+                <p class="tl-text">電影《Love of Siam》以純愛敘事打破「同性必悲劇」的標籤，是泰國同性題材影像化的先驅，為後來的BL劇奠定了「愛情不分性別」的敘事基礎。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2014 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-card">
+              <img class="tl-img" src="index_photo/1415976087-3739226406.jpg" alt="2014">
+              <div class="tl-body">
+                <div class="tl-year">2014</div>
+                <div class="tl-title">《為愛所困》— 元年誕生</div>
+                <p class="tl-text">改編自網路同志小說，正式開啟泰腐劇元年。確立「校園制服、社團活動、純愛敘事」的框架，透過字幕組向亞洲各地傳播，建立起第一批跨境粉絲社群。</p>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot"></div></div>
+          <div class="tl-right">
+            <div class="tl-video">
+              <a class="tl-video-thumb" href="https://www.youtube.com/watch?v=a891qMAuGlU" target="_blank" rel="noopener">
+                <img src="index_photo/1411913985-970132382_n.jpg" alt="Love Sick">
+                <div class="tl-play-btn">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">🎬 預告片</div>
+                  <div class="tl-video-title">Love Sick: The Series — Official Trailer</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://www.youtube.com/results?search_query=Love+Sick+The+Series+Thailand+official" target="_blank" rel="noopener">▶ 前往 YouTube 欣賞</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2016 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-video">
+              <a class="tl-video-thumb" href="https://www.youtube.com/watch?v=Ke3RRiXo7rg" target="_blank" rel="noopener">
+                <img src="index_photo/Yseries_07-1.jpg" alt="SOTUS">
+                <div class="tl-play-btn">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">🎵 OST 主題曲</div>
+                  <div class="tl-video-title">SOTUS The Series — Theme Song</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://www.youtube.com/results?search_query=SOTUS+Series+OST+theme+Krist+Singto" target="_blank" rel="noopener">▶ 前往 YouTube 欣賞</a>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot"></div></div>
+          <div class="tl-right">
+            <div class="tl-card">
+              <img class="tl-img" src="index_photo/horizontal_20250724124151.jpg" alt="2016">
+              <div class="tl-body">
+                <div class="tl-year">2016</div>
+                <div class="tl-title">《一年生》— CP模式成形</div>
+                <p class="tl-text">《上癮》遭中國禁播後，泰劇填補空缺。《一年生》確立「戲裡戀愛、戲外CP」的行銷模式，開啟周邊商品與見面會的龐大商機。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2020 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-card" style="border-color:rgba(232,134,58,.35);">
+              <img class="tl-img" src="index_photo/7011b14e-34bf-4431-961a-eecdda43db48.jpeg" alt="2020" style="filter:brightness(.75) saturate(1.2);">
+              <div class="tl-body">
+                <div class="tl-year" style="color:var(--sunset-peach);">2020</div>
+                <div class="tl-title">《以你的心詮釋我的愛》— 藝術轉型</div>
+                <p class="tl-text">Nadao Bangkok以電影規格打造五集精品BL。夕陽、椰香、扶桑花——讓類型劇躍升為藝術作品，徹底改變BL劇的美學標準。</p>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot" style="background:var(--sunset-peach);box-shadow:0 0 16px rgba(242,176,122,.7);"></div></div>
+          <div class="tl-right">
+            <div class="tl-video" style="border-color:rgba(232,134,58,.35);">
+              <a class="tl-video-thumb" href="https://youtu.be/KIylNdQuR-w?si=0t0m0ncNwVk37QQm" target="_blank" rel="noopener">
+                <img src="index_photo/thai-bl-drama-cp-2014-2020-5.webp" alt="ITSAY">
+                <div class="tl-play-btn" style="background:rgba(242,176,122,.9);">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">🌅 預告片 + OST Skyline</div>
+                  <div class="tl-video-title">ITSAY — Trailer / Skyline by PP</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://www.youtube.com/results?search_query=I+Told+Sunset+About+You+Skyline+PP+OST" target="_blank" rel="noopener">▶ 前往 YouTube 欣賞</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-video">
+              <a class="tl-video-thumb" href="https://youtu.be/c7-slMUH-xE?si=NgMEgXbBk-LyR1HV" target="_blank" rel="noopener">
+                <img src="index_photo/20405.jpg.jpg" alt="KinnPorsche">
+                <div class="tl-play-btn">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">🎬 預告片</div>
+                  <div class="tl-video-title">KinnPorsche — Official Trailer</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://www.youtube.com/results?search_query=KinnPorsche+The+Series+official+trailer" target="_blank" rel="noopener">▶ 前往 YouTube 欣賞</a>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot"></div></div>
+          <div class="tl-right">
+            <div class="tl-card">
+              <img class="tl-img" src="index_photo/7c5dc4c0-b4d0-11ec-ab4c-b7e658868dab_webp_original.jpg" alt="2022">
+              <div class="tl-body">
+                <div class="tl-year">2022</div>
+                <div class="tl-title">《KinnPorsche》— 製作升級</div>
+                <p class="tl-text">黑幫BL劇以電影等級的製作規模橫空出世，在WeTV創下驚人播放量。題材多元化、製作規模的大躍進正式拉開序幕。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="tl-item">
+          <div class="tl-left">
+            <div class="tl-card">
+              <img class="tl-img" src="index_photo/1024x768_226847334750.jpg" alt="2024">
+              <div class="tl-body">
+                <div class="tl-year">2024</div>
+                <div class="tl-title">婚姻平權法案 — 文化里程碑</div>
+                <p class="tl-text">泰國正式通過婚姻平權法案，BL文化十年的倡議畫下里程碑。產業年產值估計達47億台幣，BL劇成為改變社會的軟實力工具。</p>
+              </div>
+            </div>
+          </div>
+          <div class="tl-center"><div class="tl-dot"></div></div>
+          <div class="tl-right">
+            <div class="tl-video">
+              <a class="tl-video-thumb" href="https://youtu.be/lNs1Bz6Iyoc?si=q536Zp5Dw1KjxVMD" target="_blank" rel="noopener">
+                <img src="index_photo/177814893616196_P29924901.png" alt="2024">
+                <div class="tl-play-btn">▶</div>
+                <div class="tl-video-overlay">
+                  <div class="tl-video-tag">📰 相關報導</div>
+                  <div class="tl-video-title">泰國婚姻平權 — BL文化的影響</div>
+                </div>
+              </a>
+              <div class="tl-video-info">
+                <a class="tl-video-link" href="https://youtu.be/lNs1Bz6Iyoc?si=q536Zp5Dw1KjxVMD" target="_blank" rel="noopener">▶ 前往 YouTube 了解</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /timeline -->
+    </div>
+  </div>
+
+  <!-- BUSINESS — carousel left -->
+  <div class="biz-grid" id="business">
+    <div class="biz-carousel-wrap">
+      <div class="biz-carousel-track" id="bizTrack">
+        <div class="biz-slide"><img src="cp/G6nOZbMa8AAyomD.jpg" alt="CP文化"></div>
+        <div class="biz-slide"><img src="cp/GqGccIxaAAA1jef.jpg" alt="串流平台"></div>
+        <div class="biz-slide"><img src="cp/HHpM4R2bUAEABTW.jpg" alt="粉絲見面會"></div>
+        <div class="biz-slide"><img src="cp/HHpM4Roa4AEzV89.jpg" alt="製作升級"></div>
+        <div class="biz-slide"><img src="cp/HHVtK_lbQAA-tdc.jpg" alt="演員代言"></div>
+        <div class="biz-slide"><img src="cp/HHngSW6bkAAJdRJ.jpg" alt="拍攝幕後"></div>
+    
+      </div>
+      <button class="biz-carr-btn biz-carr-prev" onclick="moveBiz(-1)">&#8592;</button>
+      <button class="biz-carr-btn biz-carr-next" onclick="moveBiz(1)">&#8594;</button>
+    </div>
+    <div class="biz-text">
+      <p class="section-eyebrow">商業戰略 · Business Strategy</p>
+      <h2 class="section-title">突破重圍的<br>行銷與商機</h2>
+      <div class="divider"></div>
+      <div class="biz-card">
+        <div class="biz-card-head"><div class="biz-icon">💕</div><div class="biz-card-title">CP經濟（Shipping Culture）</div></div>
+        <p>「戲裡戀愛、戲外CP」的長尾效應——演員以情侶形象出席見面會、代言商品，粉絲黏著度極高。一組成功的CP能創造持續多年的商業價值。</p>
+      </div>
+      <div class="biz-card">
+        <div class="biz-card-head"><div class="biz-icon">📺</div><div class="biz-card-title">國際串流佈局</div></div>
+        <p>透過Netflix、WeTV、iQIYI的正式授權，加上粉絲字幕組突破語言障礙，泰BL劇在東南亞、東亞、歐美同步傳播，形成全球化粉絲社群。</p>
+      </div>
+      <div class="biz-card">
+        <div class="biz-card-head"><div class="biz-icon">🌏</div><div class="biz-card-title">軟實力（Soft Power）策略</div></div>
+        <p>泰國政府已將BL劇納入國家軟實力戰略，透過影視帶動觀光、提升國際形象，《以你的心》使普吉島觀光復甦即為最佳案例。</p>
+      </div>
+      <div class="biz-highlight">
+        <div class="num">47億 NTD</div>
+        <div class="label">泰BL相關產業年估產值</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CULTURE -->
+  <div class="section-wrap">
+    <p class="section-eyebrow">文化背景 · Why Thailand</p>
+    <h2 class="section-title">為何是泰國？<br>六個關鍵因素</h2>
+    <div class="divider"></div>
+    <div class="culture-grid">
+      <div class="culture-card"><img src="acter/4600_t8afNwa2.jpg" alt="社會包容"><div class="culture-card-body"><span class="culture-icon">🌏</span><h3>社會包容性</h3><p>東南亞相對較高的性別多元包容度，使同性題材製作阻力較小，2024年更通過婚姻平權法案。</p></div></div>
+      <div class="culture-card"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=75" alt="串流"><div class="culture-card-body"><span class="culture-icon">📱</span><h3>字幕組文化</h3><p>愛好者自發性地將劇集翻譯成多種語言，在實體邊界之外建立起平行的內容流通系統。</p></div></div>
+      <div class="culture-card"><img src="acter/HFO_P4qasAAsskY.jpg" alt="CP文化"><div class="culture-card-body"><span class="culture-icon">💕</span><h3>CP偶像產業鏈</h3><p>受韓流影響，建立完整的偶像運營體系，讓BL劇從單純影視擴展為全方位的粉絲消費場域。</p></div></div>
+      <div class="culture-card"><img src="acter/jeff-satur-solo-concert-singapore-112222.jpg" alt="混血美學"><div class="culture-card-body"><span class="culture-icon">🎭</span><h3>混血視覺美學</h3><p>泰國演員兼具東西方特徵，在與韓日明星的競爭中找到差異化，形成獨特的視覺吸引力。</p></div></div>
+      <div class="culture-card"><img src="acter/HHU-AUubsAE2CPa.jpg" alt="情感烏托邦"><div class="culture-card-body"><span class="culture-icon">🌸</span><h3>情感烏托邦</h3><p>BL提供了脫離現實的愛情想像空間——男性角色展現細膩柔軟的情感，滿足觀眾的情感投射需求。</p></div></div>
+      <div class="culture-card"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&q=75" alt="取景地"><div class="culture-card-body"><span class="culture-icon">🏝️</span><h3>得天獨厚的取景地</h3><p>普吉島、清邁、曼谷等地提供了極具視覺魅力的場景，讓泰BL劇在美學上天然具備競爭優勢。</p></div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-title">แปลรักฉันด้วยใจเธอ</div>
+    <div class="footer-sub">Thai BL Drama · 文化版圖與商業戰略</div>
+    <div class="footer-div"></div>
+    <p class="footer-note">本網站為學術與分享目的製作。劇集版權歸各製作公司所有。</p>
+  </footer>
+</div><!-- /page-home -->
+
+
+<!-- ══════════════════ PAGE 2: ITSAY ══════════════════ -->
+<div id="page-itsay" class="page">
+  <div class="itsay-hero-overlay">
+    <div class="itsay-hero-carousel">
+      <div class="itsay-hc-track" id="itsayHcTrack">
+        <div class="itsay-hc-slide"><img src="index_photo/I-told-sunset-about-you-14.jpg" alt="普吉老城"></div>
+        <div class="itsay-hc-slide"><img src="index_photo/7011b14e-34bf-4431-961a-eecdda43db48.jpeg" alt="普吉夕陽"></div>
+        <div class="itsay-hc-slide"><img src="index_photo/BKPP.png" alt="曼谷夜景"></div>
+        <div class="itsay-hc-slide"><img src="index_photo/i-told-sunset-cover.webp" alt="普吉海岸"></div>
+      </div>
+      <div class="itsay-hc-dots" id="itsayHcDots"></div>
+    </div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,rgba(13,26,36,.9) 80%,#0D1A24 100%);pointer-events:none;height:100%;z-index:2;"></div>
+    <div class="itsay-hero-text" style="z-index:3;">
+      <p class="section-eyebrow" style="margin-bottom:.7rem;">深度專題 · Deep Dive</p>
+      <h2>以你的心詮釋我的愛</h2>
+      <p>แปลรักฉันด้วยใจเธอ · I Told Sunset About You · S1 2020 / S2 2021</p>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="itsay-quote">
+      用你的心，換我的意——<br>
+      在普吉島的夕陽下，一段無從言說的愛，<br>以椰子的香氣、扶桑花的花語，緩緩說清楚。
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(0)">故事架構</button>
+      <button class="tab" onclick="switchTab(1)">情感敘事</button>
+      <button class="tab" onclick="switchTab(2)">鏡頭語言</button>
+      <button class="tab" onclick="switchTab(3)">兩季對比</button>
+      <button class="tab" onclick="switchTab(4)">文化背景</button>
+      <button class="tab" onclick="switchTab(5)">基本資料</button>
+    </div>
+
+    <!-- Tab 0: 故事架構 -->
+    <div class="tab-panel active">
+      <div class="panel-grid">
+        <div class="panel-text">
+          <p>故事設定在普吉島老城區，以兩位童年好友「德」（Teh）與「歐兒」（Oh-aew）的重逢為核心。兩人因童年時的一場爭執分道揚鑣，多年後卻在大學聯考補習班中再度相遇。</p>
+          <p>德兒擁有華裔血統，夢想成為中國古裝劇演員；歐兒則個性溫柔、熱愛閱讀。兩人既是舊友、又是競爭對手——隨著補習時光的積累，曖昧走向無可迴避的深情。</p>
+          <p>第一部以普吉島的悠緩夏日為舞台，在宣告與迴避之間製造張力。第二部《我許你以月光》將場景移至曼谷，以成熟視角審視感情在現實考驗下的動搖與重建。</p>
+          <div class="ic-wrap" style="margin-top:1.5rem;" id="s1ic">
+            <div class="ic-track" id="s1icTrack">
+              <div class="ic-slide"><img src="index_photo/I_Told_Sunset_About_You_4-1920.jpg" alt="普吉夕陽" style="height:220px;"></div>
+              <div class="ic-slide"><img src="index_photo/20201205_032524.jpg" alt="普吉老城" style="height:220px;"></div>
+              <div class="ic-slide"><img src="index_photo/MV5BNmI1YmI2YTctMmI4Ni00NDcwLWFlNGQtYmEyMzViNmQ4NzQwXkEyXkFqcGc@._V1_.jpg" alt="扶桑花" style="height:220px;"></div>
+            </div>
+            <button class="ic-btn ic-prev" onclick="moveIC('s1ic',s1icState,-1)">&#8592;</button>
+            <button class="ic-btn ic-next" onclick="moveIC('s1ic',s1icState,1)">&#8594;</button>
+          </div>
+          <p class="ic-cap">第一季普吉島</p>
+        </div>
+        <div class="panel-hl">
+          <h4>集數情感弧線</h4>
+          <ul class="ep-list">
+            <li class="ep-item"><span class="ep-num">01</span><div><div class="ep-title">重逢與競爭</div><p class="ep-desc">補習班的偶遇，舊日裂縫再現。德兒發現自己難以忽視歐兒的存在。</p></div></li>
+            <li class="ep-item"><span class="ep-num">02</span><div><div class="ep-title">椰香的記憶</div><p class="ep-desc">關係逐漸鬆動，熟悉的氣味成為情感的觸發器。歐兒第一次讓德兒笑出聲來。</p></div></li>
+            <li class="ep-item"><span class="ep-num">03</span><div><div class="ep-title">嫉妒的味道</div><p class="ep-desc">歐兒對Bas的感情讓德兒第一次意識到心裡那道說不清楚的痛。</p></div></li>
+            <li class="ep-item"><span class="ep-num">04</span><div><div class="ep-title">扶桑花的花語</div><p class="ep-desc">「微妙的愛情，接近不了卻也無法離開」——沙灘上的心跳時刻。</p></div></li>
+            <li class="ep-item"><span class="ep-num">05</span><div><div class="ep-title">夕陽下的告白</div><p class="ep-desc">一切終於說清楚。但承認之後，才是更深的考驗的開始。</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 1: 情感敘事 -->
+    <div class="tab-panel">
+      <div class="panel-grid">
+        <div class="panel-text">
+          <p>《以你的心》的情感敘事最迷人之處在於它的「克制」。全劇幾乎不使用直白的情話，而是讓情感滲透在日常細節裡——椰子洗髮精的香氣、跑向夕陽的奔跑、「你可以嗎？」「可以！」的專屬問答。</p>
+          <p><strong style="color:var(--sunset-peach)">翻譯心意</strong>：劇名本身即是核心隱喻。德兒將中文古詩翻譯給歐兒，是「用你能理解的語言，傳遞我說不出口的感情」的具體行動——語言即媒介，翻譯即愛情。</p>
+          <p><strong style="color:var(--sunset-peach)">成長的陣痛</strong>：編劇不迴避青春期的「醜陋」面——嫉妒、自私、逃避。德兒在傳統華裔家庭期待與自我認同間的掙扎，使本作超越一般純愛劇，成為一部真實的成長敘事。</p>
+          <p>「戲中戲」的設計尤其精妙——德兒的古裝劇台詞不斷與現實關係形成對照，構成全劇最具深度的隱喻層。</p>
+        </div>
+        <div>
+          <div class="ic-wrap" id="sym1ic">
+            <div class="ic-track" id="sym1icTrack">
+              <div class="ic-slide"><img src="index_photo/MV5BNjhjZGYzNGQtYjU3NS00MDlmLTljMDEtMjFkODlmN2ZiMzRmXkEyXkFqcGc@._V1_.jpg" alt="扶桑花" style="height:210px;"></div>
+              <div class="ic-slide"><img src="index_photo/AHfYhCSz_o.jpg" alt="夕陽" style="height:210px;"></div>
+              <div class="ic-slide"><img src="index_photo/i-told-sunset-cover.webp" alt="海岸" style="height:210px;"></div>
+            </div>
+            <button class="ic-btn ic-prev" onclick="moveIC('sym1ic',sym1icState,-1)">&#8592;</button>
+            <button class="ic-btn ic-next" onclick="moveIC('sym1ic',sym1icState,1)">&#8594;</button>
+          </div>
+          <p class="ic-cap" style="margin-bottom:1.2rem;"></p>
+          <div class="panel-hl">
+            <h4>情感符號系統</h4>
+            <div class="symbols">
+              <span class="sym-tag">🥥 椰子香氣 — 思念</span>
+              <span class="sym-tag">🌺 扶桑花 — 微妙的愛</span>
+              <span class="sym-tag">🌅 夕陽 — 告白的時刻</span>
+              <span class="sym-tag">🎭 戲中戲 — 現實的映射</span>
+              <span class="sym-tag">🎵 歌詞翻譯 — 心意的傳遞</span>
+              <span class="sym-tag">🏊 水下場景 — 感官的溶解</span>
+              <span class="sym-tag">⛵ 渡船 — 猶豫與決定</span>
+              <span class="sym-tag">🎆 爆竹聲 — 壓抑的釋放</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 鏡頭語言 -->
+    <div class="tab-panel">
+      <div class="panel-grid">
+        <div class="panel-text">
+          <p>導演納盧拜·庫諾（Naruebet Kuno）採用大量電影感的拍攝手法，攝影指導 Tawanwad Wanavit 以暖色調光源為基調，讓《以你的心》在質感上遠超同類電視劇製作。</p>
+          <p><strong style="color:var(--sunset-peach)">色彩分鏡（Color Script）</strong>是本劇最被評論家稱道的技法。暖橘代表德兒——衝動、熱烈、占有慾；湛藍代表歐兒——溫柔、感性、深邃。當兩人靠近，紫色漸層出現，象徵兩個色彩的交融。</p>
+          <p><strong style="color:var(--sunset-peach)">電影級攝影</strong>：大量自然光與廣角鏡頭，捕捉普吉島濕潤的夏日氛圍。雙機拍攝讓演員自然流動情感，無需重複表演。</p>
+          <p>拍攝正值雨季，多變的天氣反而成為助力——雨水在情感爆發時刻適時降臨，形成了許多難忘的即興畫面。</p>
+        </div>
+        <div>
+          <div class="panel-hl">
+            <h4>色彩分鏡解析</h4>
+            <div class="color-script">
+              <div class="cs-item">
+                <div class="cs-swatch" style="background:linear-gradient(135deg,#E8863A,#C94B25);"><span style="color:rgba(255,255,255,.9);">德兒 · 暖橘</span></div>
+                <div class="cs-desc">衝動、熱烈、占有慾強。側光強調輪廓，色溫偏暖。</div>
+              </div>
+              <div class="cs-item">
+                <div class="cs-swatch" style="background:linear-gradient(135deg,#1A3A4A,#2C6E7A);"><span style="color:rgba(255,255,255,.9);">歐兒 · 湛藍</span></div>
+                <div class="cs-desc">溫柔、感性、深邃。逆光剪影，色溫偏冷藍。</div>
+              </div>
+              <div class="cs-item" style="grid-column:1/-1;">
+                <div class="cs-swatch" style="background:linear-gradient(135deg,#6A3A6A,#8B4A8B);height:50px;"><span style="color:rgba(255,255,255,.9);">交融 · 紫色漸層</span></div>
+                <div class="cs-desc">兩人靠近或情感達頂點時，橙與藍交融為紫——兩個靈魂的視覺化融合。</div>
+              </div>
+            </div>
+          </div>
+          <div class="ic-wrap" style="margin-top:1.2rem;" id="cinic">
+            <div class="ic-track" id="cinicTrack">
+              <div class="ic-slide"><img src="index_photo/i-told-sunset-about-you-is-really-a-good-name-v0-ftba2u5s6ca61.webp" alt="夕陽橙" style="height:180px;"></div>
+              <div class="ic-slide"><img src="index_photo/nezYjQFhLXb1TPiSLgChcJX9rJCizf_mCgjo0EMiBTbAL89-WngVh60giyOe-nUG8JlYlJD93NFsmR7oXn0tWA.webp" alt="海洋藍" style="height:180px;"></div>
+              <div class="ic-slide"><img src="index_photo/125977285_1260264167674365_1318852702879595612_n.jpg" alt="夜景" style="height:180px;"></div>
+            </div>
+            <button class="ic-btn ic-prev" onclick="moveIC('cinic',cinicState,-1)">&#8592;</button>
+            <button class="ic-btn ic-next" onclick="moveIC('cinic',cinicState,1)">&#8594;</button>
+          </div>
+          <p class="ic-cap">劇中色彩意象</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 兩季對比 ★ NEW ★ -->
+    <div class="tab-panel">
+      <!-- Season header badges -->
+      <div class="season-compare-header">
+        <div class="season-badge s1-badge">
+          <h3>第一季</h3>
+          <p>I Told Sunset About You<br>2020 · 普吉島 · 5集<br>導演：Naruebet Kuno</p>
+        </div>
+        <div class="vs-circle">VS</div>
+        <div class="season-badge s2-badge">
+          <h3>第二季</h3>
+          <p>I Promised You the Moon<br>2021 · 曼谷 · 5集<br>導演：Tossaphon Riantong</p>
+        </div>
+      </div>
+
+      <!-- Comparison table -->
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="col-dim">比較維度</th>
+            <th style="color:var(--sunset-peach);">第一季 · 普吉島的夏天</th>
+            <th style="color:var(--ocean-light);">第二季 · 曼谷的現實</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-dim">場景設定</td>
+            <td class="col-s1">普吉島老城區、海灘、廟堂——封閉的島嶼時空，如夢境般脫離現實</td>
+            <td class="col-s2">曼谷大學校園、公寓、都市街道——開放的城市空間，現實感強烈</td>
+          </tr>
+          <tr>
+            <td class="col-dim">整體色調</td>
+            <td class="col-s1">暖橘夕陽、熱帶飽和色彩、強烈的光影對比；如印象派油畫般的浪漫感官</td>
+            <td class="col-s2">冷白城市光、霓虹散光、低飽和的日常感；如紀實攝影般的疏離質感</td>
+          </tr>
+          <tr>
+            <td class="col-dim">敘事節奏</td>
+            <td class="col-s1">緩慢、感官沉浸式；大量靜止鏡頭與意象積累，情感以「留白」說話</td>
+            <td class="col-s2">加快、更多對話衝突；以角色的言語直接傳遞矛盾，情感以「爆發」釋放</td>
+          </tr>
+          <tr>
+            <td class="col-dim">主題核心</td>
+            <td class="col-s1">初戀的降臨、身份認同的迷惘、愛在開口之前的所有猶豫</td>
+            <td class="col-s2">愛在承認之後的考驗、個人成長vs感情、距離感與背叛的陰影</td>
+          </tr>
+          <tr>
+            <td class="col-dim">攝影風格</td>
+            <td class="col-s1">廣角鏡頭、自然光、長焦特寫；捕捉皮膚質感與微表情，電影感極強</td>
+            <td class="col-s2">標準鏡頭、多機剪輯；更動態的場面調度，呼應都市生活的節奏感</td>
+          </tr>
+          <tr>
+            <td class="col-dim">音樂運用</td>
+            <td class="col-s1">OST作為敘事工具（Skyline、Closer），歌詞即台詞，音樂承擔大量情感表達</td>
+            <td class="col-s2">OST退居背景，對話與環境音更多；音樂不再主導，戲劇衝突取而代之</td>
+          </tr>
+          <tr>
+            <td class="col-dim">整體評價</td>
+            <td class="col-s1">被廣泛視為「詩意BL」的代表，藝術評價極高，情感密度濃縮如詩</td>
+            <td class="col-s2">更貼近現實的青春成長劇，情感更複雜，但部分觀眾感覺「失去了魔法」</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Character arcs -->
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--sunset-glow);margin-bottom:1.5rem;">角色弧線的轉變</h3>
+      <div class="char-cards">
+        <div class="char-card">
+          <div class="char-card-img">
+            <img src="index_photo/I-Told-Sunset-About-You-Teh-and-Oh-aew-Confession.jpg" alt="德">
+            <div class="char-name">德 · Teh</div>
+          </div>
+          <div class="char-body">
+            <div class="char-arc">
+              <div class="char-arc-label s1-label">第一季</div>
+              <div class="char-arc-text">衝動、占有慾、充滿熱情卻不知如何表達。德兒是行動先於思考的人——他用奔跑、用競爭、用嫉妒去證明一段連他自己都不敢承認的愛。他的弧線是「發現自己愛上了歐兒」。</div>
+            </div>
+            <div class="char-arc" style="padding-top:.8rem;border-top:1px solid rgba(75,168,160,.15);">
+              <div class="char-arc-label s2-label">第二季</div>
+              <div class="char-arc-text">進入大學後，德兒的自信遭到現實打擊：演藝夢遠比想象中艱難，而他與歐兒的關係也在新環境中承受考驗。他學會了「承認自己的脆弱」，但同時也展現出更多的自私與逃避——使角色更立體，也更令人心疼。</div>
+            </div>
+          </div>
+        </div>
+        <div class="char-card">
+          <div class="char-card-img">
+            <img src="index_photo/I-Told-Sunset-About-You-Character-Oh-aew.jpg" alt="歐兒">
+            <div class="char-name">歐兒 · Oh-aew</div>
+          </div>
+          <div class="char-body">
+            <div class="char-arc">
+              <div class="char-arc-label s1-label">第一季</div>
+              <div class="char-arc-text">溫柔、善感、帶著一絲神秘感。歐兒是接收型的人——他總是被動地等待，對感情的接受比主動追求來得更自然。第一季的他是「被愛的對象」，美麗而略顯被動。</div>
+            </div>
+            <div class="char-arc" style="padding-top:.8rem;border-top:1px solid rgba(75,168,160,.15);">
+              <div class="char-arc-label s2-label">第二季</div>
+              <div class="char-arc-text">第二季的歐兒展現了更強的主體性——他開始主動做選擇，包括有時選擇「拉開距離」。他的成長讓人看見了獨立與依賴之間的拉鋸，也讓兩人關係的裂痕從外部衝突內化為彼此性格的摩擦。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Director comparison -->
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--sunset-glow);margin:2.5rem 0 .5rem;">導演敘事手法對比</h3>
+      <p style="font-size:.84rem;color:rgba(245,237,216,.55);margin-bottom:1.5rem;line-height:1.7;">兩位導演面對同樣的角色與世界觀，卻選擇了截然不同的電影語言。</p>
+      <div class="dir-compare">
+        <div class="dir-card" style="border-color:rgba(232,134,58,.2);">
+          <h4 style="color:var(--sunset-peach);">Naruebet Kuno</h4>
+          <div class="dir-name">第一季導演 · 普吉島</div>
+          <div class="dir-item"><strong>意象驅動</strong>：用椰子、扶桑花、夕陽等具體意象積累情感，鏡頭如詩人的眼睛，重感知而非說明。</div>
+          <div class="dir-item"><strong>靜止美學</strong>：大量靜止或緩慢推進的長鏡頭，給觀眾空間去感受而非被告知。</div>
+          <div class="dir-item"><strong>自然光主義</strong>：強烈依賴自然光與場景既有的光源，拒絕人工打光的「整齊感」。</div>
+          <div class="dir-item"><strong>音樂敘事</strong>：OST承擔大量敘事功能，歌詞呼應角色心境，音樂是「第二層台詞」。</div>
+        </div>
+        <div class="dir-card" style="border-color:rgba(75,168,160,.2);">
+          <h4 style="color:var(--ocean-light);">Tossaphon Riantong</h4>
+          <div class="dir-name">第二季導演 · 曼谷</div>
+          <div class="dir-item"><strong>衝突驅動</strong>：更依賴場景中的對話衝突推進敘事，情感通過言語直接呈現。</div>
+          <div class="dir-item"><strong>動態剪輯</strong>：更頻繁的鏡頭切換，呼應曼谷都市生活的節奏感與角色內心的不安。</div>
+          <div class="dir-item"><strong>環境音設計</strong>：城市噪音、人群聲被有意識地納入聲音設計，強化「現實感」。</div>
+          <div class="dir-item"><strong>心理化場景</strong>：空間（如狹小的公寓）被用來外化角色的心理狀態，空間即情緒。</div>
+        </div>
+      </div>
+
+      <!-- Carousel showing S1 vs S2 aesthetics -->
+      <div style="margin-top:2.5rem;">
+        <div class="ic-wrap" id="seascmp">
+          <div class="ic-track" id="seascmpTrack">
+            <div class="ic-slide"><img src="index_photo/BKPP.png" alt="S1夕陽普吉島" style="height:300px;"><div style="position:absolute;bottom:1rem;left:1.5rem;z-index:3;"><span style="background:rgba(232,134,58,.3);border:1px solid rgba(232,134,58,.5);color:var(--sunset-peach);font-size:.72rem;padding:4px 12px;border-radius:20px;letter-spacing:.08em;"></span></div></div>
+            <div class="ic-slide"><img src="index_photo/I-Told-Sunset-About-You-36-scaled.jpg" alt="S2曼谷都市" style="height:300px;"><div style="position:absolute;bottom:1rem;left:1.5rem;z-index:3;"><span style="background:rgba(44,110,122,.3);border:1px solid rgba(75,168,160,.4);color:var(--ocean-light);font-size:.72rem;padding:4px 12px;border-radius:20px;letter-spacing:.08em;"></span></div></div>
+            <div class="ic-slide"><img src="index_photo/2021-06-27-18.06.57.png" alt="普吉老城建築" style="height:300px;"><div style="position:absolute;bottom:1rem;left:1.5rem;z-index:3;"><span style="background:rgba(232,134,58,.3);border:1px solid rgba(232,134,58,.5);color:var(--sunset-peach);font-size:.72rem;padding:4px 12px;border-radius:20px;letter-spacing:.08em;"></span></div></div>
+            <div class="ic-slide"><img src="index_photo/0.avif" alt="曼谷街景" style="height:300px;"><div style="position:absolute;bottom:1rem;left:1.5rem;z-index:3;"><span style="background:rgba(44,110,122,.3);border:1px solid rgba(75,168,160,.4);color:var(--ocean-light);font-size:.72rem;padding:4px 12px;border-radius:20px;letter-spacing:.08em;"></span></div></div>
+          </div>
+          <button class="ic-btn ic-prev" onclick="moveIC('seascmp',seascmpState,-1)">&#8592;</button>
+          <button class="ic-btn ic-next" onclick="moveIC('seascmp',seascmpState,1)">&#8594;</button>
+        </div>
+        <p class="ic-cap">兩季場景美學對比：普吉島夕陽橙 vs 曼谷冷白都市</p>
+      </div>
+    </div><!-- /Tab 3 -->
+
+    <!-- Tab 4: 文化背景 -->
+    <div class="tab-panel">
+      <div class="panel-grid">
+        <div class="panel-text">
+          <p>《以你的心》最獨特之處，是它深植於普吉島的<strong style="color:var(--sunset-peach)">華裔泰人（Peranakan）文化脈絡</strong>。德兒家族的福建移民背景並非裝飾，而是整個故事情感張力的來源。</p>
+          <p>德兒學中文、夢想演古裝劇；他在廟堂裡和歐兒許願，在傳統節慶的爆竹聲中釋放情緒。這些元素使「壓抑」有了具體的文化根基——不只是因為喜歡男生，更是因為閩南移民家族的保守傳統。</p>
+          <p>普吉老城的騎樓建築、廟宇屋簷、碼頭漁村——這些場景是兩個角色文化身份的具體延伸，賦予了本劇在美學上的唯一性。</p>
+          <p>劇中的中文運用極具匠心。德兒翻譯古詩給歐兒，本身就是「以你能理解的方式傳達我的愛」——翻譯即愛情，這是全劇最動人的文化設計。</p>
+        </div>
+        <div>
+          <div class="ic-wrap" style="margin-bottom:1.2rem;" id="culic">
+            <div class="ic-track" id="culicTrack">
+              <div class="ic-slide"><img src="index_photo/51757386130_f11b39b506_c.jpg" alt="普吉老城" style="height:195px;"></div>
+              <div class="ic-slide"><img src="index_photo/shrine-of-serene-light-phuket-town.webp" alt="泰式建築" style="height:195px;"></div>
+              <div class="ic-slide"><img src="index_photo/china-phuket-old-town.webp" alt="熱帶植物" style="height:195px;"></div>
+            </div>
+            <button class="ic-btn ic-prev" onclick="moveIC('culic',culicState,-1)">&#8592;</button>
+            <button class="ic-btn ic-next" onclick="moveIC('culic',culicState,1)">&#8594;</button>
+          </div>
+          <p class="ic-cap" style="margin-bottom:1.2rem;">普吉島華裔文化場景意象</p>
+          <div class="panel-hl">
+            <h4>文化符號解讀</h4>
+            <div class="detail-item"><div class="detail-icon">🏛️</div><div><div class="detail-label">普吉老城 · 空間符號</div><div class="detail-value">百年騎樓象徵「傳統與現代的夾縫」，是兩人關係的空間隱喻</div></div></div>
+            <div class="detail-item"><div class="detail-icon">🎋</div><div><div class="detail-label">華裔文化 · 情感壓抑</div><div class="detail-value">閩南移民家族的保守傳統為德兒的壓抑提供了具體的文化根基</div></div></div>
+            <div class="detail-item"><div class="detail-icon">🎭</div><div><div class="detail-label">中文戲劇 · 身份認同</div><div class="detail-value">古裝劇台詞與現實關係的對照，構成全劇最深的隱喻層</div></div></div>
+            <div class="detail-item"><div class="detail-icon">🏯</div><div><div class="detail-label">廟堂祈願 · 宗教空間</div><div class="detail-value">泰中混合廟堂承載了兩人的少年願望，也是重逢的空間依托</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 5: 基本資料 -->
+    <div class="tab-panel">
+      <div class="panel-grid">
+        <div class="panel-hl">
+          <h4>製作資訊</h4>
+          <div class="detail-item"><div class="detail-icon">🎬</div><div><div class="detail-label">製作公司</div><div class="detail-value">Nadao Bangkok</div></div></div>
+          <div class="detail-item"><div class="detail-icon">📺</div><div><div class="detail-label">播出平台</div><div class="detail-value">Line TV（泰國）· WeTV · iQIYI</div></div></div>
+          <div class="detail-item"><div class="detail-icon">🎞️</div><div><div class="detail-label">S1 導演</div><div class="detail-value">納盧拜·庫諾 Naruebet Kuno</div></div></div>
+          <div class="detail-item"><div class="detail-icon">🎥</div><div><div class="detail-label">S2 導演</div><div class="detail-value">托薩蓬·連通 Tossaphon Riantong</div></div></div>
+          <div class="detail-item"><div class="detail-icon">📅</div><div><div class="detail-label">播出時間</div><div class="detail-value">S1：2020年10月22日 · S2：2021年5月起</div></div></div>
+          <div class="detail-item"><div class="detail-icon">🎭</div><div><div class="detail-label">主演</div><div class="detail-value">Billkin 飾 德兒 Teh<br>PP 飾 歐兒 Oh-aew</div></div></div>
+          <div class="detail-item"><div class="detail-icon">📍</div><div><div class="detail-label">拍攝地</div><div class="detail-value">S1：泰國普吉島 · S2：泰國曼谷</div></div></div>
+        </div>
+        <div class="panel-hl">
+          <h4>獎項與影響力</h4>
+          <div class="detail-item"><div class="detail-icon">🏆</div><div><div class="detail-label">Teen Vogue</div><div class="detail-value">入選2021年度最佳BL劇（S2）</div></div></div>
+          <div class="detail-item"><div class="detail-icon">⭐</div><div><div class="detail-label">IMDb評分</div><div class="detail-value">8.7 / 10（BL類型前列）</div></div></div>
+          <div class="detail-item"><div class="detail-icon">✈️</div><div><div class="detail-label">旅遊帶動</div><div class="detail-value">長週末吸引逾59,000名旅客前往普吉島朝聖</div></div></div>
+          <div class="detail-item"><div class="detail-icon">🌐</div><div><div class="detail-label">國際傳播</div><div class="detail-value">菲律賓本地配音播出；台灣、中國、日本均引發熱潮</div></div></div>
+          <div class="detail-item"><div class="detail-icon">💬</div><div><div class="detail-label">評論定位</div><div class="detail-value">「不只是BL劇的BL劇」——電影規格使其超越類型邊界</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /section-wrap -->
+     <!-- ══ ACTOR PROFILES ══ -->
+  <div class="actor-section">
+    <div class="inner">
+      <p class="section-eyebrow">演員介紹 · Cast Profiles</p>
+      <h2 class="section-title">Billkin × PP<br>普吉島上的兩個少年</h2>
+      <div class="divider"></div>
+      <p style="font-size:.88rem;line-height:1.85;color:rgba(245,237,216,.6);max-width:600px;">《以你的心詮釋我的愛》之所以能成為BL類型的里程碑，兩位主演的化學反應功不可沒。他們不只在戲中詮釋了德兒與歐兒，更在戲外以真誠與自然的相處讓全球粉絲傾倒。</p>
+
+      <div class="actor-grid">
+        <!-- BILLKIN -->
+        <div class="actor-card billkin">
+          <div class="actor-card-header">
+            <img src="acter/billkin.webp" alt="Billkin">
+            <div class="actor-header-text">
+              <div class="actor-name-th">Billkin</div>
+              <div class="actor-name-en">普提蓬·阿薩拉塔納功 Putthipong Assaratanakul</div>
+              <span class="actor-role">飾 德兒 Teh · 暖橘角色</span>
+            </div>
+          </div>
+          <div class="actor-body">
+            <p class="actor-bio">2000年9月出生於曼谷，泰中混血，本身擁有中文學習背景，與角色德兒的華裔身份高度契合。Billkin以歌手身份出道，具備深厚的音樂底蘊，也因此在《以你的心》中的OST演唱與情感詮釋上顯得格外真實。他的表演以「克制中爆發」著稱——愛到最深處的樣子，他用眼神說完了。</p>
+            <div class="actor-facts">
+              <div class="actor-fact"><div class="actor-fact-label">生日</div><div class="actor-fact-value">2000年9月</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">國籍</div><div class="actor-fact-value">泰國（泰中混血）</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">代表作品</div><div class="actor-fact-value">ITSAY、IPYTM</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">身兼</div><div class="actor-fact-value">演員 · 歌手</div></div>
+            </div>
+            <div class="actor-socials">
+              <a class="actor-social-btn btn-ig" href="https://www.instagram.com/bbillkin?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">📷 @billkin_pp</a>
+              <a class="actor-social-btn btn-tw" href="https://x.com/Billkin_Ent?s=20" target="_blank" rel="noopener">𝕏 @billkin_pp</a>
+              <a class="actor-social-btn btn-yt" href="https://www.youtube.com/results?search_query=Billkin+Putthipong" target="_blank" rel="noopener">▶ YouTube</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PP -->
+        <div class="actor-card pp-card">
+          <div class="actor-card-header">
+            <img src="acter/PP Krit Amnuaydechkor.webp" alt="PP">
+            <div class="actor-header-text">
+              <div class="actor-name-th">PP</div>
+              <div class="actor-name-en">克里特·安努艾德奇康 Krit Amnuaydechkorn</div>
+              <span class="actor-role">飾 歐兒 Oh-aew · 湛藍角色</span>
+            </div>
+          </div>
+          <div class="actor-body">
+            <p class="actor-bio">1998年8月出生，比Billkin年長兩歲，在私下的年齡差異卻與角色的年齡設定相反——這種「戲外反差」也成為粉絲津津樂道的話題。PP以清新自然的表演風格見長，能用最細微的表情傳遞複雜的情感層次。他在《以你的心》中飾演的歐兒被許多觀眾視為「最接近完美」的BL男主角，溫柔而有深度。PP同時也參與OST演唱，歌曲「Skyline」成為本劇最具代表性的聲音符號。</p>
+            <div class="actor-facts">
+              <div class="actor-fact"><div class="actor-fact-label">生日</div><div class="actor-fact-value">1998年8月</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">國籍</div><div class="actor-fact-value">泰國</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">代表作品</div><div class="actor-fact-value">ITSAY、IPYTM</div></div>
+              <div class="actor-fact"><div class="actor-fact-label">知名OST</div><div class="actor-fact-value">Skyline · Coming of Age</div></div>
+            </div>
+            <div class="actor-socials">
+              <a class="actor-social-btn btn-ig" href="https://www.instagram.com/pp.kritt/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener">📷 @krit.amnuaydech</a>
+              <a class="actor-social-btn btn-tw" href="https://x.com/ppkritt?s=20" target="_blank" rel="noopener">𝕏 @ppkrit_</a>
+              <a class="actor-social-btn btn-yt" href="https://www.youtube.com/watch?v=PeEDAmd5BiE" target="_blank" rel="noopener">▶ Skyline OST</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BillkinPP chemistry note -->
+      <div style="margin-top:2.5rem;background:linear-gradient(135deg,rgba(139,42,26,.15),rgba(44,110,122,.12));border:1px solid rgba(232,134,58,.2);border-radius:14px;padding:2rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+        <div>
+          <p class="section-eyebrow" style="margin-bottom:.7rem;">CP 化學反應</p>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--sunset-glow);margin-bottom:1rem;">BillkinPP — 不只是戲裡</h3>
+          <p style="font-size:.83rem;line-height:1.85;color:rgba(245,237,216,.65);">兩人在2019年《愛的救護車》首次相遇，驚人的螢幕默契讓粉絲強烈要求合拍主角劇。《以你的心》播出後，BillkinPP成為泰國近年最受矚目的CP之一，見面會票券秒售罄，商業代言邀約不斷。他們的特別之處在於，即便在「非工作」狀態下，兩人的互動依然自然真誠，讓粉絲相信那份情誼是真實存在的。</p>
+        </div>
+        <div>
+          <div class="ic-wrap" id="bpic">
+            <div class="ic-track" id="bpicTrack">
+              <div class="ic-slide"><img src="acter/Ei9OWzuWoAIgITJ.jpg" alt="夕陽" style="height:200px;"></div>
+              <div class="ic-slide"><img src="acter/1690263587_1183943638_12_ent.png" alt="花朵" style="height:200px;"></div>
+              <div class="ic-slide"><img src="acter/hq720.jpg" alt="海岸" style="height:200px;"></div>
+             <div class="ic-slide"><img src="acter/1e9a1150-1f7a-11f0-bef7-1ebee0a668ba.jpg" alt="海岸" style="height:200px;"></div>
+            </div>
+            <button class="ic-btn ic-prev" onclick="moveIC('bpic',bpicState,-1)">&#8592;</button>
+            <button class="ic-btn ic-next" onclick="moveIC('bpic',bpicState,1)">&#8594;</button>
+          </div>
+          <p class="ic-cap">BillkinPP 的普吉島故事</p>
+        </div>
+      </div>
+    </div>
+
+  <footer>
+    <div class="footer-title">I Told Sunset About You + I Promised You the Moon</div>
+    <div class="footer-sub">Nadao Bangkok · 2020–2021 · 普吉島 & 曼谷</div>
+    <div class="footer-div"></div>
+    <p class="footer-note">深度專題分析 · 學術評論目的 · 劇集版權歸 Nadao Bangkok 所有</p>
+  </footer>
+
+
+  </div>
+</div><!-- /page-itsay -->
+
+
+<!-- ══════════════════ PAGE 3: RECS ══════════════════ -->
+<div id="page-recs" class="page">
+
+  <!-- Main carousel -->
+  <div style="position:relative;">
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="mainTrack">
+        <div class="carousel-slide">
+          <img src="acter/me-and-thee-episode-1-v0-p1jidq3pq91g1.webp" alt="清醒點泰爾先生">
+          <div class="carousel-caption"><span class="badge">本月主打 · 2025</span><h3>清醒點，泰爾先生</h3><p class="en">Me and Thee · มีสติหน่อยคุณธีร์</p><p>講述一位戲劇化、愛看肥皂劇且不懂人情世故的黑幫少爺Thee（泰爾），在聘請冷靜攝影師Peach擔任「生活教練」後，兩人從歡喜冤家發展出溫暖愛情的歡樂甜寵故事。</p></div>
+        </div>
+        <div class="carousel-slide">
+          <img src="acter/I-Feel-You-Linger-in-the-Air-Jom-and-Yai.jpg" alt="愛的香氣">
+          <div class="carousel-caption"><span class="badge">美學巔峰 · 2023 </span><h3>愛的香氣</h3><p class="en">建築師 Jom 因失戀與意外墜入清邁古城的水底，醒來後發現自己竟身處 1920 年代的舊時光。在瀰漫著淡淡雞蛋花香的優雅宅邸中，他遇見了溫潤如玉的貴族二少爺 Khun Yai，兩人因宿命般的牽引而越走越近。隨著一幅幅古老畫卷的展開與時間線的交織，這場跨越三世、交織著舊時代枷鎖與真誠愛戀的靈魂救贖，就在如詩如畫的清邁景色中緩緩拉開序幕。</p></div>
+        </div>
+        <div class="carousel-slide">
+          <img src="BANNER/a_100738056_m_601_en_m2_720_405.jpg" alt="怦然與你">
+          <div class="carousel-caption"><span class="badge">青春校園、浪漫喜劇 · 2026</span><h3>怦然與你</h3><p class="en">Sudden Heartbeat · ด้วงกับเธอ</p><p>當熱情直率的設計系學生 Duang，遇見了宛如冰山般的音樂系才子 Qin，一場「直球攻勢」與「高冷防線」的校園對決正式展開。原本互不相干的兩人，因一場跨系的舞台合作被迫共處，在音符與線條的交織碰撞中，Qin 冰封的內心逐漸被 Duang 的真誠與執著所融化。這是一段關於勇敢追愛與自我治癒的浪漫旅程，帶領觀眾重新找回初戀時那份最純粹、最令人窒息的怦然心動。</p></div>
+        </div>
+        <div class="carousel-slide">
+          <img src="BANNER/a_100612009_m_601_en_m2_1080_608.jpg" alt="Never Let Me Go">
+          <div class="carousel-caption"><span class="badge">保鑣文學、階級差距 · 2022</span><h3>Never Let Me Go</h3><p class="en">เพื่อนายแค่หนึ่งเดียว</p><p>融豪門繼承人 Nuengdiao 在父親遇刺後世界瞬間崩塌，被迫在權力鬥爭與孤獨中一夜長大。直到忠誠的保鑣 Palm 出現，以身為盾為他擋下所有的惡意，兩人在血色與背叛的夾縫中，悄然生長出跨越主僕階級的深情。這是一場關於守護與救贖的亡命天涯，當世界與他們為敵，唯有彼此的掌心，是這場風暴中唯一的救命稻草。</p></div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)">&#8592;</button>
+    <button class="carousel-btn carousel-next" onclick="moveCarousel(1)">&#8594;</button>
+    <div class="carousel-dots" id="mainDots"></div>
+  </div>
+
+<!-- Drama cards — 完整架構輪播版 (已修正標籤錯誤) -->
+<div class="section-wrap">
+  <p class="section-eyebrow">多元題材 · Diverse Genres</p>
+  <h2 class="section-title">黑幫、奇幻、職場<br>BL泰劇的題材革命</h2>
+  <div class="divider"></div>
+  
+  <div style="position:relative; margin-top: 2rem;"> 
+    <div class="ic-wrap" id="genreCarousel" style="overflow: hidden; padding: 10px 5px;">
+      <div class="ic-track" id="genreCarouselTrack" style="display: flex; gap: 20px; transition: transform 0.6s cubic-bezier(.22,1,.36,1);">
+        
+        <!-- 作品 1：黑幫少爺愛上我 -->
+        <div class="ic-slide" style="flex: 0 0 300px;">
+          <div class="drama-card">
+            <div class="drama-card-img-wrap"><img src="acter/a_100484597_m_601_en_m8_720_405.jpg" alt="KinnPorsche"><span class="drama-card-badge">黑幫</span><span class="drama-card-year">2022</span></div>
+            <div class="drama-card-body">
+              <div class="drama-card-name">黑幫少爺愛上我</div>
+              <div class="drama-card-en">KinnPorsche</div>
+              <p class="drama-card-desc">黑幫世界的禁忌愛情，電影級製作顛覆了泰BL劇的規模想像。</p>
+            </div>
+            <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+            <div class="cast-panel">
+              <div class="cast-list">
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/Mile Phakphum Romsaithong.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Mile Phakphum Romsaithong</div>
+                    <div class="cast-name-th">ไมล์ ภาคภูมิ รมย์สายทอง</div>
+                    <div class="cast-note">飾 Kinn · 黑幫少爺，冷酷外表下藏著真心</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/Apo Nattawin Wattanagitiphat.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Apo Nattawin Wattanagitiphat</div>
+                    <div class="cast-name-th">อาโป ณัฐวิน วัฒนกิติพัฒน์</div>
+                    <div class="cast-note">飾 Porsche · 為養家糊口成為護衛意外與Kinn相遇</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 作品 2：心跳節拍 -->
+        <div class="ic-slide" style="flex: 0 0 300px;">
+          <div class="drama-card">
+            <div class="drama-card-img-wrap"><img src="acter/thamepo-heart-that-skips-a-beat-episode-1-v0-onk6gbiw4h6e1.webp" alt="心跳節拍"><span class="drama-card-badge">偶像</span><span class="drama-card-year">2024</span></div>
+            <div class="drama-card-body">
+              <div class="drama-card-name">心跳節拍</div>
+              <div class="drama-card-en">Heart That Skips a Beat</div>
+              <p class="drama-card-desc">夢想執導的 Po 為男團 MARS 拍攝紀錄片，共同面對成名的代價與無法掩蓋的心動。</p>
+            </div>
+            <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+            <div class="cast-panel">
+              <div class="cast-list">
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/MV5BNDEzODE5MDktNThhYS00NTNmLTlmM2ItMTgxMTc4YTQ4NDkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">William Jakrapatr</div>
+                    <div class="cast-name-th">จักรภัทร แก้วพันธุ์พงษ์</div>
+                    <div class="cast-note">飾 Thame · 頂尖男團 MARS 的隊長，外表高冷內心卻為團體與情感掙扎。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/MV5BZTZkOGU2ODYtYTJmNC00NDVjLWI4MGUtZjIzYjQ0MDczZjI0XkEyXkFqcGc@._V1_.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Est Supha</div>
+                    <div class="cast-name-th">ศุภ สง่าวรวงศ์</div>
+                    <div class="cast-note">飾 Po · 夢想成為導演的學生，意外成為 Thame 最親密的知己。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 作品 3：Never Let Me Go -->
+        <div class="ic-slide" style="flex: 0 0 300px;">
+          <div class="drama-card">
+            <div class="drama-card-img-wrap"><img src="acter/ef1b2c4988.jpg" alt="Never Let Me Go"><span class="drama-card-badge">主僕</span><span class="drama-card-year">2022</span></div>
+            <div class="drama-card-body">
+              <div class="drama-card-name">Never Let Me Go</div>
+              <div class="drama-card-en">Pond Phuwin 二搭戲劇</div>
+              <p class="drama-card-desc">豪門繼承人 Nuengdiao 與貼身保鑣 Palm 產生跨越階級的深厚羈絆。</p>
+            </div>
+            <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+            <div class="cast-panel">
+              <div class="cast-list">
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/Phuwin_IMG_8133.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Phuwin Tangsakyuen</div>
+                    <div class="cast-name-th">ภูวินทร์ ตั้งศักดิ์ยืน</div>
+                    <div class="cast-note">飾 Nuengdiao · 孤傲、內向的繼承人。在脆弱中學會承擔家族重擔。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/images.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Pond Naravit Lertratkosum</div>
+                    <div class="cast-name-th">ณราวิชญ์ เลิศรัตน์โกสุมภ์</div>
+                    <div class="cast-note">飾 Palm · 沉穩、忠誠的保鑣。用堅實的臂膀為少爺擋下惡意。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 作品 4：愛的香氣 -->
+        <div class="ic-slide" style="flex: 0 0 300px;">
+          <div class="drama-card">
+            <div class="drama-card-img-wrap"><img src="acter/I-Feel-You-Linger-in-the-Air.webp" alt="愛的香氣"><span class="drama-card-badge">穿越</span><span class="drama-card-year">2023</span></div>
+            <div class="drama-card-body">
+              <div class="drama-card-name">愛的香氣</div>
+              <div class="drama-card-en">細膩克制</div>
+              <p class="drama-card-desc">建築師 Jom 穿越回百年前的清邁，與命定之人 Khun Yai 交織出跨越三世的愛戀。</p>
+            </div>
+            <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+            <div class="cast-panel">
+              <div class="cast-list">
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/aspect-ratio-900-600.jpg " style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Nonkul Chanon Santinatornkul</div>
+                    <div class="cast-name-th">ชานน สันตินธรกุล</div>
+                    <div class="cast-note">飾 Jom · 建築師。穿越回 1920 年代的清邁遇見命中注定的人。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/images (1).jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Bright Rapheephong Thapsuwant</div>
+                    <div class="cast-name-th">รพีพงศ์ ทับสุวรรณ</div>
+                    <div class="cast-note">飾 Khun Yai · 貴族少爺。對神祕出現的 Jom 一見鍾情。</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 作品 5：清醒點，泰爾先生 -->
+        <div class="ic-slide" style="flex: 0 0 300px;">
+          <div class="drama-card">
+            <div class="drama-card-img-wrap"><img src="acter/mi-sati-noi-khun-thi_1763649159.jpg" alt="清醒點，泰爾先生"><span class="drama-card-badge">總裁</span><span class="drama-card-year">2025</span></div>
+            <div class="drama-card-body">
+              <div class="drama-card-name">清醒點，泰爾先生</div>
+              <div class="drama-card-en">反差萌與戀愛諮詢</div>
+              <p class="drama-card-desc">富家少爺 Thee 雇用攝影師 Peach 擔任戀愛軍師，最終發現彼此才是命定的人。</p>
+            </div>
+            <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+            <div class="cast-panel">
+              <div class="cast-list">
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/images.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Pond Naravit Lertratkosum</div>
+                    <div class="cast-name-th">ณราวิชญ์ เลิศรัตน์โกสุมภ์</div>
+                    <div class="cast-note">飾 Thee · 沉迷八點檔套路，個性單純霸道。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/f7726a54221f89bca7b9a309befd9f61.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Phuwin Tangsakyuen</div>
+                    <div class="cast-name-th">ภูวินทร์ ตั้งศักดิ์ยืน</div>
+                    <div class="cast-note">飾 Peach · 專業攝影師，擔任戀愛軍師。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/MV5B.jpg" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Est Supha Sangaworawong</div>
+                    <div class="cast-name-th">ศุภ สง่าวรวงศ์</div>
+                    <div class="cast-note">飾 Mok · Thee 的貼身保鑣，沉穩忠誠。</div>
+                  </div>
+                </div>
+                <div class="cast-member">
+                  <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1px solid var(--sunset-gold);"><img src="acter/William_Jakrapatr_Kaewpanpong_GMMTV_2025.webp" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                  <div class="cast-role">主演</div>
+                  <div class="cast-info">
+                    <div class="cast-name">Lego Rapeepong Supatineekitdechan</div>
+                    <div class="cast-name-th">รพีพงศ์ ศุภตินีกิจเดชา</div>
+                    <div class="cast-note">飾 Tin · 個性古靈精怪、活力充沛的小少爺，最愛捉弄家中心思深沉的保鑣 Mok。</div>
+                  </div>
+                </div>
+              </div> <!-- cast-list 結束 -->
+            </div> <!-- cast-panel 結束 -->
+          </div> <!-- drama-card 結束 -->
+        </div> <!-- ic-slide (作品5) 結束 -->
+
+      </div> <!-- ic-track 結束 -->
+    </div> <!-- ic-wrap 結束 -->
+    
+    <!-- 左右按鈕：現在它們在正確的位置了 -->
+    <button class="ic-btn ic-prev" onclick="moveIC('genreCarousel', genreState, -1)" style="left: -15px;">&#8592;</button>
+    <button class="ic-btn ic-next" onclick="moveIC('genreCarousel', genreState, 1)" style="right: -15px;">&#8594;</button>
+  </div>
+</div>
+
+ 
+
+  <footer>
+    <div class="footer-title">Thai BL · 近期推薦</div>
+    <div class="footer-sub">持續更新中 · Updated Regularly</div>
+    <div class="footer-div"></div>
+    <p class="footer-note">本網站為學術與分享目的製作。演員社群媒體資訊截至2025年。</p>
+  </footer>
+</div><!-- /page-recs -->
+
+
+<script>
+// ══ INTRO OVERLAY — Film Strip Stack ══
+(function(){
+  const reveal = document.getElementById('introReveal');
+  const stripDelays = [0, 0.62, 1.24, 1.86, 2.48, 3.1];
+
+  // Light up dots as each strip arrives
+  stripDelays.forEach((d,i)=>{
+    setTimeout(()=>{
+      const dot = document.getElementById('fsdot'+i);
+      if(dot) dot.classList.add('lit');
+    }, (d + 0.55)*1000);
+  });
+
+  // Show title after all strips settle
+  setTimeout(()=>{ if(reveal) reveal.classList.add('show'); }, 4400);
+
+  // Auto-dismiss at 9.5s
+  setTimeout(dismissIntro, 9500);
+})();
+
+function dismissIntro(){
+  const o = document.getElementById('intro-overlay');
+  if(!o || o.classList.contains('fade-out')) return;
+  o.classList.add('fade-out');
+  setTimeout(()=>{ if(o.parentNode) o.parentNode.removeChild(o); }, 960);
+}
+// CAST TOGGLE
+function toggleCast(btn) {
+  const panel = btn.nextElementSibling;
+  const arrow = btn.querySelector('.cast-arrow');
+  const isOpen = panel.classList.contains('open');
+  // Close all others in same row
+  btn.closest('.drama-row')?.querySelectorAll('.cast-panel.open').forEach(p => {
+    p.classList.remove('open');
+    p.previousElementSibling.querySelector('.cast-arrow').classList.remove('open');
+  });
+  if (!isOpen) {
+    panel.classList.add('open');
+    arrow.classList.add('open');
+  }
+}
+
+// STARS
+const starsEl = document.getElementById('stars');
+for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*60}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s;`;starsEl.appendChild(s);}
+
+// PAGE
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const idx={home:0,itsay:1,recs:2}[id];
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  sessionStorage.setItem('currentPage', id);
+}
+
+// NAV
+window.addEventListener('scroll',()=>{const n=document.getElementById('nav');if(n)n.style.padding=window.scrollY>60?'.7rem 3rem':'1rem 3rem';});
+
+// TABS (ITSAY)
+function switchTab(idx){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+  sessionStorage.setItem('currentTab', idx);
+}
+
+// RESTORE PAGE STATE ON REFRESH
+(function restoreState(){
+  const savedPage = sessionStorage.getItem('currentPage');
+  const savedTab  = sessionStorage.getItem('currentTab');
+  if(savedPage && savedPage !== 'home'){
+    // Skip intro animation immediately
+    dismissIntro();
+    showPage(savedPage);
+    if(savedPage === 'itsay' && savedTab !== null){
+      switchTab(parseInt(savedTab));
+    }
+  } else if(savedPage === 'home'){
+    dismissIntro();
+  }
+})();
+
+// ITSAY HERO CAROUSEL
+let itsayHcIdx=0;const itsayHcTotal=4;
+const itsayHcDotsEl=document.getElementById('itsayHcDots');
+for(let i=0;i<itsayHcTotal;i++){const d=document.createElement('div');d.className='itsay-hc-dot'+(i===0?' active':'');d.onclick=()=>{itsayHcIdx=i;updateItsayHc();};itsayHcDotsEl.appendChild(d);}
+function updateItsayHc(){document.getElementById('itsayHcTrack').style.transform=`translateX(-${itsayHcIdx*100}%)`;document.querySelectorAll('.itsay-hc-dot').forEach((d,i)=>d.classList.toggle('active',i===itsayHcIdx));}
+setInterval(()=>{itsayHcIdx=(itsayHcIdx+1)%itsayHcTotal;updateItsayHc();},4000);
+
+// MAIN CAROUSEL (recs)
+let mainIdx=0;const mainTotal=4;
+const mainDotsEl=document.getElementById('mainDots');
+for(let i=0;i<mainTotal;i++){const d=document.createElement('div');d.className='carousel-dot'+(i===0?' active':'');d.onclick=()=>{mainIdx=i;updateMain();};mainDotsEl.appendChild(d);}
+function updateMain(){document.getElementById('mainTrack').style.transform=`translateX(-${mainIdx*100}%)`;document.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===mainIdx));}
+function moveCarousel(dir){mainIdx=(mainIdx+dir+mainTotal)%mainTotal;updateMain();}
+setInterval(()=>moveCarousel(1),5500);
+
+// BIZ CAROUSEL
+let bizIdx=0;const bizTotal=6;
+function moveBiz(dir){bizIdx=(bizIdx+dir+bizTotal)%bizTotal;document.getElementById('bizTrack').style.transform=`translateX(-${bizIdx*100}%)`;}
+setInterval(()=>moveBiz(1),3500);
+
+// GENERIC INLINE CAROUSEL
+const s1icState={idx:0,total:3};
+const sym1icState={idx:0,total:3};
+const cinicState={idx:0,total:3};
+const seascmpState={idx:0,total:4};
+const culicState={idx:0,total:3};
+const bpicState={idx:0,total:4};
+const genreState = { idx: 0, total: 5 };
+
+// Auto-play: ITSAY tab carousels
+setInterval(() => moveIC('s1ic',    s1icState,    1), 3500);
+setInterval(() => moveIC('sym1ic',  sym1icState,  1), 4000);
+setInterval(() => moveIC('cinic',   cinicState,   1), 3800);
+setInterval(() => moveIC('seascmp', seascmpState, 1), 4500);
+setInterval(() => moveIC('culic',   culicState,   1), 3200);
+// Auto-play: BillkinPP carousel
+setInterval(() => moveIC('bpic', bpicState, 1), 2000);
+function moveIC(wrapId, state, dir) {
+  state.idx = (state.idx + dir + state.total) % state.total;
+  const track = document.getElementById(wrapId + 'Track');
+  
+  if (wrapId === 'genreCarousel') {
+    // 專為小卡片輪播設計：移動 300px (卡片寬) + 20px (間距 gap)
+    const moveDist = state.idx * (300 + 20);
+    track.style.transform = `translateX(-${moveDist}px)`;
+  } else {
+    // 原有的全螢幕輪播邏輯
+    track.style.transform = `translateX(-${state.idx * 100}%)`;
+  }
+}
+</script>
+</body>
+</html>
