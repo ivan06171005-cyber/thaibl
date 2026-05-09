@@ -524,6 +524,159 @@ footer{background:#070D13;border-top:1px solid rgba(232,134,58,.1);padding:2.5re
 .footer-sub{font-size:.7rem;color:rgba(245,237,216,.25);letter-spacing:.15em;}
 .footer-div{width:36px;height:1px;background:rgba(232,134,58,.25);margin:1.2rem auto;}
 .footer-note{font-size:.68rem;color:rgba(245,237,216,.18);line-height:1.8;max-width:460px;margin:0 auto;}
+
+/* ══ DEEP DIVE CATALOG ══ */
+.dd-catalog{padding:4rem 0 2rem;}
+.dd-catalog-head{text-align:center;margin-bottom:2.5rem;}
+.dd-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1.5rem;}
+.dd-filter-btn{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.18);color:rgba(245,237,216,.5);border-radius:20px;padding:5px 16px;font-size:.72rem;cursor:pointer;letter-spacing:.06em;transition:all .22s;font-family:'Noto Sans TC',sans-serif;}
+.dd-filter-btn:hover{border-color:rgba(232,134,58,.4);color:rgba(245,237,216,.8);}
+.dd-filter-btn.active{background:rgba(232,134,58,.18);border-color:rgba(232,134,58,.55);color:#FAD9B5;}
+.dd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;margin-top:2rem;}
+@media(max-width:480px){.dd-grid{grid-template-columns:repeat(2,1fr);gap:.8rem;}}
+.dd-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.1);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .28s,border-color .28s,box-shadow .28s;position:relative;}
+.dd-card:hover{transform:translateY(-5px);border-color:rgba(232,134,58,.35);box-shadow:0 16px 36px rgba(0,0,0,.45);}
+.dd-card-img{position:relative;height:130px;overflow:hidden;}
+.dd-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.6) saturate(1.1);transition:filter .35s;}
+.dd-card:hover .dd-card-img img{filter:brightness(.78) saturate(1.2);}
+.dd-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(13,26,36,.9) 100%);}
+.dd-card-year{position:absolute;bottom:.55rem;left:.8rem;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:rgba(255,255,255,.85);z-index:1;}
+.dd-card-tags{position:absolute;top:.5rem;right:.5rem;display:flex;flex-direction:column;gap:.25rem;z-index:1;}
+.dd-card-tag{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(13,26,36,.78);backdrop-filter:blur(4px);color:var(--sunset-peach);padding:2px 6px;border-radius:8px;border:1px solid rgba(232,134,58,.22);}
+.dd-card-body{padding:.8rem 1rem 1rem;}
+.dd-card-title{font-family:'Noto Serif TC',serif;font-size:.9rem;font-weight:600;color:var(--phuket-sand);line-height:1.3;margin-bottom:.15rem;}
+.dd-card-en{font-size:.64rem;color:var(--sunset-gold);font-style:italic;margin-bottom:.4rem;}
+.dd-card-desc{font-size:.72rem;line-height:1.65;color:rgba(245,237,216,.5);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.dd-card-status{display:inline-flex;align-items:center;gap:.3rem;font-size:.58rem;margin-top:.55rem;padding:2px 8px;border-radius:10px;letter-spacing:.06em;}
+.dd-status-done{background:rgba(75,168,160,.12);border:1px solid rgba(75,168,160,.25);color:#4BA8A0;}
+.dd-status-airing{background:rgba(232,134,58,.1);border:1px solid rgba(232,134,58,.28);color:#E8863A;}
+.dd-status-soon{background:rgba(139,42,26,.12);border:1px solid rgba(201,75,37,.25);color:#F2B07A;}
+
+/* Modal */
+.dd-modal-bg{position:fixed;inset:0;background:rgba(7,13,20,.88);z-index:8500;display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(8px);}
+.dd-modal-bg.open{display:flex;}
+.dd-modal{background:#0D1A24;border:1px solid rgba(232,134,58,.22);border-radius:16px;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;position:relative;}
+.dd-modal-cover{width:100%;height:220px;object-fit:cover;display:block;filter:brightness(.55) saturate(1.1);}
+.dd-modal-cover-wrap{position:relative;overflow:hidden;border-radius:16px 16px 0 0;}
+.dd-modal-cover-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,26,36,.95) 100%);}
+.dd-modal-header{position:absolute;bottom:0;left:0;right:0;padding:1.2rem 1.5rem;z-index:2;}
+.dd-modal-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--sunset-glow);line-height:1.2;}
+.dd-modal-en{font-size:.78rem;color:var(--sunset-gold);margin-top:.2rem;font-style:italic;}
+.dd-modal-body{padding:1.3rem 1.5rem;}
+.dd-modal-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+.dd-modal-tag{font-size:.62rem;padding:3px 10px;border-radius:12px;background:rgba(232,134,58,.1);border:1px solid rgba(232,134,58,.22);color:var(--sunset-peach);letter-spacing:.06em;}
+.dd-modal-desc{font-size:.84rem;line-height:1.85;color:rgba(245,237,216,.7);margin-bottom:1.2rem;}
+.dd-modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.2rem;}
+.dd-meta-item{background:rgba(255,255,255,.04);border-radius:8px;padding:.6rem .9rem;}
+.dd-meta-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sunset-gold);margin-bottom:.2rem;}
+.dd-meta-value{font-size:.8rem;color:rgba(245,237,216,.75);}
+.dd-modal-why{background:rgba(75,168,160,.06);border:1px solid rgba(75,168,160,.15);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem;}
+.dd-modal-why h4{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#4BA8A0;margin-bottom:.5rem;}
+.dd-modal-why p{font-size:.8rem;line-height:1.75;color:rgba(245,237,216,.6);}
+.dd-modal-close{position:sticky;top:.8rem;float:right;background:rgba(13,26,36,.9);border:1px solid rgba(232,134,58,.2);color:rgba(245,237,216,.45);border-radius:7px;padding:4px 12px;font-size:.78rem;cursor:pointer;z-index:3;margin:.8rem .8rem 0 0;}
+
+
+/* ══ DEEP DIVE LIST PAGE ══ */
+.ddl-hero{position:relative;height:320px;overflow:hidden;display:flex;align-items:flex-end;}
+.ddl-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(139,42,26,.35) 0%,transparent 70%),linear-gradient(160deg,#0D1A24 0%,#091018 100%);}
+.ddl-hero-content{position:relative;z-index:2;padding:3rem 4rem 2.5rem;width:100%;}
+@media(max-width:640px){.ddl-hero-content{padding:2rem 1.5rem;}.ddl-hero{height:240px;}}
+.ddl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.5rem;padding:2.5rem 4rem;}
+@media(max-width:900px){.ddl-grid{padding:1.5rem;}}
+@media(max-width:480px){.ddl-grid{grid-template-columns:1fr;}}
+.ddl-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.12);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;display:flex;flex-direction:column;}
+.ddl-card:hover{transform:translateY(-6px);border-color:rgba(232,134,58,.38);box-shadow:0 20px 48px rgba(0,0,0,.5);}
+.ddl-card.ddl-coming{cursor:default;opacity:.5;}.ddl-card.ddl-coming:hover{transform:none;border-color:rgba(232,134,58,.12);box-shadow:none;}
+.ddl-card-img{height:175px;overflow:hidden;position:relative;flex-shrink:0;}
+.ddl-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(1.1);transition:filter .4s;}
+.ddl-card:hover:not(.ddl-coming) .ddl-card-img img{filter:brightness(.78) saturate(1.2);}
+.ddl-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(13,26,36,.92) 100%);}
+.ddl-card-overlay{position:absolute;bottom:.9rem;left:1.1rem;right:.9rem;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;}
+.ddl-card-year{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.88);}
+.ddl-pill{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:10px;}
+.ddl-pill-live{background:rgba(232,134,58,.22);border:1px solid rgba(232,134,58,.4);color:#F2B07A;}
+.ddl-pill-soon{background:rgba(75,168,160,.12);border:1px solid rgba(75,168,160,.3);color:#4BA8A0;}
+.ddl-card-body{padding:1.1rem 1.3rem 1.3rem;flex:1;display:flex;flex-direction:column;}
+.ddl-card-eyebrow{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sunset-gold);margin-bottom:.3rem;}
+.ddl-card-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--sunset-glow);line-height:1.3;margin-bottom:.2rem;}
+.ddl-card-sub{font-size:.7rem;color:rgba(245,237,216,.38);margin-bottom:.6rem;font-style:italic;}
+.ddl-card-desc{font-size:.76rem;line-height:1.7;color:rgba(245,237,216,.52);flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.ddl-card-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:.85rem;font-size:.72rem;color:var(--sunset-peach);}
+.ddl-card:hover:not(.ddl-coming) .ddl-card-cta{color:var(--sunset-gold);}
+.ddl-more{border:1px dashed rgba(232,134,58,.18);background:transparent;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:260px;color:rgba(245,237,216,.2);font-size:.8rem;gap:.5rem;}
+
+
+/* ══ NAV DROPDOWN ══ */
+.nav-dd-wrap{position:relative;}
+.nav-dd-menu{
+  position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:rgba(10,16,22,.97);border:1px solid rgba(232,134,58,.22);
+  border-radius:12px;min-width:260px;z-index:6000;
+  padding:.5rem 0;
+  opacity:0;pointer-events:none;
+  transform:translateX(-50%) translateY(-6px);
+  transition:opacity .22s,transform .22s;
+  backdrop-filter:blur(16px);
+  box-shadow:0 12px 40px rgba(0,0,0,.6);
+}
+.nav-dd-wrap.open .nav-dd-menu{
+  opacity:1;pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.nav-dd-head{
+  font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,237,216,.3);padding:.5rem 1.1rem .35rem;
+}
+.nav-dd-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.6rem 1.1rem;cursor:pointer;transition:background .18s;
+  text-decoration:none;border:none;background:none;width:100%;text-align:left;
+}
+.nav-dd-item:hover{background:rgba(232,134,58,.08);}
+.nav-dd-item.dd-soon{opacity:.4;cursor:default;}
+.nav-dd-item.dd-soon:hover{background:none;}
+.nav-dd-cover{
+  width:38px;height:28px;border-radius:4px;object-fit:cover;
+  background:#1E3347;flex-shrink:0;border:1px solid rgba(232,134,58,.15);
+}
+.nav-dd-info{flex:1;overflow:hidden;}
+.nav-dd-title{font-size:.78rem;color:rgba(245,237,216,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;}
+.nav-dd-sub{font-size:.62rem;color:rgba(245,237,216,.38);margin-top:.08rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nav-dd-pill{font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:6px;flex-shrink:0;}
+.dd-pill-live{background:rgba(232,134,58,.18);color:#F2B07A;border:1px solid rgba(232,134,58,.3);}
+.dd-pill-soon{background:rgba(75,168,160,.1);color:#4BA8A0;border:1px solid rgba(75,168,160,.2);}
+.nav-dd-divider{height:1px;background:rgba(232,134,58,.1);margin:.3rem 0;}
+.nav-dd-all{
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+  font-size:.68rem;color:rgba(245,237,216,.35);padding:.6rem 1.1rem .5rem;
+  cursor:pointer;transition:color .18s;
+}
+.nav-dd-all:hover{color:rgba(232,134,58,.7);}
+/* Arrow indicator on nav tab */
+.nav-tab-arrow{font-size:.55rem;margin-left:.3rem;opacity:.5;transition:transform .2s;}
+.nav-dd-wrap.open .nav-tab-arrow{transform:rotate(180deg);}
+
+
+/* ══ DD CATALOG CARDS (ITSAY page) ══ */
+.dd-card{background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.1);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .28s,border-color .28s,box-shadow .28s;}
+.dd-card:hover{transform:translateY(-5px);border-color:rgba(232,134,58,.32);box-shadow:0 14px 32px rgba(0,0,0,.42);}
+.dd-card-soon{cursor:default;opacity:.5;}.dd-card-soon:hover{transform:none;border-color:rgba(232,134,58,.1);box-shadow:none;}
+.dd-card-img{height:120px;overflow:hidden;position:relative;}
+.dd-card-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.55);transition:filter .3s;}
+.dd-card:hover:not(.dd-card-soon) .dd-card-img img{filter:brightness(.75);}
+.dd-card-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(13,26,36,.9) 100%);}
+.dd-card-overlay-info{position:absolute;bottom:.6rem;left:.8rem;right:.6rem;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;}
+.dd-card-year{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.85);}
+.dd-card-status-pill{font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:8px;}
+.dd-sp-live{background:rgba(232,134,58,.2);border:1px solid rgba(232,134,58,.35);color:#F2B07A;}
+.dd-sp-soon{background:rgba(75,168,160,.1);border:1px solid rgba(75,168,160,.25);color:#4BA8A0;}
+.dd-card-body{padding:.8rem 1rem .95rem;}
+.dd-card-name{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--sunset-glow);margin-bottom:.15rem;line-height:1.3;}
+.dd-card-sub2{font-size:.62rem;color:rgba(245,237,216,.38);font-style:italic;margin-bottom:.45rem;}
+.dd-card-desc2{font-size:.72rem;line-height:1.65;color:rgba(245,237,216,.5);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:.5rem;}
+.dd-card-read{font-size:.68rem;color:var(--sunset-peach);}
+.dd-card:hover:not(.dd-card-soon) .dd-card-read{color:var(--sunset-gold);}
+
 </style>
 </head>
 <body>
@@ -580,7 +733,17 @@ footer{background:#070D13;border-top:1px solid rgba(232,134,58,.1);padding:2.5re
   <div class="nav-logo">แปลรักฉัน · Thai BL</div>
   <ul class="nav-tabs">
     <li><button class="nav-tab active" onclick="showPage('home')">首頁</button></li>
-    <li><button class="nav-tab" onclick="showPage('itsay')">🎬 深度專題</button></li>
+    <li class="nav-dd-wrap" id="nav-dd-wrap">
+      <span style="display:inline-flex;align-items:center;gap:0;">
+        <button class="nav-tab" style="border-radius:6px 0 0 6px;padding-right:.5rem;" onclick="navDdClose();showPage('deeplist')">🎬 深度專題</button><button onclick="navDdToggle(event)" style="background:none;border:none;border-left:1px solid rgba(232,134,58,.15);color:rgba(245,237,216,.45);cursor:pointer;padding:.35rem .5rem;line-height:1;font-size:.75rem;transition:color .2s;border-radius:0 6px 6px 0;" onmouseover="this.style.color='rgba(245,237,216,.85)'" onmouseout="this.style.color='rgba(245,237,216,.45)'"><span class="nav-tab-arrow" style="display:inline-block;">▾</span></button>
+      </span>
+      <div class="nav-dd-menu" id="nav-dd-menu">
+        <div class="nav-dd-head">深度專題系列</div>
+        <div id="nav-dd-items"></div>
+        <div class="nav-dd-divider"></div>
+        <div class="nav-dd-all" onclick="navDdClose();showPage('deeplist')">查看全部 →</div>
+      </div>
+    </li>
     <li><button class="nav-tab" onclick="showPage('recs')">🌟 近期推薦</button></li>
   </ul>
 </nav>
@@ -874,6 +1037,20 @@ footer{background:#070D13;border-top:1px solid rgba(232,134,58,.1);padding:2.5re
   </footer>
 </div><!-- /page-home -->
 
+
+
+<!-- PAGE: DEEPLIST -->
+<div id="page-deeplist" class="page">
+  <div class="ddl-hero">
+    <div class="ddl-hero-bg"></div>
+    <div class="ddl-hero-content">
+      <p class="section-eyebrow" style="margin-bottom:.6rem;">深度專題 · Deep Dive Series</p>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:var(--sunset-glow);line-height:1.2;margin-bottom:.6rem;">選擇你想深入探索的<br><em>泰BL劇</em></h2>
+      <p style="font-size:.84rem;color:rgba(245,237,216,.42);max-width:500px;line-height:1.75;">每篇專題涵蓋劇情分析、美學解讀、文化背景與角色弧線，帶你看見比追劇更深的風景。</p>
+    </div>
+  </div>
+  <div class="ddl-grid" id="ddl-grid"></div>
+</div>
 
 <!-- ══════════════════ PAGE 2: ITSAY ══════════════════ -->
 <div id="page-itsay" class="page">
@@ -1298,6 +1475,16 @@ footer{background:#070D13;border-top:1px solid rgba(232,134,58,.1);padding:2.5re
       </div>
     </div>
 
+
+  <!-- ══ 深度專題系列清單 (unified with nav) ══ -->
+  <div class="section-wrap" style="padding-bottom:3rem;">
+    <p class="section-eyebrow">深度探索 · Deep Dive Series</p>
+    <h2 class="section-title">更多深度專題</h2>
+    <div class="divider"></div>
+    <p style="font-size:.84rem;color:rgba(245,237,216,.48);line-height:1.8;margin-bottom:2rem;">點擊查看完整的深度分析——從美學解讀到文化背景，帶你看見比追劇更深的風景。</p>
+    <div id="dd-catalog-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem;"></div>
+  </div>
+
   <footer>
     <div class="footer-title">I Told Sunset About You + I Promised You the Moon</div>
     <div class="footer-sub">Nadao Bangkok · 2020–2021 · 普吉島 & 曼谷</div>
@@ -1614,11 +1801,14 @@ for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  const idx={home:0,itsay:1,recs:2}[id];
-  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  const page=document.getElementById('page-'+id);
+  if(page)page.classList.add('active');
+  const tabMap={home:0,deeplist:1,itsay:1,recs:2};
+  const tabIdx=tabMap[id];
+  const tabs=document.querySelectorAll('.nav-tab');
+  if(tabIdx!==undefined&&tabs[tabIdx])tabs[tabIdx].classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
-  sessionStorage.setItem('currentPage', id);
+  sessionStorage.setItem('currentPage',id);
 }
 
 // NAV
@@ -1699,6 +1889,340 @@ function moveIC(wrapId, state, dir) {
 }
 </script>
 
+
+<!-- ══════════════════════════════════════
+     今日推薦泰文歌曲 · 音樂播放器
+══════════════════════════════════════ -->
+<div id="yt-player-container" style="position:fixed;bottom:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;"><div id="yt-player"></div></div>
+<audio id="bg-audio" preload="auto" loop style="display:none;"></audio>
+
+<div id="music-player" style="
+  position:fixed;bottom:0;left:0;right:0;z-index:7000;
+  background:rgba(10,16,22,.92);
+  border-top:1px solid rgba(232,134,58,.18);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  display:none;
+  padding:0 2rem;
+  height:72px;
+  align-items:center;
+  gap:1.5rem;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+">
+  <!-- 左：封面 + 歌曲資訊 -->
+  <div style="display:flex;align-items:center;gap:.85rem;min-width:220px;max-width:280px;">
+    <div id="mp-cover-wrap" style="position:relative;flex-shrink:0;">
+      <img id="mp-cover" src="" alt="封面" style="
+        width:48px;height:48px;border-radius:6px;object-fit:cover;
+        border:1px solid rgba(232,134,58,.22);
+        background:#1E3347;display:block;
+        box-shadow:0 4px 18px rgba(0,0,0,.55);
+      ">
+      <div id="mp-spin-ring" style="
+        position:absolute;inset:-3px;border-radius:9px;
+        border:1.5px solid transparent;
+        border-top-color:rgba(232,134,58,.6);
+        border-right-color:rgba(232,134,58,.25);
+        animation:mpSpin 2.8s linear infinite;
+        display:none;
+        pointer-events:none;
+      "></div>
+    </div>
+    <div style="overflow:hidden;">
+      <div id="mp-title" style="
+        font-size:.84rem;font-weight:500;color:#FAD9B5;
+        white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        max-width:200px;
+      ">今日推薦歌曲</div>
+      <div id="mp-artist" style="
+        font-size:.7rem;color:rgba(245,237,216,.42);
+        white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        max-width:200px;margin-top:.1rem;
+      ">—</div>
+      <a id="mp-yt-fallback" href="#" target="_blank" rel="noopener" style="display:none;align-items:center;gap:.3rem;font-size:.62rem;color:#FAD9B5;text-decoration:none;margin-top:.2rem;background:rgba(200,60,30,.18);border:1px solid rgba(200,80,30,.3);border-radius:10px;padding:3px 10px;font-weight:500;">▶ 版權限制，點此在 YouTube 收聽</a>
+      <div id="mp-tag" style="font-size:.58rem;letter-spacing:.1em;color:rgba(232,134,58,.55);margin-top:.1rem;text-transform:uppercase;">今日推薦 · Thai Song</div>
+    </div>
+  </div>
+
+  <!-- 中：控制 + 進度條 -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:.35rem;max-width:600px;">
+    <div style="display:flex;align-items:center;gap:1.1rem;">
+      <!-- 後退 10s -->
+      <button onclick="mpSeek(-10)" style="background:none;border:none;color:rgba(245,237,216,.35);cursor:pointer;font-size:.75rem;padding:.2rem .4rem;transition:color .2s;" onmouseover="this.style.color='rgba(245,237,216,.75)'" onmouseout="this.style.color='rgba(245,237,216,.35)'">⟨ 10</button>
+      <!-- 播放/暫停 -->
+      <button id="mp-play-btn" onclick="mpToggle()" style="
+        width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+        background:linear-gradient(135deg,#C94B25,#E8863A);
+        color:#fff;font-size:1rem;display:flex;align-items:center;justify-content:center;
+        transition:transform .15s,opacity .2s;flex-shrink:0;
+        box-shadow:0 3px 14px rgba(232,134,58,.35);
+      " onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">▶</button>
+      <!-- 前進 10s -->
+      <button onclick="mpSeek(10)" style="background:none;border:none;color:rgba(245,237,216,.35);cursor:pointer;font-size:.75rem;padding:.2rem .4rem;transition:color .2s;" onmouseover="this.style.color='rgba(245,237,216,.75)'" onmouseout="this.style.color='rgba(245,237,216,.35)'">10 ⟩</button>
+    </div>
+    <!-- 進度條 -->
+    <div style="display:flex;align-items:center;gap:.6rem;width:100%;">
+      <span id="mp-cur" style="font-size:.62rem;color:rgba(245,237,216,.35);min-width:32px;text-align:right;">0:00</span>
+      <div id="mp-bar-wrap" onclick="mpSeekClick(event)" style="
+        flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px;cursor:pointer;position:relative;
+      ">
+        <div id="mp-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#C94B25,#E8863A);border-radius:2px;transition:width .4s linear;pointer-events:none;"></div>
+        <div id="mp-thumb" style="position:absolute;top:50%;right:calc(100% - 0%);transform:translate(50%,-50%);width:11px;height:11px;border-radius:50%;background:#E8863A;opacity:0;transition:opacity .2s;pointer-events:none;"></div>
+      </div>
+      <span id="mp-dur" style="font-size:.62rem;color:rgba(245,237,216,.28);min-width:32px;">0:00</span>
+    </div>
+  </div>
+
+  <!-- 右：音量 + 關閉 -->
+  <div style="display:flex;align-items:center;gap:.8rem;min-width:140px;justify-content:flex-end;">
+    <span style="font-size:.78rem;color:rgba(245,237,216,.28);">🔊</span>
+    <input type="range" id="mp-vol" min="0" max="100" value="70" oninput="mpVol(this.value)" style="
+      width:80px;height:3px;cursor:pointer;
+      accent-color:#E8863A;
+    ">
+    <button onclick="mpHide()" style="
+      background:none;border:none;color:rgba(245,237,216,.25);cursor:pointer;
+      font-size:.9rem;padding:.2rem;line-height:1;
+      transition:color .2s;
+    " onmouseover="this.style.color='rgba(245,237,216,.65)'" onmouseout="this.style.color='rgba(245,237,216,.25)'">✕</button>
+  </div>
+</div>
+
+<!-- 展開按鈕（播放器隱藏時） -->
+<div id="mp-restore-btn" onclick="mpShow()" style="
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:6999;
+  background:rgba(10,16,22,.88);border:1px solid rgba(232,134,58,.22);
+  border-radius:24px;padding:.38rem 1rem;
+  display:none;align-items:center;gap:.5rem;cursor:pointer;
+  backdrop-filter:blur(12px);
+  transition:opacity .3s;font-size:.7rem;color:rgba(245,237,216,.5);
+" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.85'">
+  <img id="mp-restore-cover" src="" style="width:22px;height:22px;border-radius:3px;object-fit:cover;background:#1E3347;">
+  <span id="mp-restore-title" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(245,237,216,.6);">—</span>
+  <span>♪</span>
+</div>
+
+<style>
+@keyframes mpSpin{to{transform:rotate(360deg);}}
+#mp-bar-wrap:hover #mp-thumb{opacity:1;}
+@media(max-width:680px){
+  #music-player{padding:0 .8rem;gap:.7rem;}
+  #music-player > div:first-child{min-width:0;max-width:160px;}
+  #mp-tag,#mp-artist{display:none;}
+}
+</style>
+
+<script>
+// ══ MUSIC PLAYER ENGINE (YouTube + Direct Audio) ══
+const K_MUSIC='thaiBL-music';
+const DEF_MUSIC={title:'Closer - ใกล้กว่านี้',artist:'Billkin & PP Krit · ITSAY OST',cover:'',audioUrl:'',enabled:true};
+let mpData={...DEF_MUSIC};
+let mpPlaying=false,mpVisible=false,mpUserInteracted=false,mpMode='none';
+const audio=document.getElementById('bg-audio');
+
+// YouTube IFrame API
+let ytPlayer=null,ytReady=false,ytPendingId=null,ytTimer=null;
+function ytId(url){if(!url)return null;const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^&?#\s]{11})/);return m?m[1]:null;}
+function ytLoadAPI(){if(document.getElementById('yt-api-script'))return;const s=document.createElement('script');s.id='yt-api-script';s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);}
+window.onYouTubeIframeAPIReady=function(){ytReady=true;if(ytPendingId)ytCreate(ytPendingId);};
+function ytCreate(videoId){
+  if(!ytReady){ytPendingId=videoId;ytLoadAPI();return;}
+  ytPendingId=null;
+  if(ytPlayer&&ytPlayer.loadVideoById){ytPlayer.loadVideoById(videoId);return;}
+  ytPlayer=new YT.Player('yt-player',{height:'1',width:'1',videoId,
+    playerVars:{autoplay:0,controls:0,loop:1,playlist:videoId,rel:0},
+    events:{
+      onReady:e=>{e.target.setVolume(70);try{e.target.unMute();}catch(x){}const dur=e.target.getDuration();if(dur>0)document.getElementById('mp-dur').textContent=mpFmt(dur);document.getElementById('mp-tag').textContent='YouTube 頁內播放';if(mpUserInteracted){e.target.playVideo();document.getElementById('mp-tag').textContent='今日推薦 · Thai Song';}},
+      onStateChange:e=>{
+        const playing=e.data===YT.PlayerState.PLAYING;
+        mpPlaying=playing;mpUpdatePlayBtn();
+        document.getElementById('mp-spin-ring').style.display=playing?'block':'none';
+        clearInterval(ytTimer);
+        if(playing)ytTimer=setInterval(()=>{
+          if(!ytPlayer||!ytPlayer.getCurrentTime)return;
+          const cur=ytPlayer.getCurrentTime()||0,dur=ytPlayer.getDuration()||0;
+          if(dur){const p=(cur/dur)*100;document.getElementById('mp-bar').style.width=p+'%';document.getElementById('mp-cur').textContent=mpFmt(cur);document.getElementById('mp-dur').textContent=mpFmt(dur);}
+        },600);
+      },
+      onError:function(e){
+        const vid=ytId(mpData.audioUrl||'');
+        const artistEl=document.getElementById('mp-artist');
+        const tagEl=document.getElementById('mp-tag');
+        const reasons={2:'影片ID無效',5:'播放器錯誤',100:'影片不存在',101:'版權方禁止嵌入',150:'版權方禁止嵌入'};
+        const reason=reasons[e.data]||'未知錯誤('+e.data+')';
+        console.warn('YT embed error:',e.data,reason);
+        if(artistEl)artistEl.textContent='⏳ 正在切換備用播放方式...';
+        if(tagEl)tagEl.textContent=reason;
+        clearTimeout(window._ytTimeout);
+        if(vid)mpPipedFallback(vid);
+        else if(artistEl)artistEl.textContent='⚠ 無效的影片連結';
+      }
+    }
+  });
+}
+
+function mpLoadData(){try{const r=localStorage.getItem(K_MUSIC);if(r)mpData={...DEF_MUSIC,...JSON.parse(r)};}catch(e){}}
+function mpApply(){
+  const cover=document.getElementById('mp-cover'),rCover=document.getElementById('mp-restore-cover');
+  if(mpData.cover){cover.src=mpData.cover;if(rCover)rCover.src=mpData.cover;}
+  const fbBtn=document.getElementById('mp-yt-fallback');if(fbBtn)fbBtn.style.display='none';
+  document.getElementById('mp-title').textContent=mpData.title||'今日推薦歌曲';
+  document.getElementById('mp-artist').textContent=mpData.artist||'—';
+  const rtl=document.getElementById('mp-restore-title');if(rtl)rtl.textContent=mpData.title||'今日推薦歌曲';
+  if(mpData.enabled===false){
+    document.getElementById('music-player').style.display='none';
+    const rb=document.getElementById('mp-restore-btn');if(rb)rb.style.display='none';
+    document.body.style.paddingBottom='0';return;
+  }
+  const vid=ytId(mpData.audioUrl||'');
+  if(vid){
+    mpMode='youtube';audio.src='';ytCreate(vid);
+    // Safety timeout: if YT fails silently (no onError), try Piped after 10s
+    clearTimeout(window._ytTimeout);
+    window._ytTimeout=setTimeout(function(){
+      if(mpMode==='youtube'&&!mpPlaying&&mpData.audioUrl){
+        const v=ytId(mpData.audioUrl);
+        if(v)mpPipedFallback(v);
+      }
+    },10000);
+  }
+  else if(mpData.audioUrl){mpMode='audio';if(audio.src!==mpData.audioUrl){audio.src=mpData.audioUrl;audio.volume=0.7;}}
+  else{mpMode='none';}
+  document.getElementById('music-player').style.display='flex';
+  const rb=document.getElementById('mp-restore-btn');if(rb)rb.style.display='none';
+  document.body.style.paddingBottom='72px';
+  if(mpData.audioUrl&&mpUserInteracted)mpAutoPlay();
+}
+
+// ── Piped API fallback (auto-triggered when YT embedding fails) ──
+async function mpPipedFallback(videoId){
+  const artistEl=document.getElementById('mp-artist');
+  const tagEl=document.getElementById('mp-tag');
+  const fbBtn=document.getElementById('mp-yt-fallback');
+
+  // Multiple Piped instances + Invidious as extra backup
+  const endpoints=[
+    {url:'https://pipedapi.kavin.rocks',type:'piped'},
+    {url:'https://api.piped.yt',type:'piped'},
+    {url:'https://piped-api.mint.lgbt',type:'piped'},
+    {url:'https://pipedapi.reallyaweso.me',type:'piped'},
+  ];
+
+  for(const ep of endpoints){
+    try{
+      const ctrl=new AbortController();
+      const timer=setTimeout(()=>ctrl.abort(),5000);
+      const res=await fetch(ep.url+'/streams/'+videoId,{
+        signal:ctrl.signal,
+        headers:{'Accept':'application/json'}
+      });
+      clearTimeout(timer);
+      if(!res.ok)continue;
+      const data=await res.json();
+
+      // Get best audio-only stream (prefer opus/webm for smaller size)
+      const streams=(data.audioStreams||[])
+        .filter(function(s){return s.url&&s.mimeType;})
+        .sort(function(a,b){
+          // Prefer opus, then sort by bitrate
+          const aOpus=a.mimeType.includes('opus')?1:0;
+          const bOpus=b.mimeType.includes('opus')?1:0;
+          if(aOpus!==bOpus)return bOpus-aOpus;
+          return(b.bitrate||0)-(a.bitrate||0);
+        });
+
+      if(!streams.length)continue;
+
+      // Try each stream URL until one works
+      for(const stream of streams.slice(0,3)){
+        try{
+          audio.src=stream.url;
+          audio.volume=0.7;
+          await new Promise(function(resolve,reject){
+            const onCanPlay=function(){audio.removeEventListener('canplaythrough',onCanPlay);audio.removeEventListener('error',onErr);resolve();};
+            const onErr=function(){audio.removeEventListener('canplaythrough',onCanPlay);audio.removeEventListener('error',onErr);reject(new Error('cannot play'));};
+            audio.addEventListener('canplaythrough',onCanPlay,{once:true});
+            audio.addEventListener('error',onErr,{once:true});
+            audio.load();
+            // Timeout for canplaythrough
+            setTimeout(function(){audio.removeEventListener('canplaythrough',onCanPlay);audio.removeEventListener('error',onErr);resolve();},3000);
+          });
+          // Try playing
+          const played=await audio.play().then(function(){return true;}).catch(function(){return false;});
+          if(played){
+            mpPlaying=true;
+            mpMode='audio';
+            mpUpdatePlayBtn();
+            const spinEl=document.getElementById('mp-spin-ring');if(spinEl)spinEl.style.display='block';
+            if(artistEl)artistEl.textContent=mpData.artist||'—';
+            if(tagEl)tagEl.textContent='今日推薦 · Thai Song';
+            if(fbBtn)fbBtn.style.display='none';
+            console.info('Piped fallback success via',ep.url);
+            return;
+          }
+        }catch(streamErr){
+          console.warn('Stream attempt failed:',streamErr.message);
+        }
+      }
+    }catch(err){
+      console.warn('Piped endpoint failed:',ep.url,err.message||err);
+    }
+  }
+
+  // All fallbacks failed — this song has strong DRM/restrictions
+  if(artistEl)artistEl.textContent=mpData.artist||'—';
+  if(tagEl)tagEl.textContent='⚠ 此影片版權限制，無法頁內播放';
+  mpShowYtFallback(videoId);
+  console.warn('All Piped fallbacks failed for',videoId);
+}
+
+function mpShowYtFallback(videoId){
+  const btn=document.getElementById('mp-yt-fallback');
+  if(btn){btn.href='https://www.youtube.com/watch?v='+videoId;btn.style.display='inline-flex';}
+}
+
+function mpAutoPlay(){
+  if(mpMode==='youtube'){
+    if(ytPlayer&&ytPlayer.playVideo){
+      ytPlayer.unMute&&ytPlayer.unMute();
+      ytPlayer.playVideo();
+    }
+  } else if(mpMode==='audio'){
+    audio.play().then(function(){
+      mpPlaying=true;mpUpdatePlayBtn();
+      document.getElementById('mp-spin-ring').style.display='block';
+    }).catch(function(){});
+  }
+}
+function mpToggle(){
+  if(mpMode==='youtube'){if(!ytPlayer)return;mpPlaying?ytPlayer.pauseVideo():ytPlayer.playVideo();}
+  else if(mpMode==='audio'){if(!audio.src)return;if(mpPlaying)audio.pause();else audio.play();mpPlaying=!mpPlaying;mpUpdatePlayBtn();document.getElementById('mp-spin-ring').style.display=mpPlaying?'block':'none';}
+}
+function mpUpdatePlayBtn(){document.getElementById('mp-play-btn').textContent=mpPlaying?'⏸':'▶';}
+function mpSeek(s){
+  if(mpMode==='youtube'&&ytPlayer&&ytPlayer.seekTo)ytPlayer.seekTo(Math.max(0,(ytPlayer.getCurrentTime()||0)+s),true);
+  else if(mpMode==='audio'&&audio.duration)audio.currentTime=Math.max(0,Math.min(audio.duration,audio.currentTime+s));
+}
+function mpSeekClick(e){
+  const rect=e.currentTarget.getBoundingClientRect(),pct=(e.clientX-rect.left)/rect.width;
+  if(mpMode==='youtube'&&ytPlayer&&ytPlayer.getDuration)ytPlayer.seekTo(pct*ytPlayer.getDuration(),true);
+  else if(mpMode==='audio'&&audio.duration)audio.currentTime=pct*audio.duration;
+}
+function mpVol(v){if(mpMode==='youtube'&&ytPlayer&&ytPlayer.setVolume)ytPlayer.setVolume(+v);else audio.volume=v/100;}
+function mpHide(){document.getElementById('music-player').style.display='none';const rb=document.getElementById('mp-restore-btn');if(rb)rb.style.display='flex';document.body.style.paddingBottom='0';}
+function mpShow(){document.getElementById('music-player').style.display='flex';const rb=document.getElementById('mp-restore-btn');if(rb)rb.style.display='none';document.body.style.paddingBottom='72px';}
+function mpFmt(s){if(!s||isNaN(s))return'0:00';const m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
+audio.addEventListener('timeupdate',()=>{if(mpMode!=='audio'||!audio.duration)return;const p=(audio.currentTime/audio.duration)*100;document.getElementById('mp-bar').style.width=p+'%';document.getElementById('mp-cur').textContent=mpFmt(audio.currentTime);});
+audio.addEventListener('loadedmetadata',()=>{if(mpMode==='audio')document.getElementById('mp-dur').textContent=mpFmt(audio.duration);});
+audio.addEventListener('play',()=>{if(mpMode==='audio'){mpPlaying=true;mpUpdatePlayBtn();document.getElementById('mp-spin-ring').style.display='block';}});
+audio.addEventListener('pause',()=>{if(mpMode==='audio'){mpPlaying=false;mpUpdatePlayBtn();document.getElementById('mp-spin-ring').style.display='none';}});
+function mpOnFirstInteract(){mpUserInteracted=true;if(mpData.enabled&&mpData.audioUrl&&!mpPlaying)mpAutoPlay();document.removeEventListener('click',mpOnFirstInteract);document.removeEventListener('keydown',mpOnFirstInteract);}
+document.addEventListener('click',mpOnFirstInteract);document.addEventListener('keydown',mpOnFirstInteract);
+mpLoadData();
+mpApply();
+
+</script>
+
+
 <!-- ══════════════════════════════════════════════
      THAI BL · 全功能後台管理系統 v3
      啟動：右下角 ⚙️ 或 Ctrl+Shift+A
@@ -1733,18 +2257,52 @@ function moveIC(wrapId, state, dir) {
     </div>
   </div>
   <div style="display:flex;background:#111e2b;border-bottom:1px solid rgba(232,134,58,.14);flex-shrink:0;overflow-x:auto;">
-    <button class="ctab active" onclick="cmsTab('recs')" data-s="recs">🌟 推薦管理</button>
+    <button class="ctab active" onclick="cmsTab('ddl')" data-s="ddl">🎬 深度專題管理</button>
+    <button class="ctab" onclick="cmsTab('recs')" data-s="recs">🌟 推薦管理</button>
     <button class="ctab" onclick="cmsTab('tl')" data-s="tl">📅 時間軸</button>
     <button class="ctab" onclick="cmsTab('hero')" data-s="hero">🏠 英雄區</button>
     <button class="ctab" onclick="cmsTab('stats')" data-s="stats">📊 數據</button>
     <button class="ctab" onclick="cmsTab('imgs')" data-s="imgs">📷 圖片</button>
     <button class="ctab" onclick="cmsTab('nav')" data-s="nav">🔗 導覽</button>
+    <button class="ctab" onclick="cmsTab('music')" data-s="music">🎵 音樂</button>
     <button class="ctab" onclick="cmsTab('pw')" data-s="pw">⚙️</button>
   </div>
   <div id="cms-body" style="flex:1;overflow-y:auto;padding:1.2rem;">
 
+    <!-- ══ DEEP DIVE CATALOG MANAGEMENT ══ -->
+    <div id="cs-dd" style="display:none !important;">
+      <div class="cloc">🎬 深度專題清單 — 可新增、刪除、拖曳排序，點擊可展開編輯</div>
+      <button onclick="ddCmsAdd()" class="cadd-btn" style="width:100%;margin-bottom:.8rem;">＋ 新增作品</button>
+      <div style="font-size:.68rem;color:rgba(245,237,216,.32);margin-bottom:1rem;padding:.6rem;background:rgba(75,168,160,.04);border-radius:6px;border-left:2px solid rgba(75,168,160,.2);">
+        💡 拖曳 ☰ 調整順序；標籤用逗號分隔（如：校園,甜寵,喜劇）；點擊卡片標題展開編輯
+      </div>
+      <div id="dd-cms-list"></div>
+    </div>
+
+    <!-- DDL CMS — Unified deep dive manager -->
+    <div id="cs-ddl">
+      <div class="cloc">🎬 深度專題管理 — 同步更新：右上角選單 · 選單頁 · 以你的心底部清單</div>
+
+      <!-- Add + info bar -->
+      <div style="display:flex;gap:.6rem;margin-bottom:.9rem;align-items:center;">
+        <button onclick="ddlCmsAdd()" class="cadd-btn" style="flex:1;">＋ 新增專題</button>
+        <div style="font-size:.62rem;color:rgba(75,168,160,.65);background:rgba(75,168,160,.06);border:1px solid rgba(75,168,160,.15);border-radius:7px;padding:.45rem .8rem;line-height:1.55;">
+          ☰ 拖曳排序 · ↑↓ 移位<br>狀態「可閱讀」才會顯示進入連結
+        </div>
+      </div>
+
+      <!-- Sync indicator -->
+      <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <div style="font-size:.62rem;background:rgba(232,134,58,.08);border:1px solid rgba(232,134,58,.18);border-radius:6px;padding:3px 10px;color:rgba(232,134,58,.7);">🔗 右上角下拉選單</div>
+        <div style="font-size:.62rem;background:rgba(232,134,58,.08);border:1px solid rgba(232,134,58,.18);border-radius:6px;padding:3px 10px;color:rgba(232,134,58,.7);">🔗 深度專題選單頁</div>
+        <div style="font-size:.62rem;background:rgba(232,134,58,.08);border:1px solid rgba(232,134,58,.18);border-radius:6px;padding:3px 10px;color:rgba(232,134,58,.7);">🔗 以你的心底部清單</div>
+      </div>
+
+      <div id="ddl-cms-list"></div>
+    </div>
+
     <!-- ══ RECOMMENDATIONS ══ -->
-    <div id="cs-recs">
+    <div id="cs-recs" style="display:none;">
       <div class="cloc">🌟 推薦作品管理 — 可新增、刪除、拖曳排序</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;">
         <button onclick="recsAddMain()" class="cadd-btn">＋ 新增輪播項目</button>
@@ -1820,6 +2378,72 @@ function moveIC(wrapId, state, dir) {
       <div class="cf"><label class="cl">主標題</label><input class="ci" id="f-ft-ti" value="แปลรักฉันด้วยใจเธอ"></div>
       <div class="cf"><label class="cl">副標題</label><input class="ci" id="f-ft-su" value="Thai BL Drama · 文化版圖與商業戰略"></div>
       <div class="cf"><label class="cl">版權說明</label><textarea class="cta" id="f-ft-no" style="min-height:50px;">本網站為學術與分享目的製作。劇集版權歸各製作公司所有。</textarea></div>
+    </div>
+
+    <!-- ══ MUSIC ══ -->
+    <div id="cs-music" style="display:none;">
+      <div class="cloc">🎵 今日推薦泰文歌曲 — 撥放器管理</div>
+      <div style="margin-bottom:1rem;padding:.7rem;background:rgba(232,134,58,.05);border-radius:6px;border-left:2px solid rgba(232,134,58,.3);font-size:.68rem;color:rgba(245,237,216,.4);line-height:1.75;">
+        💡 直接貼上 <strong style="color:rgba(232,134,58,.65);">YouTube 連結</strong>（youtube.com/watch?v=... 或 youtu.be/...）即可；亦支援 mp3 直連網址作為備選。
+      </div>
+      <div class="ccard" style="margin-bottom:.8rem;">
+        <div class="cct">啟用設定</div>
+        <label style="display:flex;align-items:center;gap:.7rem;cursor:pointer;">
+          <input type="checkbox" id="f-music-on" checked style="width:16px;height:16px;accent-color:#E8863A;cursor:pointer;">
+          <span style="font-size:.82rem;color:rgba(245,237,216,.65);">顯示音樂播放器</span>
+        </label>
+      </div>
+      <div class="ccard" style="margin-bottom:.8rem;">
+        <div class="cct">歌曲資訊</div>
+        <div class="cf"><label class="cl">歌名（中文 / 泰文）</label><input class="ci" id="f-music-title" placeholder="例：Closer - ใกล้กว่านี้" value="Closer - ใกล้กว่านี้"></div>
+        <div class="cf"><label class="cl">演唱者 / 出自劇集</label><input class="ci" id="f-music-artist" placeholder="例：Billkin &amp; PP Krit" value="Billkin &amp; PP Krit"></div>
+      </div>
+      <div class="ccard" style="margin-bottom:.8rem;">
+        <div class="cct">專輯封面</div>
+        <div class="img-row-mini">
+          <img class="img-prev-mini" id="f-music-cover-prev" src="" style="opacity:.35;border-radius:6px;">
+          <div style="flex:1;">
+            <input class="img-url-inp" id="f-music-cover-url" placeholder="貼上封面圖片網址...">
+            <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+              <label class="img-upload-mini" for="f-music-cover-upl">📁 上傳封面</label>
+              <input type="file" id="f-music-cover-upl" accept="image/*" style="display:none;" onchange="mpUploadCover(this)">
+              <button class="img-upload-mini" onclick="mpApplyCoverUrl()" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用網址</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ccard">
+        <div class="cct">音訊來源</div>
+        <div class="cf">
+          <label class="cl">音訊網址（.mp3 / .m4a / .ogg）</label>
+          <input class="ci" id="f-music-url" placeholder="https://... 直連音訊檔網址">
+          <div style="font-size:.63rem;color:rgba(245,237,216,.28);margin-top:.35rem;line-height:1.6;">
+            貼上 <strong style="color:rgba(232,134,58,.75);">YouTube 網址</strong>，播放器會依序嘗試：<br>
+① 直接嵌入播放（大多數影片）<br>
+② 自動切換備用 API 播放<br>
+③ 若仍失敗顯示「版權限制」連結<br>
+<span style="color:rgba(245,237,216,.25);font-size:.9em;">⚠ GMM Music / Universal / Sony 等大型廠牌的「Topic 自動頻道」影片通常有嵌入限制，建議改用官方 MV 頻道連結。</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:.6rem;margin-top:.3rem;">
+          <label class="img-upload-mini" for="f-music-file-upl" style="flex:1;text-align:center;">📁 上傳音訊檔案</label>
+          <input type="file" id="f-music-file-upl" accept="audio/*" style="display:none;" onchange="mpUploadAudio(this)">
+        </div>
+        <div id="f-music-file-status" style="font-size:.65rem;color:#4BA8A0;margin-top:.5rem;min-height:.9rem;"></div>
+      </div>
+      <button onclick="mpCmsSave()" style="margin-top:.8rem;width:100%;padding:.7rem;background:linear-gradient(135deg,#C94B25,#E8863A);border:none;border-radius:8px;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;">🎵 套用音樂設定</button>
+
+      <!-- Live preview -->
+      <div style="margin-top:1.2rem;padding:.8rem;background:rgba(75,168,160,.05);border:1px solid rgba(75,168,160,.12);border-radius:8px;">
+        <div style="font-size:.68rem;color:#4BA8A0;margin-bottom:.5rem;">🎧 即時預覽</div>
+        <div style="display:flex;align-items:center;gap:.8rem;">
+          <img id="f-music-preview-cover" src="" style="width:42px;height:42px;border-radius:6px;object-fit:cover;background:#1E3347;border:1px solid rgba(232,134,58,.18);">
+          <div>
+            <div id="f-music-preview-title" style="font-size:.82rem;color:#FAD9B5;font-weight:500;">—</div>
+            <div id="f-music-preview-artist" style="font-size:.68rem;color:rgba(245,237,216,.4);margin-top:.1rem;">—</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ══ SETTINGS ══ -->
@@ -2401,6 +3025,7 @@ function setupDrag(el,list){
     if(list==='main'){collectRecsMain();const it=recsMain.splice(src,1)[0];recsMain.splice(dst,0,it);saveRecsData();renderMainCarousel();buildRecsMainList();}
     else if(list==='drama'){collectRecsDramas();const it=recsDramas.splice(src,1)[0];recsDramas.splice(dst,0,it);saveRecsData();renderGenreCarousel();buildRecsDramaList();}
     else if(list==='tl'){collectTL();const it=tlItems.splice(src,1)[0];tlItems.splice(dst,0,it);saveTLData();renderTimeline();buildTLList();}
+    else if(list==='dd'){ddCmsCollect();const it=ddData.splice(src,1)[0];ddData.splice(dst,0,it);ddSaveData();ddBuildFilters();ddRenderGrid();ddCmsBuildList(); ddlCmsBuildList();}
   });
 }
 
@@ -2444,6 +3069,8 @@ function applyTxt(d){
 // ═══════════════════════════════
 function cmsSaveAll(){
   collectRecsMain(); collectRecsDramas(); collectTL();
+  ddCmsCollect(); ddSaveData(); ddBuildFilters(); ddRenderGrid();
+  ddlCmsCollect(); ddlSave(); ddlRenderAll();
   saveRecsData(); saveTLData();
   const txt=collectTxt(); localStorage.setItem(K_TXT,JSON.stringify(txt)); applyTxt(txt);
   renderMainCarousel(); renderGenreCarousel(); renderTimeline();
@@ -2455,15 +3082,35 @@ function cmsSaveAll(){
 // ═══════════════════════════════
 // OPEN / LOGIN / NAV
 // ═══════════════════════════════
-function cmsOpen(){document.getElementById('cms-login').style.display='flex';setTimeout(()=>document.getElementById('cms-pw').focus(),80);}
+function cmsOpen(){
+  const loginEl=document.getElementById('cms-login');
+  if(!loginEl){console.error('cms-login not found');return;}
+  loginEl.style.display='flex';
+  setTimeout(()=>{const pw=document.getElementById('cms-pw');if(pw)pw.focus();},80);
+}
 function cmsLogin(){
   if(document.getElementById('cms-pw').value===getPW()){
+    // Close login, open panel FIRST before anything else
     document.getElementById('cms-login').style.display='none';
     document.getElementById('cms-pw').value='';
     document.getElementById('cms-pw-err').textContent='';
-    loadTxtForm(); buildRecsMainList(); buildRecsDramaList(); buildTLList(); buildFixedImgList();
     document.getElementById('cms-panel').style.right='0';
-  }else{document.getElementById('cms-pw-err').textContent='密碼錯誤。';document.getElementById('cms-pw').value='';}
+    // Then build content — wrapped in try/catch so errors don't affect panel visibility
+    try{loadTxtForm();}catch(e){console.warn('loadTxtForm',e);}
+    try{buildRecsMainList();}catch(e){console.warn('buildRecsMainList',e);}
+    try{buildRecsDramaList();}catch(e){console.warn('buildRecsDramaList',e);}
+    try{buildTLList();}catch(e){console.warn('buildTLList',e);}
+    try{buildFixedImgList();}catch(e){console.warn('buildFixedImgList',e);}
+    try{mpCmsLoad();}catch(e){console.warn('mpCmsLoad',e);}
+    try{ddCmsBuildList();}catch(e){console.warn('ddCmsBuildList',e);}
+    try{ddlCmsBuildList();}catch(e){console.warn('ddlCmsBuildList',e);}
+    // Show the first tab correctly
+    try{cmsTab('ddl');}catch(e){console.warn('cmsTab',e);}
+  }else{
+    document.getElementById('cms-pw-err').textContent='密碼錯誤。';
+    document.getElementById('cms-pw').value='';
+    document.getElementById('cms-pw').focus();
+  }
 }
 function cmsClosePanel(){document.getElementById('cms-panel').style.right='-680px';}
 function cmsCloseAll(){document.getElementById('cms-login').style.display='none';cmsClosePanel();document.getElementById('cms-pw').value='';document.getElementById('cms-pw-err').textContent='';}
@@ -2472,6 +3119,8 @@ function cmsTab(s){
   document.querySelectorAll('[id^="cs-"]').forEach(el=>el.style.display='none');
   document.getElementById('cs-'+s).style.display='block';
   if(s==='imgs')buildFixedImgList();
+  if(s==='music')mpCmsLoad();
+  if(s==='ddl'){ddlCmsBuildList();}
 }
 function cmsChgPW(){const np=document.getElementById('f-npw').value.trim();if(!np){alert('請輸入新密碼');return;}localStorage.setItem(K_PW,np);document.getElementById('f-npw').value='';alert('✅ 密碼已更新：'+np);}
 
@@ -2504,6 +3153,398 @@ function cmsChgPW(){const np=document.getElementById('f-npw').value.trim();if(!n
 })();
 
 
+
+
+// ══ DD CATALOG CMS ══
+function ddCmsBuildList(){
+  const el=document.getElementById('dd-cms-list');if(!el)return;
+  el.innerHTML='';
+  ddData.forEach((d,i)=>{
+    const div=document.createElement('div');
+    div.className='dyn-item';div.dataset.idx=i;div.dataset.list='dd';
+    const statusOpts=['done','airing','soon'].map(s=>`<option value="${s}"${d.status===s?' selected':''}>${{done:'已完結',airing:'播出中',soon:'即將上線'}[s]}</option>`).join('');
+    div.innerHTML=`
+      <div class="dyn-item-head" onclick="toggleDynBody(this)">
+        <span class="dyn-drag" draggable="true">☰</span>
+        <span class="dyn-badge-lbl">${d.year||''}</span>
+        <span class="dyn-title-txt">${d.title||'（未命名）'}</span>
+        <button class="dyn-del-btn" onclick="event.stopPropagation();ddCmsDel(${i})">刪除</button>
+        <button class="dyn-toggle-btn">▾</button>
+      </div>
+      <div class="dyn-body">
+        <div style="display:flex;gap:.5rem;margin-bottom:.7rem;">
+          <button class="dyn-order-btn" onclick="ddCmsMove(${i},-1)">↑ 上移</button>
+          <button class="dyn-order-btn" onclick="ddCmsMove(${i},1)">↓ 下移</button>
+        </div>
+        <div class="img-row-mini">
+          <img class="img-prev-mini" id="ddprev-${i}" src="${d.cover||''}" ${!d.cover?'style="opacity:.3"':''}>
+          <div style="flex:1;">
+            <input class="img-url-inp" id="ddimg-${i}" value="${d.cover||''}" placeholder="封面圖片網址...">
+            <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+              <label class="img-upload-mini" for="ddupl-${i}">📁 上傳</label>
+              <input type="file" id="ddupl-${i}" accept="image/*" style="display:none;" onchange="ddCmsUploadImg(${i},this)">
+              <button class="img-upload-mini" onclick="ddCmsApplyImg(${i})" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+          <div class="cf"><label class="cl">中文劇名</label><input class="ci" id="dd-title-${i}" value="${d.title||''}"></div>
+          <div class="cf"><label class="cl">英文劇名</label><input class="ci" id="dd-en-${i}" value="${d.en||''}"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr 100px;gap:.6rem;">
+          <div class="cf"><label class="cl">年份</label><input class="ci" id="dd-year-${i}" value="${d.year||''}"></div>
+          <div class="cf"><label class="cl">標籤（逗號分隔）</label><input class="ci" id="dd-tags-${i}" value="${(d.tags||[]).join(',')}"></div>
+          <div class="cf"><label class="cl">狀態</label><select class="ci" id="dd-status-${i}" style="cursor:pointer;">${statusOpts}</select></div>
+        </div>
+        <div class="cf"><label class="cl">簡介</label><textarea class="cta" id="dd-desc-${i}" style="min-height:65px;">${d.desc||''}</textarea></div>
+        <div style="font-size:.7rem;color:#F2B07A;margin:.5rem 0 .5rem;font-weight:500;">製作資訊</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+          <div class="cf"><label class="cl">製作公司</label><input class="ci" id="dd-studio-${i}" value="${(d.meta&&d.meta.studio)||''}"></div>
+          <div class="cf"><label class="cl">集數</label><input class="ci" id="dd-eps-${i}" value="${(d.meta&&d.meta.episodes)||''}"></div>
+          <div class="cf"><label class="cl">主演</label><input class="ci" id="dd-cast-${i}" value="${(d.meta&&d.meta.cast)||''}"></div>
+          <div class="cf"><label class="cl">導演</label><input class="ci" id="dd-dir-${i}" value="${(d.meta&&d.meta.director)||''}"></div>
+        </div>
+        <div class="cf"><label class="cl">✦ 為何值得看</label><textarea class="cta" id="dd-why-${i}" style="min-height:65px;">${d.why||''}</textarea></div>
+      </div>`;
+    el.appendChild(div);
+    setupDrag(div,'dd');
+  });
+}
+
+function ddCmsCollect(){
+  const g=(id)=>{const el=document.getElementById(id);return el?el.value:'';};
+  ddData=ddData.map((d,i)=>({
+    title:g('dd-title-'+i)||d.title,
+    en:g('dd-en-'+i)||d.en,
+    year:g('dd-year-'+i)||d.year,
+    tags:(g('dd-tags-'+i)||'').split(',').map(t=>t.trim()).filter(Boolean),
+    status:g('dd-status-'+i)||d.status,
+    desc:g('dd-desc-'+i)||d.desc,
+    cover:d.cover||'',
+    why:g('dd-why-'+i)||d.why,
+    meta:{
+      studio:g('dd-studio-'+i),
+      episodes:g('dd-eps-'+i),
+      cast:g('dd-cast-'+i),
+      director:g('dd-dir-'+i),
+    }
+  }));
+}
+
+function ddCmsAdd(){
+  ddCmsCollect();
+  ddData.push({title:'新作品',en:'New Drama',year:'2025',tags:['校園'],status:'soon',cover:'',desc:'請填寫劇情簡介...',why:'',meta:{studio:'',episodes:'',cast:'',director:''}});
+  ddSaveData();ddBuildFilters();ddRenderGrid();ddCmsBuildList(); ddlCmsBuildList();
+  setTimeout(()=>{const items=document.querySelectorAll('#dd-cms-list .dyn-item');if(items.length){const h=items[items.length-1].querySelector('.dyn-item-head');if(h)toggleDynBody(h);}},50);
+}
+
+function ddCmsDel(i){
+  if(!confirm('確定刪除「'+ddData[i].title+'」？'))return;
+  ddCmsCollect();ddData.splice(i,1);
+  ddSaveData();ddBuildFilters();ddRenderGrid();ddCmsBuildList(); ddlCmsBuildList();
+}
+
+function ddCmsMove(i,dir){
+  ddCmsCollect();
+  const n=i+dir;if(n<0||n>=ddData.length)return;
+  [ddData[i],ddData[n]]=[ddData[n],ddData[i]];
+  ddSaveData();ddBuildFilters();ddRenderGrid();ddCmsBuildList(); ddlCmsBuildList();
+}
+
+function ddCmsUploadImg(i,input){
+  const file=input.files[0];if(!file)return;
+  compressImg(file,800,600,.82,b64=>{
+    ddData[i].cover=b64;
+    const p=document.getElementById('ddprev-'+i);if(p)p.src=b64;
+    const inp=document.getElementById('ddimg-'+i);if(inp)inp.value=b64;
+  });
+}
+
+function ddCmsApplyImg(i){
+  const v=document.getElementById('ddimg-'+i)?.value;
+  if(v){ddData[i].cover=v;const p=document.getElementById('ddprev-'+i);if(p)p.src=v;}
+}
+
+// Hook into master save
+const _origSaveAll=cmsSaveAll;
+// Patch moveItem to handle 'dd'
+const _origMoveItem=moveItem;
+moveItem=function(list,i,dir){
+  if(list==='dd'){ddCmsMove(i,dir);}else{_origMoveItem(list,i,dir);}
+};
+
+// ══ MUSIC CMS ══
+function mpCmsLoad(){
+  mpLoadData();
+  const s=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
+  s('f-music-title',mpData.title);
+  s('f-music-artist',mpData.artist);
+  s('f-music-url',mpData.audioUrl||'');
+  s('f-music-cover-url',mpData.cover&&mpData.cover.startsWith('http')?mpData.cover:'');
+  const cb=document.getElementById('f-music-on');if(cb)cb.checked=mpData.enabled!==false;
+  const prev=document.getElementById('f-music-cover-prev');if(prev&&mpData.cover)prev.src=mpData.cover;
+  mpUpdatePreview();
+}
+function mpUpdatePreview(){
+  const title=document.getElementById('f-music-title')?.value||'—';
+  const artist=document.getElementById('f-music-artist')?.value||'—';
+  const cover=document.getElementById('f-music-cover-prev')?.src||'';
+  document.getElementById('f-music-preview-title').textContent=title;
+  document.getElementById('f-music-preview-artist').textContent=artist;
+  const pc=document.getElementById('f-music-preview-cover');if(pc&&cover)pc.src=cover;
+}
+['f-music-title','f-music-artist'].forEach(id=>{
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.addEventListener('input',mpUpdatePreview);},500);
+});
+function mpUploadCover(input){
+  const file=input.files[0];if(!file)return;
+  compressImg(file,400,400,.88,b64=>{
+    mpData.cover=b64;
+    const prev=document.getElementById('f-music-cover-prev');if(prev)prev.src=b64;
+    const pc=document.getElementById('f-music-preview-cover');if(pc)pc.src=b64;
+  });
+}
+function mpApplyCoverUrl(){
+  const url=document.getElementById('f-music-cover-url').value.trim();if(!url)return;
+  mpData.cover=url;
+  const prev=document.getElementById('f-music-cover-prev');if(prev)prev.src=url;
+  const pc=document.getElementById('f-music-preview-cover');if(pc)pc.src=url;
+}
+function mpUploadAudio(input){
+  const file=input.files[0];if(!file)return;
+  const status=document.getElementById('f-music-file-status');
+  status.textContent='讀取中... 大型檔案可能需要一點時間';
+  status.style.color='#E8863A';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    mpData.audioUrl=e.target.result;
+    status.textContent='✅ 音訊已載入（'+Math.round(file.size/1024)+'KB）';
+    status.style.color='#4BA8A0';
+    document.getElementById('f-music-url').value='（已上傳本地檔案）';
+  };
+  reader.onerror=()=>{status.textContent='❌ 讀取失敗，請使用網址方式';status.style.color='#E86A3A';};
+  reader.readAsDataURL(file);
+}
+function mpCmsSave(){
+  mpData.title=document.getElementById('f-music-title')?.value||'';
+  mpData.artist=document.getElementById('f-music-artist')?.value||'';
+  mpData.enabled=document.getElementById('f-music-on')?.checked!==false;
+  const urlField=document.getElementById('f-music-url')?.value||'';
+  if(urlField&&!urlField.includes('（已上傳'))mpData.audioUrl=urlField;
+  try{localStorage.setItem(K_MUSIC,JSON.stringify(mpData));}catch(e){
+    alert('音訊檔案過大無法存入瀏覽器！請使用外部網址。');return;
+  }
+  mpApply();
+  if(mpData.audioUrl&&mpUserInteracted)mpAutoPlay();
+  // Flash confirm
+  const btn=event.currentTarget||event.target;
+  if(btn){btn.textContent='✅ 已套用！';btn.style.background='linear-gradient(135deg,#1D9E75,#4BA8A0)';setTimeout(()=>{btn.textContent='🎵 套用音樂設定';btn.style.background='linear-gradient(135deg,#C94B25,#E8863A)';},2200);}
+}
+
+
+// ══ DDL — Single source of truth for all Deep Dive content ══
+const K_DDL='thaiBL-ddl';
+const DEF_DDL=[
+  {id:'itsay',eyebrow:'精品BL · Nadao Bangkok',title:'以你的心詮釋我的愛',sub:'ITSAY · S1 2020 / S2 2021',desc:'普吉島夕陽下，一段無從言說的愛。從情感敘事、鏡頭語言到兩季對比，完整解析改變BL美學的里程碑之作。',cover:'index_photo/I-told-sunset-about-you-14.jpg',year:'2020',target:'itsay',status:'live'},
+];
+let ddlData=[...DEF_DDL];
+
+function ddlLoad(){try{const r=localStorage.getItem(K_DDL);if(r)ddlData=JSON.parse(r);}catch(e){ddlData=[...DEF_DDL];}}
+function ddlSave(){localStorage.setItem(K_DDL,JSON.stringify(ddlData));}
+
+// ── Nav Dropdown ──
+function navDdToggle(e){
+  e.stopPropagation();
+  const wrap=document.getElementById('nav-dd-wrap');
+  const isOpen=wrap.classList.contains('open');
+  navDdClose();
+  if(!isOpen)wrap.classList.add('open');
+}
+function navDdClose(){document.getElementById('nav-dd-wrap')?.classList.remove('open');}
+document.addEventListener('click',navDdClose);
+
+function navDdRender(){
+  const el=document.getElementById('nav-dd-items');if(!el)return;
+  el.innerHTML=ddlData.map(d=>{
+    const isLive=d.status==='live';
+    const coverHtml=d.cover?'<img class="nav-dd-cover" src="'+d.cover+'" alt="'+d.title+'">'
+      :'<div class="nav-dd-cover"></div>';
+    const pill='<span class="nav-dd-pill '+(isLive?'dd-pill-live':'dd-pill-soon')+'">'+(isLive?'可閱讀':'即將推出')+'</span>';
+    const clickAttr=isLive?'onclick="navDdClose();ddlOpen(\''+d.target+'\')"':'';
+    return '<div class="nav-dd-item'+(isLive?'':' dd-soon')+'" '+clickAttr+'>'
+      +coverHtml
+      +'<div class="nav-dd-info">'
+      +'<div class="nav-dd-title">'+d.title+'</div>'
+      +'<div class="nav-dd-sub">'+(d.sub||d.eyebrow||'')+'</div>'
+      +'</div>'+pill+'</div>';
+  }).join('');
+}
+
+// ── Deep Dive List Page ──
+function ddlRender(){
+  const grid=document.getElementById('ddl-grid');if(!grid)return;
+  grid.innerHTML=ddlData.map(function(d){
+    const isLive=d.status==='live';
+    const clickAttr=isLive?'onclick="ddlOpen(\''+( d.target||'itsay')+'\')"':'';
+    const coverHtml=d.cover
+      ?'<img src="'+d.cover+'" alt="'+d.title+'" loading="lazy">'
+      :'<div style="width:100%;height:100%;background:linear-gradient(135deg,#1E3347,#0D1A24);"></div>';
+    return '<div class="ddl-card'+(isLive?'':' ddl-coming')+'" '+clickAttr+'>'
+      +'<div class="ddl-card-img">'+coverHtml
+      +'<div class="ddl-card-overlay">'
+      +'<div class="ddl-card-year">'+(d.year||'')+'</div>'
+      +'<span class="ddl-pill '+(isLive?'ddl-pill-live':'ddl-pill-soon')+'">'+(isLive?'可閱讀':'即將推出')+'</span>'
+      +'</div></div>'
+      +'<div class="ddl-card-body">'
+      +'<div class="ddl-card-eyebrow">'+(d.eyebrow||'深度專題')+'</div>'
+      +'<div class="ddl-card-title">'+(d.title||'—')+'</div>'
+      +'<div class="ddl-card-sub">'+(d.sub||'')+'</div>'
+      +'<p class="ddl-card-desc">'+(d.desc||'')+'</p>'
+      +'<div class="ddl-card-cta" style="'+(isLive?'':'color:rgba(245,237,216,.2)')+'">'+
+        (isLive?'閱讀專題 →':'敬請期待')+'</div>'
+      +'</div></div>';
+  }).join('')+'<div class="ddl-more"><div style="font-size:1.4rem;opacity:.3;">＋</div><div>更多專題製作中</div></div>';
+}
+
+// ── Deep Dive Catalog (ITSAY page bottom section) ──
+function ddlRenderCatalog(){
+  const grid=document.getElementById('dd-catalog-grid');if(!grid)return;
+  grid.innerHTML=ddlData.map(function(d){
+    const isLive=d.status==='live';
+    const clickAttr=isLive?'onclick="ddlOpen(\''+( d.target||'itsay')+'\')"':'';
+    const coverHtml=d.cover
+      ?'<img src="'+d.cover+'" alt="'+d.title+'" loading="lazy">'
+      :'<div style="width:100%;height:100%;background:linear-gradient(135deg,#1E3347,#0D1A24);"></div>';
+    return '<div class="dd-card '+(isLive?'':'dd-card-soon')+'" '+clickAttr+'>'
+      +'<div class="dd-card-img">'+coverHtml
+      +'<div class="dd-card-overlay-info">'
+      +'<span class="dd-card-year">'+(d.year||'')+'</span>'
+      +'<span class="dd-card-status-pill '+(isLive?'dd-sp-live':'dd-sp-soon')+'">'+(isLive?'可閱讀':'即將推出')+'</span>'
+      +'</div></div>'
+      +'<div class="dd-card-body">'
+      +'<div class="dd-card-name">'+(d.title||'—')+'</div>'
+      +'<div class="dd-card-sub2">'+(d.sub||d.eyebrow||'')+'</div>'
+      +'<p class="dd-card-desc2">'+(d.desc||'')+'</p>'
+      +(isLive?'<div class="dd-card-read">閱讀專題 →</div>':'<div class="dd-card-read" style="opacity:.3;">敬請期待</div>')
+      +'</div></div>';
+  }).join('');
+}
+
+function ddlRenderAll(){navDdRender();ddlRender();ddlRenderCatalog();}
+function ddlOpen(t){if(t)showPage(t);}
+function ddlCmsBuildList(){
+  const el=document.getElementById('ddl-cms-list');
+  if(!el)return;
+  el.innerHTML='';
+  if(!ddlData.length){
+    el.innerHTML='<div style="text-align:center;color:rgba(245,237,216,.25);padding:2rem;font-size:.8rem;">尚無專題，點上方「新增專題」開始</div>';
+    return;
+  }
+  ddlData.forEach(function(d,i){
+    const div=document.createElement('div');
+    div.className='dyn-item';
+    div.dataset.idx=i;
+    div.dataset.list='ddl';
+    const sOpts=['live','soon'].map(function(s){
+      return '<option value="'+s+'"'+(d.status===s?' selected':'')+'>'+{live:'✅ 可閱讀',soon:'🔜 即將推出'}[s]+'</option>';
+    }).join('');
+    const coverSrc=d.cover||'';
+    div.innerHTML=
+      '<div class="dyn-item-head" onclick="toggleDynBody(this)">'
+        +'<span class="dyn-drag" draggable="true" title="拖曳排序">☰</span>'
+        +'<span class="dyn-badge-lbl">'+(d.year||'—')+'</span>'
+        +'<span class="dyn-title-txt">'+(d.title||'（未命名）')+'</span>'
+        +'<span style="font-size:.6rem;color:'+(d.status==='live'?'#4BA8A0':'rgba(245,237,216,.3)')+';">'+(d.status==='live'?'可閱讀':'即將推出')+'</span>'
+        +'<button class="dyn-del-btn" onclick="event.stopPropagation();ddlCmsDel('+i+')">刪除</button>'
+        +'<button class="dyn-toggle-btn">▾</button>'
+      +'</div>'
+      +'<div class="dyn-body">'
+        +'<div style="display:flex;gap:.5rem;margin-bottom:.8rem;">'
+          +'<button class="dyn-order-btn" onclick="ddlCmsMove('+i+',-1)">↑ 上移</button>'
+          +'<button class="dyn-order-btn" onclick="ddlCmsMove('+i+',1)">↓ 下移</button>'
+        +'</div>'
+        // Cover image
+        +'<div class="img-row-mini">'
+          +'<img class="img-prev-mini" id="ddlprev-'+i+'" src="'+coverSrc+'" '+(coverSrc?'':'style="opacity:.3"')+'>'
+          +'<div style="flex:1;">'
+            +'<input class="img-url-inp" id="ddlimg-'+i+'" value="'+coverSrc+'" placeholder="封面圖片網址...">'
+            +'<div style="display:flex;gap:.4rem;margin-top:.4rem;">'
+              +'<label class="img-upload-mini" for="ddlupl-'+i+'">📁 上傳</label>'
+              +'<input type="file" id="ddlupl-'+i+'" accept="image/*" style="display:none;" onchange="ddlCmsUploadImg('+i+',this)">'
+              +'<button class="img-upload-mini" onclick="ddlCmsApplyImg('+i+')" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用</button>'
+            +'</div>'
+          +'</div>'
+        +'</div>'
+        // Fields
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">'
+          +'<div class="cf"><label class="cl">專題標題（中文）</label><input class="ci" id="ddlt-'+i+'" value="'+(d.title||'')+'"></div>'
+          +'<div class="cf"><label class="cl">年份</label><input class="ci" id="ddly-'+i+'" value="'+(d.year||'')+'"></div>'
+        +'</div>'
+        +'<div class="cf"><label class="cl">小標（製作公司 / 系列）</label><input class="ci" id="ddley-'+i+'" value="'+(d.eyebrow||'')+'"></div>'
+        +'<div class="cf"><label class="cl">副標（泰文名 / 集數說明）</label><input class="ci" id="ddlsub-'+i+'" value="'+(d.sub||'')+'"></div>'
+        +'<div class="cf"><label class="cl">簡介（卡片顯示用）</label><textarea class="cta" id="ddldesc-'+i+'" style="min-height:60px;">'+(d.desc||'')+'</textarea></div>'
+        +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">'
+          +'<div class="cf"><label class="cl">狀態</label>'
+            +'<select class="ci" id="ddlstat-'+i+'" style="cursor:pointer;">'+sOpts+'</select></div>'
+          +'<div class="cf"><label class="cl">目標頁面 ID <span class="cbadge">itsay 或留空</span></label>'
+            +'<input class="ci" id="ddltarget-'+i+'" value="'+(d.target||'')+'" placeholder="itsay"></div>'
+        +'</div>'
+      +'</div>';
+    el.appendChild(div);
+    setupDrag(div,'ddl');
+  });
+}
+
+function ddlCmsCollect(){
+  const g=function(id){const el=document.getElementById(id);return el?el.value:'';};
+  ddlData=ddlData.map(function(d,i){
+    return {
+      title:g('ddlt-'+i)||d.title,
+      year:g('ddly-'+i)||d.year,
+      eyebrow:g('ddley-'+i)||d.eyebrow,
+      sub:g('ddlsub-'+i)||d.sub,
+      desc:g('ddldesc-'+i)||d.desc,
+      status:g('ddlstat-'+i)||d.status||'soon',
+      target:g('ddltarget-'+i)||d.target||'',
+      cover:d.cover||'',
+    };
+  });
+}
+function ddlCmsAdd(){
+  ddlCmsCollect();
+  ddlData.push({title:'新專題（點展開編輯）',year:new Date().getFullYear()+'',eyebrow:'深度專題',sub:'',desc:'',status:'soon',target:'',cover:''});
+  ddlSave();
+  ddlRenderAll();
+  ddlCmsBuildList();
+  setTimeout(function(){
+    const items=document.querySelectorAll('#ddl-cms-list .dyn-item');
+    if(items.length){
+      const lastHead=items[items.length-1].querySelector('.dyn-item-head');
+      if(lastHead)toggleDynBody(lastHead);
+      items[items.length-1].scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  },80);
+}
+function ddlCmsDel(i){
+  if(!confirm('確定刪除「'+(ddlData[i]&&ddlData[i].title||'此專題')+'」？'))return;
+  ddlCmsCollect();
+  ddlData.splice(i,1);
+  ddlSave();
+  ddlRenderAll();
+  ddlCmsBuildList();
+}
+function ddlCmsMove(i,dir){
+  ddlCmsCollect();
+  const n=i+dir;
+  if(n<0||n>=ddlData.length)return;
+  const tmp=ddlData[i];ddlData[i]=ddlData[n];ddlData[n]=tmp;
+  ddlSave();
+  ddlRenderAll();
+  ddlCmsBuildList();
+}
+function ddlCmsUploadImg(i,input){const file=input.files[0];if(!file)return;compressImg(file,800,500,.82,b64=>{ddlData[i].cover=b64;const p=document.getElementById('ddlprev-'+i);if(p)p.src=b64;const inp=document.getElementById('ddlimg-'+i);if(inp)inp.value=b64;});}
+function ddlCmsApplyImg(i){const v=document.getElementById('ddlimg-'+i)?.value;if(v){ddlData[i].cover=v;const p=document.getElementById('ddlprev-'+i);if(p)p.src=v;}}
+
 // ═══════════════════════════════
 // AUTO-INIT ON PAGE LOAD
 // ═══════════════════════════════
@@ -2511,6 +3552,7 @@ function cmsChgPW(){const np=document.getElementById('f-npw').value.trim();if(!n
   loadData(); loadFixedImgs();
   const raw=localStorage.getItem(K_TXT);if(raw){try{applyTxt(JSON.parse(raw));}catch(e){}}
   renderMainCarousel(); renderGenreCarousel(); renderTimeline(); applyAllFixedImgs();
+  ddlLoad(); ddlRenderAll();
 })();
 </script>
 
