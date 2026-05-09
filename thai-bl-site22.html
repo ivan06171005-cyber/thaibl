@@ -1698,5 +1698,821 @@ function moveIC(wrapId, state, dir) {
   }
 }
 </script>
+
+<!-- ══════════════════════════════════════════════
+     THAI BL · 全功能後台管理系統 v3
+     啟動：右下角 ⚙️ 或 Ctrl+Shift+A
+══════════════════════════════════════════════ -->
+<!-- admin trigger: logo ×5 clicks OR keyboard sequence -->
+
+<!-- Login -->
+<div id="cms-login" style="position:fixed;inset:0;z-index:9100;background:rgba(13,26,36,.96);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;">
+  <div style="background:#162535;border:1px solid rgba(232,134,58,.22);border-radius:16px;padding:2.5rem;width:360px;text-align:center;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#F2B07A;font-style:italic;margin-bottom:.3rem;">後台管理系統</div>
+    <div style="font-size:.64rem;letter-spacing:.2em;color:rgba(245,237,216,.3);text-transform:uppercase;margin-bottom:1.8rem;">Content Management · Thai BL</div>
+    <div style="height:1px;background:rgba(232,134,58,.15);margin-bottom:1.8rem;"></div>
+    <div style="font-size:.66rem;letter-spacing:.12em;color:rgba(245,237,216,.35);text-align:left;margin-bottom:.45rem;text-transform:uppercase;">管理員密碼</div>
+    <input id="cms-pw" type="password" placeholder="輸入密碼..." onkeydown="if(event.key==='Enter')cmsLogin()" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(232,134,58,.2);border-radius:8px;padding:.72rem 1rem;color:#F5EDD8;font-family:'Noto Sans TC',sans-serif;font-size:.88rem;outline:none;">
+    <button onclick="cmsLogin()" style="margin-top:1rem;width:100%;padding:.8rem;background:linear-gradient(135deg,#C94B25,#E8863A);border:none;border-radius:8px;color:#fff;font-family:'Noto Sans TC',sans-serif;font-size:.86rem;font-weight:500;cursor:pointer;">登入後台</button>
+    <div id="cms-pw-err" style="margin-top:.55rem;font-size:.74rem;color:#E8863A;min-height:1em;"></div>
+    <button onclick="cmsCloseAll()" style="margin-top:.6rem;background:none;border:none;color:rgba(245,237,216,.28);font-size:.7rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;">取消</button>
+    <div style="margin-top:1.1rem;font-size:.63rem;color:rgba(245,237,216,.18);"></div>
+  </div>
+</div>
+
+<!-- Panel -->
+<div id="cms-panel" style="position:fixed;top:0;right:-680px;width:660px;height:100vh;z-index:9200;background:#0D1A24;border-left:1px solid rgba(232,134,58,.2);display:flex;flex-direction:column;transition:right .4s cubic-bezier(.22,1,.36,1);overflow:hidden;">
+  <div style="background:#162535;border-bottom:1px solid rgba(232,134,58,.18);padding:.9rem 1.4rem;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:.98rem;color:#F2B07A;font-style:italic;">後台管理</div>
+      <div style="font-size:.58rem;letter-spacing:.15em;color:rgba(245,237,216,.3);text-transform:uppercase;margin-top:.1rem;">Thai BL · CMS v3</div>
+    </div>
+    <div style="display:flex;gap:.55rem;align-items:center;">
+      <button id="cms-save-btn" onclick="cmsSaveAll()" style="background:linear-gradient(135deg,#C94B25,#E8863A);border:none;color:#fff;border-radius:7px;padding:6px 15px;font-family:'Noto Sans TC',sans-serif;font-size:.74rem;font-weight:500;cursor:pointer;">💾 儲存套用</button>
+      <button onclick="cmsClosePanel()" style="background:none;border:1px solid rgba(232,134,58,.18);color:rgba(245,237,216,.4);border-radius:6px;padding:5px 11px;font-size:.7rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;">✕</button>
+    </div>
+  </div>
+  <div style="display:flex;background:#111e2b;border-bottom:1px solid rgba(232,134,58,.14);flex-shrink:0;overflow-x:auto;">
+    <button class="ctab active" onclick="cmsTab('recs')" data-s="recs">🌟 推薦管理</button>
+    <button class="ctab" onclick="cmsTab('tl')" data-s="tl">📅 時間軸</button>
+    <button class="ctab" onclick="cmsTab('hero')" data-s="hero">🏠 英雄區</button>
+    <button class="ctab" onclick="cmsTab('stats')" data-s="stats">📊 數據</button>
+    <button class="ctab" onclick="cmsTab('imgs')" data-s="imgs">📷 圖片</button>
+    <button class="ctab" onclick="cmsTab('nav')" data-s="nav">🔗 導覽</button>
+    <button class="ctab" onclick="cmsTab('pw')" data-s="pw">⚙️</button>
+  </div>
+  <div id="cms-body" style="flex:1;overflow-y:auto;padding:1.2rem;">
+
+    <!-- ══ RECOMMENDATIONS ══ -->
+    <div id="cs-recs">
+      <div class="cloc">🌟 推薦作品管理 — 可新增、刪除、拖曳排序</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem;">
+        <button onclick="recsAddMain()" class="cadd-btn">＋ 新增輪播項目</button>
+        <button onclick="recsAddDrama()" class="cadd-btn cadd-btn2">＋ 新增劇集卡片</button>
+      </div>
+      <div style="font-size:.7rem;color:#F2B07A;font-weight:500;margin-bottom:.5rem;">📺 主輪播（頂部大輪播）</div>
+      <div id="recs-main-list"></div>
+      <div style="height:1px;background:rgba(232,134,58,.14);margin:1.2rem 0;"></div>
+      <div style="font-size:.7rem;color:#F2B07A;font-weight:500;margin-bottom:.5rem;">🎬 劇集卡片（多元題材區）</div>
+      <div id="recs-drama-list"></div>
+    </div>
+
+    <!-- ══ TIMELINE ══ -->
+    <div id="cs-tl" style="display:none;">
+      <div class="cloc">📅 時間軸管理 — 可新增、刪除、拖曳排序</div>
+      <button onclick="tlAdd()" class="cadd-btn" style="width:100%;margin-bottom:1rem;">＋ 新增時間節點</button>
+      <div style="font-size:.68rem;color:rgba(245,237,216,.35);margin-bottom:1rem;padding:.65rem;background:rgba(232,134,58,.05);border-radius:6px;border-left:2px solid rgba(232,134,58,.3);">
+        💡 拖曳左側 ☰ 符號可調整順序，展開後可編輯年份、標題、說明與圖片
+      </div>
+      <div id="tl-list"></div>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <div id="cs-hero" style="display:none;">
+      <div class="cloc">📍 首頁 → 大圖橫幅區域</div>
+      <div class="cf"><label class="cl">小標題</label><input class="ci" id="f-hero-ey" value="Thai Boys Love · 文化版圖與商業戰略"></div>
+      <div class="cf"><label class="cl">主標題 <span class="cbadge">支援 &lt;br&gt; &lt;em&gt;</span></label><input class="ci" id="f-hero-ti" value="泰國BL劇&lt;br&gt;&lt;em&gt;如何征服世界&lt;/em&gt;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;">
+        <div class="cf"><label class="cl">副標題中文</label><input class="ci" id="f-hero-su" value="從地下文化到全球軟實力"></div>
+        <div class="cf"><label class="cl">副標題泰文</label><input class="ci" id="f-hero-th" value="จาก underground สู่ soft power ระดับโลก"></div>
+      </div>
+      <div class="cf"><label class="cl">段落描述</label><textarea class="cta" id="f-hero-de">如何在十年間顛覆亞洲娛樂版圖——從學校社團到Netflix，從粉絲字幕組到年產值47億台幣的偶像帝國。</textarea></div>
+    </div>
+
+    <!-- ══ STATS ══ -->
+    <div id="cs-stats" style="display:none;">
+      <div class="cloc">📍 首頁 → 四格統計欄</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;">
+        <div class="ccard"><div class="cct">統計 1</div><div class="cf"><label class="cl">數字</label><input class="ci" id="f-s0n" value="47億"></div><div class="cf"><label class="cl">標籤</label><input class="ci" id="f-s0l" value="年產值（台幣）"></div></div>
+        <div class="ccard"><div class="cct">統計 2</div><div class="cf"><label class="cl">數字</label><input class="ci" id="f-s1n" value="17年"></div><div class="cf"><label class="cl">標籤</label><input class="ci" id="f-s1l" value="從先驅到全球"></div></div>
+        <div class="ccard"><div class="cct">統計 3</div><div class="cf"><label class="cl">數字</label><input class="ci" id="f-s2n" value="8.7"></div><div class="cf"><label class="cl">標籤</label><input class="ci" id="f-s2l" value="ITSAY IMDb評分"></div></div>
+        <div class="ccard"><div class="cct">統計 4</div><div class="cf"><label class="cl">數字</label><input class="ci" id="f-s3n" value="59,000+"></div><div class="cf"><label class="cl">標籤</label><input class="ci" id="f-s3l" value="普吉島朝聖旅客"></div></div>
+      </div>
+    </div>
+
+    <!-- ══ IMAGES ══ -->
+    <div id="cs-imgs" style="display:none;">
+      <div class="cloc">📷 上傳圖片或貼網址立即套用</div>
+      <div style="font-size:.68rem;color:rgba(245,237,216,.35);margin-bottom:1rem;padding:.65rem;background:rgba(232,134,58,.05);border-radius:6px;border-left:2px solid rgba(232,134,58,.3);">
+        💡 推薦/時間軸的圖片請在「推薦管理」或「時間軸」中各別上傳。此處管理首頁固定圖片。
+      </div>
+      <div id="img-fixed-list"></div>
+    </div>
+
+    <!-- ══ NAV ══ -->
+    <div id="cs-nav" style="display:none;">
+      <div class="cloc">📍 導覽列 + 開場片頭</div>
+      <div class="cf"><label class="cl">左上角品牌名</label><input class="ci" id="f-nav-lg" value="แปลรักฉัน · Thai BL"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;">
+        <div class="cf"><label class="cl">頁籤 1</label><input class="ci" id="f-nav-t1" value="首頁"></div>
+        <div class="cf"><label class="cl">頁籤 2</label><input class="ci" id="f-nav-t2" value="🎬 深度專題"></div>
+        <div class="cf"><label class="cl">頁籤 3</label><input class="ci" id="f-nav-t3" value="🌟 近期推薦"></div>
+      </div>
+      <div style="height:1px;background:rgba(232,134,58,.12);margin:1rem 0;"></div>
+      <div style="font-size:.74rem;color:#F2B07A;margin-bottom:.7rem;">🎬 開場片頭</div>
+      <div class="cf"><label class="cl">英文標語</label><input class="ci" id="f-in-ey" value="Thai Boys Love · Cultural Revolution"></div>
+      <div class="cf"><label class="cl">主標題</label><input class="ci" id="f-in-ti" value="泰國BL劇&lt;br&gt;&lt;em&gt;文化版圖&lt;/em&gt;"></div>
+      <div class="cf"><label class="cl">副標題</label><input class="ci" id="f-in-su" value="從地下到全球——一場關於愛的運動"></div>
+      <div class="cf"><label class="cl">泰文</label><input class="ci" id="f-in-th" value="จาก underground สู่ soft power ระดับโลก"></div>
+      <div class="cf"><label class="cl">點擊提示</label><input class="ci" id="f-in-ct" value="· 點擊任意處開始探索 ·"></div>
+      <div style="height:1px;background:rgba(232,134,58,.12);margin:1rem 0;"></div>
+      <div style="font-size:.74rem;color:#F2B07A;margin-bottom:.7rem;">📄 首頁頁腳</div>
+      <div class="cf"><label class="cl">主標題</label><input class="ci" id="f-ft-ti" value="แปลรักฉันด้วยใจเธอ"></div>
+      <div class="cf"><label class="cl">副標題</label><input class="ci" id="f-ft-su" value="Thai BL Drama · 文化版圖與商業戰略"></div>
+      <div class="cf"><label class="cl">版權說明</label><textarea class="cta" id="f-ft-no" style="min-height:50px;">本網站為學術與分享目的製作。劇集版權歸各製作公司所有。</textarea></div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div id="cs-pw" style="display:none;">
+      <div class="ccard">
+        <div class="cct">更改管理員密碼</div>
+        <div class="cf"><label class="cl">新密碼</label><input class="ci" id="f-npw" type="password" placeholder="輸入新密碼..."></div>
+        <button onclick="cmsChgPW()" style="background:rgba(232,134,58,.1);border:1px solid rgba(232,134,58,.22);color:#E8863A;border-radius:7px;padding:6px 16px;font-size:.74rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;">✅ 確認更改</button>
+      </div>
+      <div style="margin-top:1.2rem;padding:.85rem;background:rgba(75,168,160,.05);border-radius:8px;border:1px solid rgba(75,168,160,.12);">
+        <div style="font-size:.7rem;color:#4BA8A0;margin-bottom:.45rem;">📌 使用說明</div>
+        <div style="font-size:.7rem;color:rgba(245,237,216,.4);line-height:1.9;">
+          · 推薦管理：新增、刪除、拖曳排序劇集<br>
+          · 時間軸：新增、刪除、拖曳排序時間節點<br>
+          · 右下角 ⚙️ 或 Ctrl+Shift+A 開啟後台<br>
+          · 所有資料儲存於瀏覽器 localStorage
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.ctab{background:none;border:none;border-bottom:2px solid transparent;color:rgba(245,237,216,.38);padding:.6rem .85rem;font-size:.68rem;letter-spacing:.06em;cursor:pointer;white-space:nowrap;font-family:'Noto Sans TC',sans-serif;transition:all .2s;}
+.ctab:hover{color:rgba(245,237,216,.68);}
+.ctab.active{color:#E8863A;border-bottom-color:#E8863A;}
+.cloc{margin-bottom:.9rem;padding:.55rem .75rem;background:rgba(75,168,160,.06);border-left:2px solid #4BA8A0;border-radius:0 6px 6px 0;font-size:.64rem;color:#4BA8A0;letter-spacing:.08em;}
+.cf{margin-bottom:.8rem;}
+.cl{display:flex;align-items:center;gap:.35rem;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,237,216,.32);margin-bottom:.35rem;}
+.cbadge{font-size:.58rem;color:#4BA8A0;background:rgba(75,168,160,.1);border:1px solid rgba(75,168,160,.2);border-radius:4px;padding:1px 5px;text-transform:none;letter-spacing:0;}
+.ci,.cta{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(232,134,58,.14);border-radius:7px;padding:.56rem .78rem;color:#F5EDD8;font-family:'Noto Sans TC',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;resize:vertical;}
+.ci:focus,.cta:focus{border-color:rgba(232,134,58,.38);background:rgba(255,255,255,.05);}
+.cta{min-height:65px;line-height:1.6;}
+.ccard{background:#1E3347;border:1px solid rgba(232,134,58,.12);border-radius:10px;padding:.95rem;margin-bottom:.7rem;}
+.cct{font-size:.74rem;color:#F2B07A;font-weight:500;margin-bottom:.8rem;}
+.cadd-btn{background:rgba(232,134,58,.08);border:1px solid rgba(232,134,58,.22);color:#E8863A;border-radius:8px;padding:.6rem;font-size:.76rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .2s;width:100%;}
+.cadd-btn:hover{background:rgba(232,134,58,.16);}
+.cadd-btn2{background:rgba(75,168,160,.08);border:1px solid rgba(75,168,160,.22);color:#4BA8A0;}
+.cadd-btn2:hover{background:rgba(75,168,160,.16);}
+
+/* Dynamic list items */
+.dyn-item{background:#1E3347;border:1px solid rgba(232,134,58,.13);border-radius:10px;margin-bottom:.6rem;overflow:hidden;}
+.dyn-item-head{display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;cursor:pointer;user-select:none;}
+.dyn-drag{color:rgba(245,237,216,.25);font-size:.9rem;cursor:grab;padding:.2rem;flex-shrink:0;}
+.dyn-drag:active{cursor:grabbing;}
+.dyn-title-txt{flex:1;font-size:.8rem;color:#F5EDD8;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dyn-badge-lbl{font-size:.6rem;background:rgba(232,134,58,.12);border:1px solid rgba(232,134,58,.2);color:#E8863A;border-radius:4px;padding:2px 7px;white-space:nowrap;}
+.dyn-toggle-btn{background:none;border:none;color:rgba(245,237,216,.35);font-size:.8rem;cursor:pointer;padding:.2rem .4rem;transition:transform .2s;flex-shrink:0;}
+.dyn-del-btn{background:none;border:1px solid rgba(200,60,60,.25);color:rgba(200,100,100,.65);border-radius:5px;padding:2px 8px;font-size:.65rem;cursor:pointer;flex-shrink:0;}
+.dyn-del-btn:hover{background:rgba(200,60,60,.1);color:rgba(220,100,100,.9);}
+.dyn-body{display:none;padding:.9rem;border-top:1px solid rgba(232,134,58,.1);}
+.dyn-body.open{display:block;}
+.dyn-order-btns{display:flex;gap:.4rem;}
+.dyn-order-btn{background:none;border:1px solid rgba(232,134,58,.18);color:rgba(245,237,216,.4);border-radius:5px;padding:2px 8px;font-size:.7rem;cursor:pointer;}
+.dyn-order-btn:hover{border-color:rgba(232,134,58,.4);color:var(--text);}
+.img-row-mini{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem;background:rgba(0,0,0,.2);border-radius:8px;padding:.6rem;}
+.img-prev-mini{width:70px;height:48px;object-fit:cover;border-radius:5px;border:1px solid rgba(232,134,58,.15);background:#111e2b;flex-shrink:0;}
+.img-url-inp{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(232,134,58,.14);border-radius:6px;padding:4px 8px;color:#F5EDD8;font-size:.7rem;outline:none;font-family:'Noto Sans TC',sans-serif;}
+.img-url-inp:focus{border-color:rgba(232,134,58,.32);}
+.img-upload-mini{background:rgba(232,134,58,.1);border:1px solid rgba(232,134,58,.22);color:#E8863A;border-radius:5px;padding:3px 9px;font-size:.65rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;white-space:nowrap;}
+
+/* Cast member rows */
+.cast-row-edit{display:grid;grid-template-columns:60px 1fr;gap:.6rem;align-items:start;background:rgba(0,0,0,.15);border-radius:7px;padding:.6rem;margin-bottom:.5rem;}
+.cast-avatar-prev{width:60px;height:60px;border-radius:50%;object-fit:cover;border:1px solid rgba(232,134,58,.2);background:#111e2b;}
+.del-cast-btn{background:none;border:1px solid rgba(200,60,60,.2);color:rgba(200,100,100,.6);border-radius:4px;padding:1px 7px;font-size:.62rem;cursor:pointer;margin-top:.3rem;}
+
+/* Drag ghost */
+.dragging{opacity:.4;border:1px dashed rgba(232,134,58,.5);}
+</style>
+
+<script>
+// ═══════════════════════════════
+// DATA STORES
+// ═══════════════════════════════
+const K_PW='thaiBL-pw', K_TXT='thaiBL-txt', K_RECS='thaiBL-recs', K_TL='thaiBL-tl', K_IMGS='thaiBL-imgs';
+function getPW(){return localStorage.getItem(K_PW)||'900211';}
+
+// ── DEFAULT DATA ──
+const DEF_MAIN_CAROUSEL=[
+  {badge:'本月主打 · 2025',title:'清醒點，泰爾先生',en:'Me and Thee · มีสติหน่อยคุณธีร์',desc:'講述黑幫少爺Thee聘請冷靜攝影師Peach擔任「生活教練」後，兩人從歡喜冤家發展出溫暖愛情的歡樂甜寵故事。',img:'acter/me-and-thee-episode-1-v0-p1jidq3pq91g1.webp'},
+  {badge:'美學巔峰 · 2023',title:'愛的香氣',en:'I Feel You Linger in the Air',desc:'建築師 Jom 因意外墜入清邁古城的水底，醒來發現身處1920年代，遇見命定之人 Khun Yai，展開跨越三世的靈魂救贖。',img:'acter/I-Feel-You-Linger-in-the-Air-Jom-and-Yai.jpg'},
+  {badge:'青春校園、浪漫喜劇 · 2026',title:'怦然與你',en:'Sudden Heartbeat · ด้วงกับเธอ',desc:'設計系學生 Duang 遇見音樂系才子 Qin，校園對決展開，在音符與線條的碰撞中融化彼此心防。',img:'BANNER/a_100738056_m_601_en_m2_720_405.jpg'},
+  {badge:'保鑣文學、階級差距 · 2022',title:'Never Let Me Go',en:'เพื่อนายแค่หนึ่งเดียว',desc:'繼承人 Nuengdiao 在父親遇刺後，忠誠保鑣 Palm 以身為盾，兩人在血色與背叛的夾縫中生長出跨越主僕的深情。',img:'BANNER/a_100612009_m_601_en_m2_1080_608.jpg'},
+];
+
+const DEF_DRAMAS=[
+  {name:'黑幫少爺愛上我',en:'KinnPorsche',badge:'黑幫',year:'2022',desc:'黑幫世界的禁忌愛情，電影級製作顛覆了泰BL劇的規模想像。',img:'acter/a_100484597_m_601_en_m8_720_405.jpg',cast:[
+    {name:'Mile Phakphum',nameT:'ไมล์ ภาคภูมิ',note:'飾 Kinn · 冷酷黑幫少爺',img:'acter/Mile Phakphum Romsaithong.jpg'},
+    {name:'Apo Nattawin',nameT:'อาโป ณัฐวิน',note:'飾 Porsche · 陰錯陽差成為護衛',img:'acter/Apo Nattawin Wattanagitiphat.jpg'},
+  ]},
+  {name:'心跳節拍',en:'Heart That Skips a Beat',badge:'偶像',year:'2024',desc:'夢想執導的 Po 為男團 MARS 拍攝紀錄片，共同面對成名的代價與無法掩蓋的心動。',img:'acter/thamepo-heart-that-skips-a-beat-episode-1-v0-onk6gbiw4h6e1.webp',cast:[
+    {name:'William Jakrapatr',nameT:'จักรภัทร',note:'飾 Thame · 頂尖男團隊長',img:'acter/MV5BNDEzODE5MDktNThhYS00NTNmLTlmM2ItMTgxMTc4YTQ4NDkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg'},
+    {name:'Est Supha',nameT:'ศุภ สง่าวรวงศ์',note:'飾 Po · 夢想成為導演的學生',img:'acter/MV5BZTZkOGU2ODYtYTJmNC00NDVjLWI4MGUtZjIzYjQ0MDczZjI0XkEyXkFqcGc@._V1_.jpg'},
+  ]},
+  {name:'Never Let Me Go',en:'เพื่อนายแค่หนึ่งเดียว',badge:'主僕',year:'2022',desc:'豪門繼承人 Nuengdiao 與貼身保鑣 Palm 跨越階級的深厚羈絆。',img:'acter/ef1b2c4988.jpg',cast:[
+    {name:'Phuwin Tangsakyuen',nameT:'ภูวินทร์',note:'飾 Nuengdiao',img:'acter/Phuwin_IMG_8133.jpg'},
+    {name:'Pond Naravit',nameT:'ณราวิชญ์',note:'飾 Palm',img:'acter/images.jpg'},
+  ]},
+  {name:'愛的香氣',en:'I Feel You Linger in the Air',badge:'穿越',year:'2023',desc:'建築師 Jom 穿越回百年前清邁，與命定之人 Khun Yai 交織出跨越三世的愛戀。',img:'acter/I-Feel-You-Linger-in-the-Air.webp',cast:[
+    {name:'Nonkul Chanon',nameT:'ชานน สันตินธรกุล',note:'飾 Jom',img:'acter/aspect-ratio-900-600.jpg '},
+    {name:'Bright Rapheephong',nameT:'รพีพงศ์ ทับสุวรรณ',note:'飾 Khun Yai',img:'acter/images (1).jpg'},
+  ]},
+  {name:'清醒點，泰爾先生',en:'Me and Thee',badge:'總裁',year:'2025',desc:'富家少爺 Thee 雇用攝影師 Peach 擔任戀愛軍師，最終發現彼此才是命定的人。',img:'acter/mi-sati-noi-khun-thi_1763649159.jpg',cast:[
+    {name:'Pond Naravit',nameT:'ณราวิชญ์',note:'飾 Thee',img:'acter/images.jpg'},
+    {name:'Phuwin Tangsakyuen',nameT:'ภูวินทร์',note:'飾 Peach',img:'acter/f7726a54221f89bca7b9a309befd9f61.jpg'},
+  ]},
+];
+
+const DEF_TL=[
+  {year:'2007',title:'《愛在暹羅》— 情感啟蒙',text:'電影《Love of Siam》以純愛敘事打破「同性必悲劇」的標籤，是泰國同性題材影像化的先驅，為後來的BL劇奠定了「愛情不分性別」的敘事基礎。',img:'index_photo/love-of-siam.jpg'},
+  {year:'2014',title:'《為愛所困》— 元年誕生',text:'改編自網路同志小說，正式開啟泰腐劇元年。確立「校園制服、社團活動、純愛敘事」的框架，透過字幕組向亞洲各地傳播，建立起第一批跨境粉絲社群。',img:''},
+  {year:'2016',title:'《一年生》— CP模式成形',text:'《上癮》遭中國禁播後，泰劇填補空缺。《一年生》確立「戲裡戀愛、戲外CP」的行銷模式，開啟周邊商品與見面會的龐大商機。',img:''},
+  {year:'2020',title:'《以你的心詮釋我的愛》— 藝術轉型',text:'Nadao Bangkok以電影規格打造五集精品BL。夕陽、椰香、扶桑花——讓類型劇躍升為藝術作品，徹底改變BL劇的美學標準。',img:'index_photo/I-told-sunset-about-you-14.jpg'},
+  {year:'2022',title:'《KinnPorsche》— 製作升級',text:'黑幫BL劇以電影等級的製作規模橫空出世，在WeTV創下驚人播放量。題材多元化、製作規模的大躍進正式拉開序幕。',img:'index_photo/7c5dc4c0-b4d0-11ec-ab4c-b7e658868dab_webp_original.jpg'},
+  {year:'2024',title:'婚姻平權法案 — 文化里程碑',text:'泰國正式通過婚姻平權法案，BL文化十年的倡議畫下里程碑。產業年產值估計達47億台幣，BL劇成為改變社會的軟實力工具。',img:'index_photo/1024x768_226847334750.jpg'},
+];
+
+// ── RUNTIME STATE ──
+let recsMain=[], recsDramas=[], tlItems=[];
+
+function loadData(){
+  const rm=localStorage.getItem(K_RECS);
+  if(rm){try{const d=JSON.parse(rm);recsMain=d.main||DEF_MAIN_CAROUSEL;recsDramas=d.dramas||DEF_DRAMAS;}catch(e){recsMain=[...DEF_MAIN_CAROUSEL];recsDramas=[...DEF_DRAMAS];}}
+  else{recsMain=[...DEF_MAIN_CAROUSEL];recsDramas=[...DEF_DRAMAS];}
+  const tl=localStorage.getItem(K_TL);
+  if(tl){try{tlItems=JSON.parse(tl);}catch(e){tlItems=[...DEF_TL];}}
+  else{tlItems=[...DEF_TL];}
+}
+
+function saveRecsData(){localStorage.setItem(K_RECS,JSON.stringify({main:recsMain,dramas:recsDramas}));}
+function saveTLData(){localStorage.setItem(K_TL,JSON.stringify(tlItems));}
+
+// ═══════════════════════════════
+// DOM RENDERING
+// ═══════════════════════════════
+function renderMainCarousel(){
+  const track=document.getElementById('mainTrack');
+  if(!track)return;
+  track.innerHTML=recsMain.map((it,i)=>`
+    <div class="carousel-slide">
+      <img src="${it.img||''}" alt="${it.title}" style="${!it.img?'display:none':''}">
+      <div class="carousel-caption">
+        <span class="badge">${it.badge||''}</span>
+        <h3>${it.title||''}</h3>
+        <p class="en">${it.en||''}</p>
+        <p>${it.desc||''}</p>
+      </div>
+    </div>
+  `).join('');
+  // Re-init dots
+  const dotsEl=document.getElementById('mainDots');
+  if(dotsEl){
+    dotsEl.innerHTML=recsMain.map((_,i)=>`<span class="dot${i===0?' active':''}" onclick="goCarousel(${i})"></span>`).join('');
+    carouselIdx=0;
+  }
+}
+
+function renderGenreCarousel(){
+  const track=document.getElementById('genreCarouselTrack');
+  if(!track)return;
+  track.innerHTML=recsDramas.map((d,i)=>`
+    <div class="ic-slide" style="flex:0 0 300px;">
+      <div class="drama-card">
+        <div class="drama-card-img-wrap">
+          <img src="${d.img||''}" alt="${d.name}" ${!d.img?'style="display:none"':''}>
+          <span class="drama-card-badge">${d.badge||''}</span>
+          <span class="drama-card-year">${d.year||''}</span>
+        </div>
+        <div class="drama-card-body">
+          <div class="drama-card-name">${d.name||''}</div>
+          <div class="drama-card-en">${d.en||''}</div>
+          <p class="drama-card-desc">${d.desc||''}</p>
+        </div>
+        ${(d.cast&&d.cast.length)?`
+        <div class="cast-toggle" onclick="toggleCast(this)"><span>查看演員陣容</span><span class="cast-arrow">▾</span></div>
+        <div class="cast-panel">
+          <div class="cast-list">
+            ${d.cast.map(c=>`
+            <div class="cast-member">
+              <div style="width:50px;height:50px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--sunset-gold);">
+                <img src="${c.img||''}" style="width:100%;height:100%;object-fit:cover;" ${!c.img?'onerror="this.style.display=\'none\'"':''}>
+              </div>
+              <div class="cast-role">主演</div>
+              <div class="cast-info">
+                <div class="cast-name">${c.name||''}</div>
+                <div class="cast-name-th">${c.nameT||''}</div>
+                <div class="cast-note">${c.note||''}</div>
+              </div>
+            </div>`).join('')}
+          </div>
+        </div>`:''}
+      </div>
+    </div>
+  `).join('');
+  if(typeof genreState!=='undefined')genreState.idx=0;
+}
+
+function renderTimeline(){
+  const items=document.querySelectorAll('#page-home .tl-item');
+  tlItems.forEach((tl,i)=>{
+    if(items[i]){
+      const yr=items[i].querySelector('.tl-year');
+      const ti=items[i].querySelector('.tl-title');
+      const tx=items[i].querySelector('.tl-text');
+      const im=items[i].querySelector('.tl-img');
+      if(yr)yr.textContent=tl.year||'';
+      if(ti)ti.textContent=tl.title||'';
+      if(tx)tx.textContent=tl.text||'';
+      if(im&&tl.img){im.src=tl.img;}
+    }
+  });
+}
+
+// ═══════════════════════════════
+// CMS PANEL BUILDERS
+// ═══════════════════════════════
+function buildRecsMainList(){
+  const el=document.getElementById('recs-main-list');
+  el.innerHTML='';
+  recsMain.forEach((it,i)=>{
+    const div=document.createElement('div');
+    div.className='dyn-item';
+    div.dataset.idx=i;
+    div.dataset.list='main';
+    div.innerHTML=`
+      <div class="dyn-item-head" onclick="toggleDynBody(this)">
+        <span class="dyn-drag" draggable="true">☰</span>
+        <span class="dyn-title-txt">${it.title||'（未命名）'}</span>
+        <span class="dyn-badge-lbl">${it.badge||''}</span>
+        <button class="dyn-del-btn" onclick="event.stopPropagation();delMain(${i})">刪除</button>
+        <button class="dyn-toggle-btn">▾</button>
+      </div>
+      <div class="dyn-body">
+        <div style="display:flex;gap:.5rem;margin-bottom:.7rem;">
+          <button class="dyn-order-btn" onclick="moveItem('main',${i},-1)">↑ 上移</button>
+          <button class="dyn-order-btn" onclick="moveItem('main',${i},1)">↓ 下移</button>
+        </div>
+        <div class="img-row-mini">
+          <img class="img-prev-mini" id="mprev-${i}" src="${it.img||''}" ${!it.img?'style="opacity:.3"':''}>
+          <div style="flex:1;">
+            <input class="img-url-inp" id="mimg-${i}" value="${it.img||''}" placeholder="圖片網址或上傳...">
+            <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+              <label class="img-upload-mini" for="mupl-${i}">📁 上傳</label>
+              <input type="file" id="mupl-${i}" accept="image/*" style="display:none;" onchange="handleImgUpload('main',${i},this)">
+              <button class="img-upload-mini" onclick="applyImgUrl('main',${i})" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用</button>
+            </div>
+          </div>
+        </div>
+        <div class="cf"><label class="cl">標籤</label><input class="ci" id="mbadge-${i}" value="${it.badge||''}"></div>
+        <div class="cf"><label class="cl">主標題</label><input class="ci" id="mtitle-${i}" value="${it.title||''}"></div>
+        <div class="cf"><label class="cl">英文/副標</label><input class="ci" id="men-${i}" value="${it.en||''}"></div>
+        <div class="cf"><label class="cl">描述</label><textarea class="cta" id="mdesc-${i}">${it.desc||''}</textarea></div>
+      </div>`;
+    el.appendChild(div);
+    setupDrag(div,'main');
+  });
+}
+
+function buildRecsDramaList(){
+  const el=document.getElementById('recs-drama-list');
+  el.innerHTML='';
+  recsDramas.forEach((dr,i)=>{
+    const div=document.createElement('div');
+    div.className='dyn-item';
+    div.dataset.idx=i;
+    div.dataset.list='drama';
+    div.innerHTML=`
+      <div class="dyn-item-head" onclick="toggleDynBody(this)">
+        <span class="dyn-drag" draggable="true">☰</span>
+        <span class="dyn-title-txt">${dr.name||'（未命名）'}</span>
+        <span class="dyn-badge-lbl">${dr.badge||''} ${dr.year||''}</span>
+        <button class="dyn-del-btn" onclick="event.stopPropagation();delDrama(${i})">刪除</button>
+        <button class="dyn-toggle-btn">▾</button>
+      </div>
+      <div class="dyn-body">
+        <div style="display:flex;gap:.5rem;margin-bottom:.7rem;">
+          <button class="dyn-order-btn" onclick="moveItem('drama',${i},-1)">↑ 上移</button>
+          <button class="dyn-order-btn" onclick="moveItem('drama',${i},1)">↓ 下移</button>
+        </div>
+        <div class="img-row-mini">
+          <img class="img-prev-mini" id="dprev-${i}" src="${dr.img||''}" ${!dr.img?'style="opacity:.3"':''}>
+          <div style="flex:1;">
+            <input class="img-url-inp" id="dimg-${i}" value="${dr.img||''}" placeholder="圖片網址...">
+            <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+              <label class="img-upload-mini" for="dupl-${i}">📁 上傳</label>
+              <input type="file" id="dupl-${i}" accept="image/*" style="display:none;" onchange="handleImgUpload('drama',${i},this)">
+              <button class="img-upload-mini" onclick="applyImgUrl('drama',${i})" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;">
+          <div class="cf"><label class="cl">標籤</label><input class="ci" id="dbadge-${i}" value="${dr.badge||''}"></div>
+          <div class="cf"><label class="cl">年份</label><input class="ci" id="dyear-${i}" value="${dr.year||''}"></div>
+          <div class="cf"><label class="cl">題材/特色</label><input class="ci" id="den-${i}" value="${dr.en||''}"></div>
+        </div>
+        <div class="cf"><label class="cl">作品名稱（中文）</label><input class="ci" id="dname-${i}" value="${dr.name||''}"></div>
+        <div class="cf"><label class="cl">描述</label><textarea class="cta" id="ddesc-${i}">${dr.desc||''}</textarea></div>
+        <div style="height:1px;background:rgba(232,134,58,.1);margin:.7rem 0;"></div>
+        <div style="font-size:.7rem;color:#F2B07A;margin-bottom:.6rem;">演員陣容</div>
+        <div id="cast-list-${i}">${(dr.cast||[]).map((c,ci)=>castRowHTML(i,ci,c)).join('')}</div>
+        <button onclick="addCast(${i})" style="background:rgba(75,168,160,.07);border:1px solid rgba(75,168,160,.2);color:#4BA8A0;border-radius:6px;padding:4px 12px;font-size:.68rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif;width:100%;margin-top:.3rem;">＋ 新增演員</button>
+      </div>`;
+    el.appendChild(div);
+    setupDrag(div,'drama');
+  });
+}
+
+function castRowHTML(di,ci,c){
+  return `<div class="cast-row-edit" id="castrow-${di}-${ci}">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:.3rem;">
+      <img class="cast-avatar-prev" id="cavprev-${di}-${ci}" src="${c.img||''}" ${!c.img?'style="opacity:.3"':''}>
+      <label class="img-upload-mini" for="cavupl-${di}-${ci}" style="font-size:.58rem;">📁</label>
+      <input type="file" id="cavupl-${di}-${ci}" accept="image/*" style="display:none;" onchange="handleCastImg(${di},${ci},this)">
+    </div>
+    <div>
+      <div class="cf" style="margin-bottom:.5rem;"><input class="ci" id="cname-${di}-${ci}" value="${c.name||''}" placeholder="演員名字（英文）" style="font-size:.76rem;"></div>
+      <div class="cf" style="margin-bottom:.5rem;"><input class="ci" id="cnameT-${di}-${ci}" value="${c.nameT||''}" placeholder="泰文名" style="font-size:.76rem;"></div>
+      <div class="cf" style="margin-bottom:.5rem;"><input class="ci" id="cnote-${di}-${ci}" value="${c.note||''}" placeholder="飾演角色、說明..." style="font-size:.76rem;"></div>
+      <button class="del-cast-btn" onclick="delCast(${di},${ci})">刪除</button>
+    </div>
+  </div>`;
+}
+
+function buildTLList(){
+  const el=document.getElementById('tl-list');
+  el.innerHTML='';
+  tlItems.forEach((tl,i)=>{
+    const div=document.createElement('div');
+    div.className='dyn-item';
+    div.dataset.idx=i;
+    div.dataset.list='tl';
+    div.innerHTML=`
+      <div class="dyn-item-head" onclick="toggleDynBody(this)">
+        <span class="dyn-drag" draggable="true">☰</span>
+        <span class="dyn-badge-lbl">${tl.year||''}</span>
+        <span class="dyn-title-txt">${tl.title||'（未命名）'}</span>
+        <button class="dyn-del-btn" onclick="event.stopPropagation();delTL(${i})">刪除</button>
+        <button class="dyn-toggle-btn">▾</button>
+      </div>
+      <div class="dyn-body">
+        <div style="display:flex;gap:.5rem;margin-bottom:.7rem;">
+          <button class="dyn-order-btn" onclick="moveItem('tl',${i},-1)">↑ 上移</button>
+          <button class="dyn-order-btn" onclick="moveItem('tl',${i},1)">↓ 下移</button>
+        </div>
+        <div class="img-row-mini">
+          <img class="img-prev-mini" id="tlprev-${i}" src="${tl.img||''}" ${!tl.img?'style="opacity:.3"':''}>
+          <div style="flex:1;">
+            <input class="img-url-inp" id="tlimg-${i}" value="${tl.img||''}" placeholder="圖片網址...">
+            <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+              <label class="img-upload-mini" for="tlupl-${i}">📁 上傳</label>
+              <input type="file" id="tlupl-${i}" accept="image/*" style="display:none;" onchange="handleImgUpload('tl',${i},this)">
+              <button class="img-upload-mini" onclick="applyImgUrl('tl',${i})" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用</button>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:.6rem;">
+          <div class="cf"><label class="cl">年份</label><input class="ci" id="tlyear-${i}" value="${tl.year||''}"></div>
+          <div class="cf"><label class="cl">標題</label><input class="ci" id="tltitle-${i}" value="${tl.title||''}"></div>
+        </div>
+        <div class="cf"><label class="cl">說明文字</label><textarea class="cta" id="tltext-${i}">${tl.text||''}</textarea></div>
+      </div>`;
+    el.appendChild(div);
+    setupDrag(div,'tl');
+  });
+}
+
+// Fixed image manager (hero, gallery)
+const FIXED_IMGS=[
+  {key:'hero',label:'首頁英雄橫幅（背景）',type:'bg',sel:'.hero'},
+  {key:'gal0',label:'三格圖片 1（左）',type:'img',sel:'.gallery-strip .g-cell:nth-child(1) img'},
+  {key:'gal1',label:'三格圖片 2（中）',type:'img',sel:'.gallery-strip .g-cell:nth-child(2) img'},
+  {key:'gal2',label:'三格圖片 3（右）',type:'img',sel:'.gallery-strip .g-cell:nth-child(3) img'},
+];
+let fixedImgs={};
+function loadFixedImgs(){try{const r=localStorage.getItem(K_IMGS);if(r)fixedImgs=JSON.parse(r);}catch(e){fixedImgs={};}}
+function saveFixedImgs(){try{localStorage.setItem(K_IMGS,JSON.stringify(fixedImgs));}catch(e){alert('圖片儲存空間不足，請改用網址方式。');}}
+function applyFixedImg(def,src){
+  if(!src)return;
+  if(def.type==='bg'){const el=document.querySelector(def.sel);if(el)el.style.backgroundImage=`url('${src}')`;}
+  else{const el=document.querySelector(def.sel);if(el)el.src=src;}
+}
+function applyAllFixedImgs(){FIXED_IMGS.forEach(def=>{if(fixedImgs[def.key])applyFixedImg(def,fixedImgs[def.key]);});}
+function buildFixedImgList(){
+  const el=document.getElementById('img-fixed-list');
+  el.innerHTML='';
+  FIXED_IMGS.forEach(def=>{
+    const cur=fixedImgs[def.key]||'';
+    const row=document.createElement('div');
+    row.className='ccard';
+    row.style.marginBottom='.7rem';
+    row.innerHTML=`
+      <div class="cct">${def.label}</div>
+      <div class="img-row-mini">
+        <img class="img-prev-mini" id="fiprev-${def.key}" src="${cur}" ${!cur?'style="opacity:.3"':''}>
+        <div style="flex:1;">
+          <input class="img-url-inp" id="fiurl-${def.key}" value="${cur.startsWith('http')||cur.startsWith('data')?cur:''}" placeholder="貼上圖片網址...">
+          <div style="display:flex;gap:.4rem;margin-top:.4rem;">
+            <label class="img-upload-mini" for="fiupl-${def.key}">📁 上傳圖片</label>
+            <input type="file" id="fiupl-${def.key}" accept="image/*" style="display:none;" onchange="handleFixedImgUpload('${def.key}',this)">
+            <button class="img-upload-mini" onclick="applyFixedImgUrl('${def.key}')" style="background:rgba(75,168,160,.1);border-color:rgba(75,168,160,.3);color:#4BA8A0;">套用網址</button>
+            ${cur?`<button onclick="resetFixedImg('${def.key}')" style="background:none;border:1px solid rgba(200,60,60,.2);color:rgba(200,100,100,.65);border-radius:5px;padding:2px 8px;font-size:.62rem;cursor:pointer;">重置</button>`:''}
+          </div>
+        </div>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+function handleFixedImgUpload(key,input){
+  const file=input.files[0];if(!file)return;
+  compressImg(file,1600,1000,.82,b64=>{
+    fixedImgs[key]=b64;saveFixedImgs();
+    const def=FIXED_IMGS.find(d=>d.key===key);
+    applyFixedImg(def,b64);
+    const p=document.getElementById('fiprev-'+key);if(p)p.src=b64;
+    buildFixedImgList();
+  });
+}
+function applyFixedImgUrl(key){
+  const url=document.getElementById('fiurl-'+key).value.trim();
+  if(!url){alert('請輸入網址');return;}
+  fixedImgs[key]=url;saveFixedImgs();
+  const def=FIXED_IMGS.find(d=>d.key===key);
+  applyFixedImg(def,url);
+  buildFixedImgList();
+}
+function resetFixedImg(key){
+  delete fixedImgs[key];saveFixedImgs();
+  if(confirm('重置需重新整理頁面恢復原圖，確定？'))location.reload();
+  else buildFixedImgList();
+}
+
+// ═══════════════════════════════
+// COLLECT & SYNC BEFORE SAVE
+// ═══════════════════════════════
+function collectRecsMain(){
+  recsMain=recsMain.map((it,i)=>({
+    badge:(document.getElementById('mbadge-'+i)||{value:it.badge}).value,
+    title:(document.getElementById('mtitle-'+i)||{value:it.title}).value,
+    en:(document.getElementById('men-'+i)||{value:it.en}).value,
+    desc:(document.getElementById('mdesc-'+i)||{value:it.desc}).value,
+    img:(document.getElementById('mimg-'+i)||{value:it.img}).value,
+  }));
+}
+function collectRecsDramas(){
+  recsDramas=recsDramas.map((dr,i)=>({
+    badge:(document.getElementById('dbadge-'+i)||{value:dr.badge}).value,
+    year:(document.getElementById('dyear-'+i)||{value:dr.year}).value,
+    en:(document.getElementById('den-'+i)||{value:dr.en}).value,
+    name:(document.getElementById('dname-'+i)||{value:dr.name}).value,
+    desc:(document.getElementById('ddesc-'+i)||{value:dr.desc}).value,
+    img:(document.getElementById('dimg-'+i)||{value:dr.img}).value,
+    cast:(dr.cast||[]).map((c,ci)=>({
+      name:(document.getElementById('cname-'+i+'-'+ci)||{value:c.name}).value,
+      nameT:(document.getElementById('cnameT-'+i+'-'+ci)||{value:c.nameT}).value,
+      note:(document.getElementById('cnote-'+i+'-'+ci)||{value:c.note}).value,
+      img:c.img||'',
+    })),
+  }));
+}
+function collectTL(){
+  tlItems=tlItems.map((tl,i)=>({
+    year:(document.getElementById('tlyear-'+i)||{value:tl.year}).value,
+    title:(document.getElementById('tltitle-'+i)||{value:tl.title}).value,
+    text:(document.getElementById('tltext-'+i)||{value:tl.text}).value,
+    img:tl.img||'',
+  }));
+}
+
+// ═══════════════════════════════
+// ADD / DELETE / MOVE
+// ═══════════════════════════════
+function recsAddMain(){
+  collectRecsMain();
+  recsMain.push({badge:'新作品',title:'新推薦作品',en:'',desc:'請在後台填寫描述...',img:''});
+  saveRecsData(); renderMainCarousel(); buildRecsMainList();
+  // Auto-open last item
+  setTimeout(()=>{const items=document.querySelectorAll('#recs-main-list .dyn-item');if(items.length){const last=items[items.length-1];const h=last.querySelector('.dyn-item-head');if(h)toggleDynBody(h);}},50);
+}
+function recsAddDrama(){
+  collectRecsDramas();
+  recsDramas.push({badge:'新作',year:'2025',name:'新劇集',en:'',desc:'請填寫劇情簡介...',img:'',cast:[]});
+  saveRecsData(); renderGenreCarousel(); buildRecsDramaList();
+  setTimeout(()=>{const items=document.querySelectorAll('#recs-drama-list .dyn-item');if(items.length){const last=items[items.length-1];const h=last.querySelector('.dyn-item-head');if(h)toggleDynBody(h);}},50);
+}
+function tlAdd(){
+  collectTL();
+  tlItems.push({year:'新年份',title:'新時間節點',text:'請填寫說明...',img:''});
+  saveTLData(); buildTLList();
+  setTimeout(()=>{const items=document.querySelectorAll('#tl-list .dyn-item');if(items.length){const last=items[items.length-1];const h=last.querySelector('.dyn-item-head');if(h)toggleDynBody(h);}},50);
+}
+function delMain(i){if(!confirm('確定刪除這個輪播項目？'))return;collectRecsMain();recsMain.splice(i,1);saveRecsData();renderMainCarousel();buildRecsMainList();}
+function delDrama(i){if(!confirm('確定刪除此劇集卡片？'))return;collectRecsDramas();recsDramas.splice(i,1);saveRecsData();renderGenreCarousel();buildRecsDramaList();}
+function delTL(i){if(!confirm('確定刪除此時間節點？'))return;collectTL();tlItems.splice(i,1);saveTLData();renderTimeline();buildTLList();}
+function moveItem(list,i,dir){
+  if(list==='main'){collectRecsMain();const n=i+dir;if(n<0||n>=recsMain.length)return;[recsMain[i],recsMain[n]]=[recsMain[n],recsMain[i]];saveRecsData();renderMainCarousel();buildRecsMainList();}
+  else if(list==='drama'){collectRecsDramas();const n=i+dir;if(n<0||n>=recsDramas.length)return;[recsDramas[i],recsDramas[n]]=[recsDramas[n],recsDramas[i]];saveRecsData();renderGenreCarousel();buildRecsDramaList();}
+  else if(list==='tl'){collectTL();const n=i+dir;if(n<0||n>=tlItems.length)return;[tlItems[i],tlItems[n]]=[tlItems[n],tlItems[i]];saveTLData();renderTimeline();buildTLList();}
+}
+function addCast(di){
+  collectRecsDramas();
+  recsDramas[di].cast=recsDramas[di].cast||[];
+  recsDramas[di].cast.push({name:'',nameT:'',note:'',img:''});
+  const cl=document.getElementById('cast-list-'+di);
+  if(cl){const ci=recsDramas[di].cast.length-1;cl.insertAdjacentHTML('beforeend',castRowHTML(di,ci,recsDramas[di].cast[ci]));}
+}
+function delCast(di,ci){
+  collectRecsDramas();
+  recsDramas[di].cast.splice(ci,1);
+  buildRecsDramaList();
+}
+
+// ═══════════════════════════════
+// IMAGE UPLOAD HELPERS
+// ═══════════════════════════════
+function compressImg(file,maxW,maxH,q,cb){
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      cb(c.toDataURL('image/jpeg',q));
+    };
+    img.src=e.target.result;
+  };
+  r.readAsDataURL(file);
+}
+function handleImgUpload(list,i,input){
+  const file=input.files[0];if(!file)return;
+  compressImg(file,900,600,.82,b64=>{
+    if(list==='main'){recsMain[i].img=b64;const p=document.getElementById('mprev-'+i);if(p)p.src=b64;const inp=document.getElementById('mimg-'+i);if(inp)inp.value=b64;}
+    else if(list==='drama'){recsDramas[i].img=b64;const p=document.getElementById('dprev-'+i);if(p)p.src=b64;const inp=document.getElementById('dimg-'+i);if(inp)inp.value=b64;}
+    else if(list==='tl'){tlItems[i].img=b64;const p=document.getElementById('tlprev-'+i);if(p)p.src=b64;const inp=document.getElementById('tlimg-'+i);if(inp)inp.value=b64;}
+  });
+}
+function applyImgUrl(list,i){
+  if(list==='main'){const v=(document.getElementById('mimg-'+i)||{}).value;if(v){recsMain[i].img=v;const p=document.getElementById('mprev-'+i);if(p)p.src=v;}}
+  else if(list==='drama'){const v=(document.getElementById('dimg-'+i)||{}).value;if(v){recsDramas[i].img=v;const p=document.getElementById('dprev-'+i);if(p)p.src=v;}}
+  else if(list==='tl'){const v=(document.getElementById('tlimg-'+i)||{}).value;if(v){tlItems[i].img=v;const p=document.getElementById('tlprev-'+i);if(p)p.src=v;}}
+}
+function handleCastImg(di,ci,input){
+  const file=input.files[0];if(!file)return;
+  compressImg(file,200,200,.85,b64=>{
+    recsDramas[di].cast[ci].img=b64;
+    const p=document.getElementById('cavprev-'+di+'-'+ci);if(p)p.src=b64;
+  });
+}
+
+// ═══════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════
+function toggleDynBody(head){
+  const body=head.nextElementSibling;
+  const btn=head.querySelector('.dyn-toggle-btn');
+  if(!body)return;
+  const open=body.classList.toggle('open');
+  if(btn)btn.style.transform=open?'rotate(180deg)':'';
+}
+
+// Drag & drop reorder
+let dragSrc=null,dragList=null;
+function setupDrag(el,list){
+  const handle=el.querySelector('.dyn-drag');
+  handle.addEventListener('dragstart',e=>{
+    dragSrc=el;dragList=list;
+    setTimeout(()=>el.classList.add('dragging'),0);
+    e.dataTransfer.effectAllowed='move';
+  });
+  el.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';});
+  el.addEventListener('dragend',()=>{el.classList.remove('dragging');dragSrc=null;});
+  el.addEventListener('drop',e=>{
+    e.preventDefault();
+    if(!dragSrc||dragSrc===el||dragList!==list)return;
+    const src=parseInt(dragSrc.dataset.idx),dst=parseInt(el.dataset.idx);
+    if(list==='main'){collectRecsMain();const it=recsMain.splice(src,1)[0];recsMain.splice(dst,0,it);saveRecsData();renderMainCarousel();buildRecsMainList();}
+    else if(list==='drama'){collectRecsDramas();const it=recsDramas.splice(src,1)[0];recsDramas.splice(dst,0,it);saveRecsData();renderGenreCarousel();buildRecsDramaList();}
+    else if(list==='tl'){collectTL();const it=tlItems.splice(src,1)[0];tlItems.splice(dst,0,it);saveTLData();renderTimeline();buildTLList();}
+  });
+}
+
+// ═══════════════════════════════
+// TEXT CMS (hero / stats / nav)
+// ═══════════════════════════════
+function loadTxtForm(){
+  const raw=localStorage.getItem(K_TXT);if(!raw)return;
+  try{const d=JSON.parse(raw);
+    const s=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
+    s('f-hero-ey',d.h_ey);s('f-hero-ti',d.h_ti);s('f-hero-su',d.h_su);s('f-hero-th',d.h_th);s('f-hero-de',d.h_de);
+    [0,1,2,3].forEach(i=>{s('f-s'+i+'n',d['s'+i+'n']);s('f-s'+i+'l',d['s'+i+'l']);});
+    s('f-nav-lg',d.nav_lg);s('f-nav-t1',d.nav_t1);s('f-nav-t2',d.nav_t2);s('f-nav-t3',d.nav_t3);
+    s('f-in-ey',d.in_ey);s('f-in-ti',d.in_ti);s('f-in-su',d.in_su);s('f-in-th',d.in_th);s('f-in-ct',d.in_ct);
+    s('f-ft-ti',d.ft_ti);s('f-ft-su',d.ft_su);s('f-ft-no',d.ft_no);
+  }catch(e){}
+}
+function collectTxt(){
+  const g=id=>{const el=document.getElementById(id);return el?el.value:'';};
+  return{h_ey:g('f-hero-ey'),h_ti:g('f-hero-ti'),h_su:g('f-hero-su'),h_th:g('f-hero-th'),h_de:g('f-hero-de'),
+    s0n:g('f-s0n'),s0l:g('f-s0l'),s1n:g('f-s1n'),s1l:g('f-s1l'),s2n:g('f-s2n'),s2l:g('f-s2l'),s3n:g('f-s3n'),s3l:g('f-s3l'),
+    nav_lg:g('f-nav-lg'),nav_t1:g('f-nav-t1'),nav_t2:g('f-nav-t2'),nav_t3:g('f-nav-t3'),
+    in_ey:g('f-in-ey'),in_ti:g('f-in-ti'),in_su:g('f-in-su'),in_th:g('f-in-th'),in_ct:g('f-in-ct'),
+    ft_ti:g('f-ft-ti'),ft_su:g('f-ft-su'),ft_no:g('f-ft-no'),};
+}
+function applyTxt(d){
+  const t=(s,v)=>{const el=document.querySelector(s);if(el&&v)el.textContent=v;};
+  const h=(s,v)=>{const el=document.querySelector(s);if(el&&v)el.innerHTML=v;};
+  t('#page-home .hero-eyebrow',d.h_ey);h('#page-home .hero-title',d.h_ti);t('#page-home .hero-sub',d.h_su);t('#page-home .hero-thai',d.h_th);t('#page-home .hero-desc',d.h_de);
+  const sn=document.querySelectorAll('.stat-bar .stat-num'),sl=document.querySelectorAll('.stat-bar .stat-label');
+  [0,1,2,3].forEach(i=>{if(sn[i]&&d['s'+i+'n'])sn[i].textContent=d['s'+i+'n'];if(sl[i]&&d['s'+i+'l'])sl[i].textContent=d['s'+i+'l'];});
+  const logo=document.querySelector('.nav-logo');if(logo&&d.nav_lg)logo.textContent=d.nav_lg;
+  const tabs=document.querySelectorAll('.nav-tab');if(tabs[0]&&d.nav_t1)tabs[0].textContent=d.nav_t1;if(tabs[1]&&d.nav_t2)tabs[1].textContent=d.nav_t2;if(tabs[2]&&d.nav_t3)tabs[2].textContent=d.nav_t3;
+  t('.ir-eye',d.in_ey);h('.ir-title',d.in_ti);t('.ir-sub',d.in_su);t('.ir-thai',d.in_th);t('.ir-cta',d.in_ct);
+  const hf=document.querySelector('#page-home footer');
+  if(hf){const a=hf.querySelector('.footer-title'),b=hf.querySelector('.footer-sub'),c=hf.querySelector('.footer-note');if(a&&d.ft_ti)a.textContent=d.ft_ti;if(b&&d.ft_su)b.textContent=d.ft_su;if(c&&d.ft_no)c.textContent=d.ft_no;}
+}
+
+// ═══════════════════════════════
+// MASTER SAVE
+// ═══════════════════════════════
+function cmsSaveAll(){
+  collectRecsMain(); collectRecsDramas(); collectTL();
+  saveRecsData(); saveTLData();
+  const txt=collectTxt(); localStorage.setItem(K_TXT,JSON.stringify(txt)); applyTxt(txt);
+  renderMainCarousel(); renderGenreCarousel(); renderTimeline();
+  const btn=document.getElementById('cms-save-btn');
+  btn.textContent='✅ 已儲存！';btn.style.background='linear-gradient(135deg,#1D9E75,#4BA8A0)';
+  setTimeout(()=>{btn.textContent='💾 儲存套用';btn.style.background='linear-gradient(135deg,#C94B25,#E8863A)';},2500);
+}
+
+// ═══════════════════════════════
+// OPEN / LOGIN / NAV
+// ═══════════════════════════════
+function cmsOpen(){document.getElementById('cms-login').style.display='flex';setTimeout(()=>document.getElementById('cms-pw').focus(),80);}
+function cmsLogin(){
+  if(document.getElementById('cms-pw').value===getPW()){
+    document.getElementById('cms-login').style.display='none';
+    document.getElementById('cms-pw').value='';
+    document.getElementById('cms-pw-err').textContent='';
+    loadTxtForm(); buildRecsMainList(); buildRecsDramaList(); buildTLList(); buildFixedImgList();
+    document.getElementById('cms-panel').style.right='0';
+  }else{document.getElementById('cms-pw-err').textContent='密碼錯誤。';document.getElementById('cms-pw').value='';}
+}
+function cmsClosePanel(){document.getElementById('cms-panel').style.right='-680px';}
+function cmsCloseAll(){document.getElementById('cms-login').style.display='none';cmsClosePanel();document.getElementById('cms-pw').value='';document.getElementById('cms-pw-err').textContent='';}
+function cmsTab(s){
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.toggle('active',t.dataset.s===s));
+  document.querySelectorAll('[id^="cs-"]').forEach(el=>el.style.display='none');
+  document.getElementById('cs-'+s).style.display='block';
+  if(s==='imgs')buildFixedImgList();
+}
+function cmsChgPW(){const np=document.getElementById('f-npw').value.trim();if(!np){alert('請輸入新密碼');return;}localStorage.setItem(K_PW,np);document.getElementById('f-npw').value='';alert('✅ 密碼已更新：'+np);}
+
+// ══ HIDDEN TRIGGER SYSTEM ══
+// Method 1: Logo click ×5 (mobile-friendly)
+(function(){
+  let logoClicks=0,logoTimer=null;
+  function attachLogoTrigger(){
+    const logo=document.querySelector('.nav-logo');
+    if(!logo){setTimeout(attachLogoTrigger,300);return;}
+    logo.addEventListener('click',()=>{
+      logoClicks++;
+      clearTimeout(logoTimer);
+      if(logoClicks>=5){logoClicks=0;cmsOpen();}
+      else{logoTimer=setTimeout(()=>{logoClicks=0;},1800);}
+    });
+  }
+  attachLogoTrigger();
+})();
+
+// Method 2: Secret key sequence — type "thaiadm" anywhere (not in input fields)
+(function(){
+  const SECRET='thai13';
+  let buf='';
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    buf=(buf+e.key.toLowerCase()).slice(-SECRET.length);
+    if(buf===SECRET){buf='';cmsOpen();}
+  });
+})();
+
+
+// ═══════════════════════════════
+// AUTO-INIT ON PAGE LOAD
+// ═══════════════════════════════
+(function(){
+  loadData(); loadFixedImgs();
+  const raw=localStorage.getItem(K_TXT);if(raw){try{applyTxt(JSON.parse(raw));}catch(e){}}
+  renderMainCarousel(); renderGenreCarousel(); renderTimeline(); applyAllFixedImgs();
+})();
+</script>
+
 </body>
 </html>
